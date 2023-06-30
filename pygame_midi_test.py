@@ -19,7 +19,7 @@ velocity = 127
 outputDevice.note_on(c5, velocity)
 print("Note playing")
 
-time.sleep(2)
+time.sleep(4)
 
 # Turn note off
 outputDevice.note_off(c5, velocity)

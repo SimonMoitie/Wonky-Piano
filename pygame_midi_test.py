@@ -19,10 +19,12 @@ velocity = 127
 outputDevice.note_on(c5, velocity)
 print("Note playing")
 
-time.sleep(4)
+time.sleep(3)
 
 # Turn note off
 outputDevice.note_off(c5, velocity)
 print("Note stopped")
 
+# Clean up
+outputDevice.close()
 pygame.midi.quit()

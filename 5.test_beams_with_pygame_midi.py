@@ -35,31 +35,33 @@ running = True
 # Main loop to run program
 while running:
     
+    # Let user know program is running
     print("Program Running")
-	
+
+    # If statemnt to play notes when a beam is broken
     if buttonA.is_pressed:
         audioOutput.note_on(c5, velocity)
-        time.sleep(3)
+        time.sleep(2)
         audioOutput.note_off(c5, velocity)
     elif buttonB.is_pressed:
         audioOutput.note_on(d5, velocity)
-        time.sleep(3)
+        time.sleep(2)
         audioOutput.note_off(d5, velocity)
     elif buttonC.is_pressed:
         audioOutput.note_on(e5, velocity)
-        time.sleep(3)
+        time.sleep(2)
         audioOutput.note_off(e5, velocity)
     elif buttonD.is_pressed:
         audioOutput.note_on(f5, velocity)
-        time.sleep(3)
+        time.sleep(2)
         audioOutput.note_off(f5, velocity)
     elif buttonE.is_pressed:
         audioOutput.note_on(g5, velocity)
-        time.sleep(3)
+        time.sleep(2)
         audioOutput.note_off(g5, velocity)
     elif buttonF.is_pressed:
         audioOutput.note_on(a5, velocity)
-        time.sleep(3)
+        time.sleep(2)
         audioOutput.note_off(a5, velocity)
 	
 # Clean up

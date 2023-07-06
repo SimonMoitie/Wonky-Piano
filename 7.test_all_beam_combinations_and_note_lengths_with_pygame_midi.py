@@ -31,7 +31,7 @@ velocity = 127
 beamBroken = False
 running = True
 buttonsPlayed = {}
-noteDelay = 0.20
+noteDelay = 0.1
 
 # Set up output port and instrument sound
 audioOutput = pygame.midi.Output(port)

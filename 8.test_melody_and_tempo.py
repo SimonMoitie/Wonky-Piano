@@ -13,11 +13,11 @@ a4 = 69
 b4 = 71
 c5 = 72
 
-# Set up note length variables
-wholeNote = 1 # Semi-breve
-halfNote = 0.5 # Minim
-quarterNote = 0.25 # Crotchet
-seminote = 0.125 # Quaver
+# Set up note length variables (4 = four beats per bar)
+wholeNote = 4 # Semi-breve
+halfNote = 2 # Minim
+quarterNote = 1 # Crotchet
+seminote = 0.5 # Quaver
 
 # Set up pygame and pygame midi
 pygame.init()
@@ -39,14 +39,14 @@ audioOutput.set_instrument(instrument)
 
 # Dictionary to hold the notes and map each one with a duration in seconds
 melody = {
-    c4 : wholeNote, 
+    c4 : halfNote, 
     d4 : halfNote,
     e4 : halfNote,
-    f4 : crotchet,
-    g4 : crotchet,
-    a4 : quaver,
-    b4 : quaver,
-    c5 : wholeNote
+    f4 : halfNote,
+    g4 : halfNote,
+    a4 : halfNote,
+    b4 : halfNote,
+    c5 : halfNote
     }
 
 def playMelody():

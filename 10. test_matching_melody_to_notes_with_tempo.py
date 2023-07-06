@@ -57,6 +57,7 @@ buttons = {
     }
 
 # List to hold the notes and map each one with a duration in seconds
+# (Using list as melody contains duplicate notes)
 melodyBlindingLights = [
     (note3, halfNote), 
     (note3, halfNote), 
@@ -68,11 +69,12 @@ melodyBlindingLights = [
     ]
 
 def playMelody():
-    # For loop to iterate through dictonary and play a melody    
+    # For loop to iterate through dictonary and play a melody   
     for note, noteLength in melodyBlindingLights:
 	    audioOutput.note_on(note, velocity)
 	    time.sleep(noteLength*noteDuration)
 	    audioOutput.note_off(note, velocity)
+            # Add to new list to compare with solution (so both contain 1 value) 
 	    patternSolution.append(note)	
 
 # Function to play notes when beams are broken

@@ -13,11 +13,16 @@ buttonE = Button(24)
 buttonF = Button(23)
 
 # Set up variables for button Midi notes
-note1 = 61
+note1 = 60
 note2 = 63
-note3 = 68 
-note4 = 70
-note5 = 72
+note3 = 65 
+note4 = 67
+
+# Set up note length variables
+wholeNote = 4 # Semi-breve
+halfNote = 2 # Minim
+quarterNote = 1 # Crotchet
+semiNote = 0.5 # Quaver
 
 # Declare variables
 port = 2
@@ -27,8 +32,13 @@ beamBroken = False
 running = True
 buttonsPlayed = {}
 userSolution = []
+patternSolution = []
 noteDelay = 0.1
 matchingNotes = 0
+tempo = 150 # bpm (beats per minute)
+
+# Calculate the length of a whole note (seconds in a minute/tempo)
+noteDuration = 60/tempo
 
 # Set up pygame and pygame midi
 pygame.init()
@@ -44,18 +54,26 @@ buttons = {
     note2 : buttonB, 
     note3 : buttonC, 
     note4 : buttonD, 
-    note5 : buttonE
     }
 
 # List to hold the notes and map each one with a duration in seconds
-melodyCloseEncounters = [note4, note5, note3, note1, note2]
+melodyBlindingLights = [
+    (note3, halfNote), 
+    (note3, halfNote), 
+    (note2, semiNote), 
+    (note3, semiNote), 
+    (note4, quarterNote), 
+    (note1, quarterNote), 
+    (note2, wholeNote)
+    ]
 
 def playMelody():
     # For loop to iterate through dictonary and play a melody    
-    for note in melodyCloseEncounters:
+    for note, noteLength in melodyBlindingLights:
 	    audioOutput.note_on(note, velocity)
-	    time.sleep(1)
-	    audioOutput.note_off(note, velocity)	
+	    time.sleep(noteLength*noteDuration)
+	    audioOutput.note_off(note, velocity)
+	    patternSolution.append(note)	
 
 # Function to play notes when beams are broken
 def beamNotes():
@@ -68,7 +86,6 @@ def beamNotes():
             beamBroken = True
             buttonsPlayed.update({note:beam})
             userSolution.append(note)
-            userSolution
             audioOutput.note_on(note, velocity)
             
     # Output message if no beams broken
@@ -113,25 +130,25 @@ while running:
     # Recall function to play notes when beams are broken
     beamNotes()
     
-    if len(userSolution) == 5:
+    if len(userSolution) == 7:
         print("Lets check your solution...")
         time.sleep(1)
         
         # For loop to check if lists match
-        for index in range(len(melodyCloseEncounters)):
-            if melodyCloseEncounters[index] == userSolution[index]:
+        for index in range(len(patternSolution)):
+            if patternSolution[index] == userSolution[index]:
                 matchingNotes += 1				
         
         # Output how well they did - end program if all notes correct 
-        if matchingNotes == 5:
+        if matchingNotes == 7:
             print(f"Well done! You got all {matchingNotes} correct!")
             break;
-        elif matchingNotes >= 3 and matchingNotes <= 4:
-            print(f"Not a bad attempt, you got {matchingNotes} out of the 5 notes correct.")
-        elif matchingNotes >= 1 and matchingNotes <= 2:
-            print(f"Not great, you got {matchingNotes} out of the 5 notes correct.")
+        elif matchingNotes >= 4 and matchingNotes <= 6:
+            print(f"Not a bad attempt, you got {matchingNotes} out of the 7 notes correct.")
+        elif matchingNotes >= 1 and matchingNotes <= 3:
+            print(f"Not great, you got {matchingNotes} out of the 7 notes correct.")
         elif matchingNotes == 0:
-            print(f"Did you even try? {matchingNotes} out of 5 notes correct.")
+            print(f"Did you even try? {matchingNotes} out of 7 notes correct.")
         
         # Empty list to try again
         userSolution.clear()

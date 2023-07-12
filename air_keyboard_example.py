@@ -100,7 +100,7 @@ buttonsLevelThree = {
 # Lists to hold the solution for each level
 solutionLevelOne = [a2, b2, g2, g1, d2]
 solutionLevelTwo = [a2, b2, g2, g1, d2, d2, d2, g1, g1, d2,d2,e1]
-solutionLevelThree = [e2, b2, e2, b2, e2, b2, cS3, a2, a2, a2, d2, a2, b2, g2, g1, d2, d2, d2, g1, g1, d2, d2, e1]
+solutionLevelThree = [e2, b2, e2, b2, e2, b2, cS3, a2, a2, a2, d2, a2, b2, g2, g2, g2, d2, d2, g2, g2, d2, d2, e2]
 
 # Lists to hold the melody notes for each level and map each one with a duration in seconds
 # (Using list as melody contains duplicate notes)
@@ -142,15 +142,15 @@ levelThreeMelody = [
     (a5, semiNote),
     (b5, semiNote),
     (g5, semiNote),
-    (g4, semiNote),
+    (g5, semiNote),
+    (g5, semiNote),
     (d5, semiNote),
     (d5, semiNote),
+    (g5, semiNote),
+    (g5, semiNote),
     (d5, semiNote),
-    (g4, semiNote),
-    (g4, semiNote),
     (d5, semiNote),
-    (d5, semiNote),
-    (e4, semiNote)
+    (e5, semiNote)
     ]
 
 # Function to play level one Melody

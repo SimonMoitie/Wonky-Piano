@@ -423,11 +423,6 @@ def levelThreePuzzle():
             applauseSoundFx()
             print("Thanks for playing.")
             running = False
-        elif matchingNotes >= 25:
-            wrongSoundFx()
-            print(f"You got {matchingNotes} out of the 25 notes correct.")    
-            time.sleep(1)
-            print("Try again...")
         elif matchingNotes <= 23:
             wrongSoundFx()
             print(f"You got {matchingNotes} out of the 24 notes correct.")    

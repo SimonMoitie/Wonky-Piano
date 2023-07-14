@@ -267,7 +267,7 @@ def levelOnePuzzle():
     # Recall function to play notes when beams are broken
     levelOneBeamNotes()
     
-    if len(userSolution) == 5:
+    if len(userSolution) >= 5:
         print("Lets check your solution...")
         time.sleep(1)
         
@@ -349,7 +349,7 @@ def levelTwoPuzzle():
                 matchingNotes += 1				
         
         # Output how well they did - end program if all notes correct 
-        if matchingNotes == 12:
+        if matchingNotes >= 12:
             correctSoundFx()
             print(f"Well done! You got all {matchingNotes} correct!")
             applauseSoundFx()
@@ -411,7 +411,7 @@ def levelThreePuzzle():
     # Recall function to play notes when beams are broken
     levelThreeBeamNotes()
     
-    if len(userSolution) == 23:
+    if len(userSolution) >= 23:
         print("Lets check your solution...")
         time.sleep(1)
         
@@ -427,6 +427,11 @@ def levelThreePuzzle():
             applauseSoundFx()
             print("Thanks for playing.")
             running = False
+        elif matchingNotes >= 24:
+            wrongSoundFx()
+            print(f"You got {matchingNotes} out of the 23 notes correct.")    
+            time.sleep(1)
+            print("Try again...")
         elif matchingNotes <= 22:
             wrongSoundFx()
             print(f"You got {matchingNotes} out of the 23 notes correct.")    

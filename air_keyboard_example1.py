@@ -2,6 +2,7 @@
 import pygame
 import pygame.midi
 import time
+import os
 from gpiozero import Button
 
 # Set up variables for GPIO pins
@@ -218,7 +219,7 @@ def applauseSoundFx():
 	
 	# Play the sound effect
 	audioOutput.note_on(soundFx4, velocity)
-	time.sleep(3)
+	time.sleep(4)
 	audioOutput.note_off(soundFx4, velocity)
 
 # Function to play notes for level one when beams are broken
@@ -281,6 +282,7 @@ def levelOnePuzzle():
             correctSoundFx()
             print(f"Well done! You got all {matchingNotes} correct!")
             applauseSoundFx()
+            os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             print("Thanks for playing.")
             running = False
         elif matchingNotes <= 4:
@@ -353,6 +355,7 @@ def levelTwoPuzzle():
             correctSoundFx()
             print(f"Well done! You got all {matchingNotes} correct!")
             applauseSoundFx()
+            os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             print("Thanks for playing.")
             running = False
         elif matchingNotes <= 11:
@@ -425,6 +428,7 @@ def levelThreePuzzle():
             correctSoundFx()
             print(f"Well done! You got all {matchingNotes} correct!")
             applauseSoundFx()
+            os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             print("Thanks for playing.")
             running = False
         elif matchingNotes <= 22:
@@ -440,17 +444,16 @@ def levelThreePuzzle():
 # Function to print puzzle instructions to screen    
 def instructions():
 	print("The game has started...")
-	time.sleep(1)
+	os.system('echo "Can you fix me, by playing the notes, in the correct, order" | festival --tts')
 	print("Listen to the melody and try to play it back!")
-	time.sleep(1)
 	
 # Recall function to print instructions
 instructions()
 
 # Recall function to play one of the three melodies
 #playMelodyLevelOne()
-playMelodyLevelTwo()
-#playMelodyLevelThree()
+#playMelodyLevelTwo()
+playMelodyLevelThree()
 
 # Begin puzzle
 print("Your turn..")
@@ -460,8 +463,8 @@ while running:
 	
 	# Recall function to play one of the three puzzle levels
 	#levelOnePuzzle()
-	levelTwoPuzzle() 
-	#levelThreePuzzle()   
+	#levelTwoPuzzle() 
+	levelThreePuzzle()   
         
 # Clean up
 audioOutput.close()

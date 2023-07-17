@@ -2,6 +2,7 @@
 import pygame
 import pygame.midi
 import time
+import os
 from gpiozero import Button
 
 # Set up variables for GPIO pins
@@ -277,6 +278,7 @@ def levelOnePuzzle():
             correctSoundFx()
             print(f"Well done! You got all {matchingNotes} correct!")
             applauseSoundFx()
+            os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             print("Thanks for playing.")
             running = False
         elif matchingNotes <= 6:
@@ -349,6 +351,7 @@ def levelTwoPuzzle():
             correctSoundFx()
             print(f"Well done! You got all {matchingNotes} correct!")
             applauseSoundFx()
+            os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             print("Thanks for playing.")
             running = False
         elif matchingNotes <= 14:
@@ -421,6 +424,7 @@ def levelThreePuzzle():
             correctSoundFx()
             print(f"Well done! You got all {matchingNotes} correct!")
             applauseSoundFx()
+            os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             print("Thanks for playing.")
             running = False
         elif matchingNotes <= 23:
@@ -436,7 +440,7 @@ def levelThreePuzzle():
 # Function to print puzzle instructions to screen    
 def instructions():
 	print("The game has started...")
-	time.sleep(1)
+	os.system('echo "Can you fix me, by playing the notes, in the correct, order" | festival --tts')
 	print("Listen to the melody and try to play it back!")
 	time.sleep(1)
 	
@@ -445,8 +449,8 @@ instructions()
 
 # Recall function to play one of the three melodies
 #playMelodyLevelOne()
-#playMelodyLevelTwo()
-playMelodyLevelThree()
+playMelodyLevelTwo()
+#playMelodyLevelThree()
 
 # Begin puzzle
 print("Your turn..")
@@ -456,8 +460,8 @@ while running:
 	
 	# Recall function to play one of the three puzzle levels
 	#levelOnePuzzle()
-	#levelTwoPuzzle() 
-	levelThreePuzzle()   
+	levelTwoPuzzle() 
+	#levelThreePuzzle()   
         
 # Clean up
 audioOutput.close()

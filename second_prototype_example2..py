@@ -3,15 +3,17 @@ import pygame
 import pygame.midi
 import time
 import os
+import board
+import neopixel
 from gpiozero import Button
 
 # Set up variables for GPIO pins
 buttonA = Button(23)
 buttonB = Button(24)
-buttonC = Button(14)
-buttonD = Button(15)
-buttonE = Button(17)
-buttonF = Button(27)
+buttonC = Button(27)
+buttonD = Button(17)
+buttonE = Button(14)
+buttonF = Button(15)
 
 # Set up variables for MIDI melody notes and beams
 aS4 = 70
@@ -34,13 +36,16 @@ quarterNote = 1 # Crotchet
 semiNote = 0.5 # Quaver
 
 # Declare variables
-port = 2
-instrumentMelody = 51
-instrumentBeams = 51
-instrumentCorrectFx = 9
-instrumentWrongFx = 87
-instrumentCrowdFx = 126
-velocity = 127
+port = 2 # Midi audio port number
+instrumentMelody = 51 # MIDI instrument number for the melody
+instrumentBeams = 51 # MIDI instrument number for the beams
+instrumentCorrectFx = 9 # MIDI instrument number for correct sound fx 
+instrumentWrongFx = 87 # MIDI instrument number for wrong sound fx 
+instrumentCrowdFx = 126 # MIDI instrument number for crowd sound fx 
+velocity = 127 # Set MIDI volume level (between 0 and 127)
+pinNumber = board.D10 # Set LED strip GPIO pin number
+ledCount = 60 # Set number of pixels on LED strip
+brightness = 0.2 # Set LED strip brightness level (between 0 and 1)
 beamBroken = False
 running = True
 buttonsPlayed = {}
@@ -55,6 +60,9 @@ noteDuration = 60/tempo
 # Set up pygame and pygame midi
 pygame.init()
 pygame.midi.init()
+
+# Set up LED strip
+pixels = neopixel.NeoPixel(pinNumber, ledCount, brightness = brightness)
 
 # Set up output port
 audioOutput = pygame.midi.Output(port)
@@ -187,37 +195,46 @@ def playMelodyLevelThree():
 # Function to play the correct sound effect	    
 def correctSoundFx():
 	# Set the instrument
-	audioOutput.set_instrument(instrumentCorrectFx)
+    audioOutput.set_instrument(instrumentCorrectFx)
 	
-	# Play the sound effect
-	audioOutput.note_on(soundFx1, velocity)
-	time.sleep(1)
-	audioOutput.note_off(soundFx1, velocity)
+	# Play the sound effect and light up LEDs
+    pixels.fill((0, 255, 0))
+    audioOutput.note_on(soundFx1, velocity)
+    time.sleep(1)
+    pixels.fill((0, 0, 0))
+    audioOutput.note_off(soundFx1, velocity)
+    time.sleep(1)
 
 # Function to play the incorrect sound effect
 def wrongSoundFx():
 	
 	# Set instrument
-	audioOutput.set_instrument(instrumentWrongFx)
+    audioOutput.set_instrument(instrumentWrongFx)
 	
-	# Play the sound effect
-	audioOutput.note_on(soundFx2, velocity)
-	time.sleep(0.2)
-	audioOutput.note_off(soundFx2, velocity)
-	time.sleep(0.1)
-	audioOutput.note_on(soundFx3, velocity)
-	time.sleep(0.5)
-	audioOutput.note_off(soundFx3, velocity)
+	# Play the sound effect and light up LEDs
+    pixels.fill((255, 0, 0))
+    audioOutput.note_on(soundFx2, velocity)
+    time.sleep(0.2)
+    pixels.fill((0, 0, 0))
+    audioOutput.note_off(soundFx2, velocity)
+    time.sleep(0.1)
+    pixels.fill((255, 0, 0))
+    audioOutput.note_on(soundFx3, velocity)
+    time.sleep(0.5)
+    pixels.fill((0, 0, 0))
+    audioOutput.note_off(soundFx3, velocity)
 	
 def applauseSoundFx():
 	
 	# Set instrument
-	audioOutput.set_instrument(instrumentCrowdFx)	    
+    audioOutput.set_instrument(instrumentCrowdFx)	    
 	
-	# Play the sound effect
-	audioOutput.note_on(soundFx4, velocity)
-	time.sleep(3)
-	audioOutput.note_off(soundFx4, velocity)
+	# Play the sound effect and light up the LEDs
+    pixels.fill((0, 255, 0))
+    audioOutput.note_on(soundFx4, velocity)
+    time.sleep(3)
+    pixels.fill((0, 0, 0))
+    audioOutput.note_off(soundFx4, velocity)
 
 # Function to play notes for level one when beams are broken
 def levelOneBeamNotes():
@@ -410,7 +427,7 @@ def levelThreePuzzle():
      
     # Recall function to play notes when beams are broken
     levelThreeBeamNotes()
-    print(len(userSolution))
+    
     if len(userSolution) >= 26:    
         print("Lets check your solution...")
         time.sleep(1)
@@ -449,8 +466,8 @@ def instructions():
 instructions()
 
 # Recall function to play one of the three melodies
-#playMelodyLevelOne()
-playMelodyLevelTwo()
+playMelodyLevelOne()
+#playMelodyLevelTwo()
 #playMelodyLevelThree()
 
 # Begin puzzle
@@ -460,8 +477,8 @@ print("Your turn..")
 while running:
 	
 	# Recall function to play one of the three puzzle levels
-	#levelOnePuzzle()
-	levelTwoPuzzle() 
+	levelOnePuzzle()
+	#levelTwoPuzzle() 
 	#levelThreePuzzle()   
         
 # Clean up

@@ -7,10 +7,10 @@ from gpiozero import Button
 # Set up variables for GPIO pins
 buttonA = Button(23)
 buttonB = Button(24)
-buttonC = Button(14)
-buttonD = Button(15)
-buttonE = Button(17)
-buttonF = Button(27)
+buttonC = Button(27)
+buttonD = Button(17)
+buttonE = Button(14)
+buttonF = Button(15)
 
 # Set up variables for Midi notes
 c4 = 60

@@ -56,7 +56,7 @@ instrumentWrongFx = 87 # MIDI instrument number for wrong sound fx
 instrumentCrowdFx = 126 # MIDI instrument number for crowd sound fx 
 velocity = 127 # Set MIDI volume level (between 0 and 127)
 pinNumber = board.D10 # Set LED strip GPIO pin number
-ledCount = 60 # Set number of pixels on LED strip
+ledCount = 28 # Set number of pixels on LED strip
 brightness = 0.2 # Set LED strip brightness level (between 0 and 1)
 beamBroken = False
 running = True
@@ -79,33 +79,34 @@ pixels = neopixel.NeoPixel(pinNumber, ledCount, brightness = brightness)
 # Set up output port
 audioOutput = pygame.midi.Output(port)
 
-# Dictionaries to hold the buttons for each level and map each one with a note
-buttonsLevelOne = {
-    g1 : buttonB, 
-    d2 : buttonC, 
-    g2 : buttonD, 
-    a2 : buttonE, 
-    b2 : buttonF
-    }
+# List to hold the buttons for each level and map each one with a note and LED pixels
+# (Using list to map multiple values)
+buttonsLevelOne = [
+    (g1, buttonB, 19, 20, 21), 
+    (d2, buttonC, 14, 15, 16), 
+    (g2, buttonD, 10, 11, 12), 
+    (a2, buttonE, 5, 6, 7), 
+    (b2, buttonF, 1 , 2, 3)
+    ]
    
-buttonsLevelTwo = {
-	e1 : buttonA,
-    g1 : buttonB, 
-    d2 : buttonC, 
-    g2 : buttonD, 
-    a2 : buttonE, 
-    b2 : buttonF
-    }
+buttonsLevelTwo = [
+	(e1, buttonA, 23, 24, 25),
+    (g1, buttonB, 19, 20, 21), 
+    (d2, buttonC, 14, 15, 16), 
+    (g2, buttonD, 10, 11, 12), 
+    (a2, buttonE, 5, 6, 7), 
+    (b2, buttonF, 1, 2, 3)
+    ]
     
-buttonsLevelThree = {
-	d2 : buttonA,
-    e2 : buttonB, 
-    g2 : buttonC, 
-    a2 : buttonD, 
-    b2 : buttonE, 
-    cS3 : buttonF
-    }
-    
+buttonsLevelThree = [
+	(d2, buttonA, 23, 24, 25),
+    (e2, buttonB, 19, 20, 21), 
+    (g2, buttonC, 14, 15, 16), 
+    (a2, buttonD, 10, 11, 12), 
+    (b2, buttonE, 5, 6, 7), 
+    (cS3, buttonF, 1, 2, 3)
+    ]
+
 # Lists to hold the solution for each level
 solutionLevelOne = [a2, b2, g2, g1, d2]
 solutionLevelTwo = [a2, b2, g2, g1, d2, d2, d2, g1, g1, d2,d2,e1]
@@ -114,52 +115,52 @@ solutionLevelThree = [e2, b2, e2, b2, e2, b2, cS3, a2, a2, a2, d2, a2, b2, g2, g
 # Lists to hold the melody notes for each level and map each one with a duration in seconds
 # (Using list as melody contains duplicate notes)
 levelOneMelody = [
-    (a5, quarterNote), 
-    (b5, quarterNote), 
-    (g5, quarterNote), 
-    (g4, quarterNote), 
-    (d5, wholeNote)
+    (a5, quarterNote, 5, 6, 7), 
+    (b5, quarterNote, 1, 2, 3), 
+    (g5, quarterNote, 10, 11, 12), 
+    (g4, quarterNote, 19, 20, 21), 
+    (d5, wholeNote, 14, 15, 16)
     ]
     
 levelTwoMelody = [
-    (a5, semiNote),
-    (b5, semiNote),
-    (g5, semiNote),
-    (g4, semiNote),
-    (d5, semiNote),
-    (d5, semiNote),
-    (d5, semiNote),
-    (g4, semiNote),
-    (g4, semiNote),
-    (d5, semiNote),
-    (d5, semiNote),
-    (e4, semiNote)
+    (a5, semiNote, 5, 6, 7),
+    (b5, semiNote, 1, 2, 3),
+    (g5, semiNote, 10, 11, 12),
+    (g4, semiNote, 19, 20, 21),
+    (d5, semiNote, 14, 15, 16),
+    (d5, semiNote, 14, 15, 16),
+    (d5, semiNote, 14, 15, 16),
+    (g4, semiNote, 19, 20, 21),
+    (g4, semiNote, 19, 20, 21),
+    (d5, semiNote, 14, 15, 16),
+    (d5, semiNote, 14, 15, 16),
+    (e4, semiNote, 23,24, 25)
     ]
 
 levelThreeMelody = [
-    (e5, semiNote),
-    (b5, semiNote),
-    (e5, semiNote),
-    (b5, semiNote),
-    (e5, semiNote),
-    (b5, semiNote),
-    (cS6, semiNote),
-    (a5, semiNote),
-    (a5, semiNote),
-    (a5, semiNote),
-    (d5, semiNote),
-    (a5, semiNote),
-    (b5, semiNote),
-    (g5, semiNote),
-    (g5, semiNote),
-    (g5, semiNote),
-    (d5, semiNote),
-    (d5, semiNote),
-    (g5, semiNote),
-    (g5, semiNote),
-    (d5, semiNote),
-    (d5, semiNote),
-    (e5, semiNote)
+    (e5, semiNote, 19, 20, 21),
+    (b5, semiNote, 5, 6, 7),
+    (e5, semiNote, 19, 20,21),
+    (b5, semiNote, 5, 6, 7),
+    (e5, semiNote, 19, 20, 21),
+    (b5, semiNote, 5, 6, 7),
+    (cS6, semiNote,1 ,2 ,3),
+    (a5, semiNote, 10, 11, 12),
+    (a5, semiNote, 10, 11, 12),
+    (a5, semiNote, 10, 11, 12),
+    (d5, semiNote, 23, 24, 25),
+    (a5, semiNote, 10, 11, 12),
+    (b5, semiNote, 5, 6, 7),
+    (g5, semiNote, 14, 15, 16),
+    (g5, semiNote, 14, 15, 16),
+    (g5, semiNote, 14, 15, 16),
+    (d5, semiNote, 23, 24, 25),
+    (d5, semiNote, 23, 24, 25),
+    (g5, semiNote, 14, 15, 16),
+    (g5, semiNote, 14, 15, 16),
+    (d5, semiNote, 23, 24, 25),
+    (d5, semiNote, 23, 24, 25),
+    (e5, semiNote, 19, 20, 21)
     ]
 
 # Function to play level one Melody
@@ -167,33 +168,51 @@ def playMelodyLevelOne():
 	# Set the instrument
     audioOutput.set_instrument(instrumentMelody)
     
-    # For loop to iterate through dictonary and play a melody   
-    for note, noteLength in levelOneMelody:
-	    audioOutput.note_on(note, velocity)
-	    time.sleep(noteLength*noteDuration)
-	    audioOutput.note_off(note, velocity)	
+    # For loop to iterate through list, play melody notes and light up LED beam played   
+    for note, noteLength, pixelOne, pixelTwo, pixelThree in levelOneMelody:
+        pixels[pixelOne] = (0, 255, 255)
+        pixels[pixelTwo] = (0, 255, 255)
+        pixels[pixelThree] = (0, 255, 255)
+        audioOutput.note_on(note, velocity)
+        time.sleep(noteLength*noteDuration)
+        pixels[pixelOne] = ((0, 0, 0))
+        pixels[pixelTwo] = ((0, 0, 0))
+        pixels[pixelThree] = ((0, 0, 0))
+        audioOutput.note_off(note, velocity)	
 
 # Function to play level two Melody
 def playMelodyLevelTwo():
 	# Set the instrument
     audioOutput.set_instrument(instrumentMelody)
     
-    # For loop to iterate through dictonary and play a melody   
-    for note, noteLength in levelTwoMelody:
-	    audioOutput.note_on(note, velocity)
-	    time.sleep(noteLength*noteDuration)
-	    audioOutput.note_off(note, velocity)
+    # For loop to iterate through list, play melody notes and light up LED beam played   
+    for note, noteLength, pixelOne, pixelTwo, pixelThree in levelTwoMelody:
+        pixels[pixelOne] = (0, 255, 255)
+        pixels[pixelTwo] = (0, 255, 255)
+        pixels[pixelThree] = (0, 255, 255) 
+        audioOutput.note_on(note, velocity)
+        time.sleep(noteLength*noteDuration)
+        pixels[pixelOne] = ((0, 0, 0))
+        pixels[pixelTwo] = ((0, 0, 0))
+        pixels[pixelThree] = ((0, 0, 0))
+        audioOutput.note_off(note, velocity)
 	    
 # Function to play level three Melody
 def playMelodyLevelThree():
 	# Set the instrument
     audioOutput.set_instrument(instrumentMelody)
     
-    # For loop to iterate through dictonary and play a melody   
-    for note, noteLength in levelThreeMelody:
-	    audioOutput.note_on(note, velocity)
-	    time.sleep(noteLength*noteDuration)
-	    audioOutput.note_off(note, velocity)
+    # For loop to iterate through list, play melody notes and light up LED beam played   
+    for note, noteLength, pixelOne, pixelTwo, pixelThree in levelThreeMelody:
+        pixels[pixelOne] = (0, 255, 255)
+        pixels[pixelTwo] = (0, 255, 255)
+        pixels[pixelThree] = (0, 255, 255) 
+        audioOutput.note_on(note, velocity)
+        time.sleep(noteLength*noteDuration)
+        pixels[pixelOne] = ((0, 0, 0))
+        pixels[pixelTwo] = ((0, 0, 0))
+        pixels[pixelThree] = ((0, 0, 0))
+        audioOutput.note_off(note, velocity)
 
 # Function to play the correct sound effect	    
 def correctSoundFx():
@@ -206,7 +225,7 @@ def correctSoundFx():
     time.sleep(1)
     pixels.fill((0, 0, 0))
     audioOutput.note_off(soundFx1, velocity)
-    time.slepp(1)
+    time.sleep(1)
 
 # Function to play the incorrect sound effect
 def wrongSoundFx():
@@ -232,9 +251,35 @@ def applauseSoundFx():
     audioOutput.set_instrument(instrumentCrowdFx)	    
 	
 	# Play the sound effect and light up LEDs
-    pixels.fill((0, 255, 0))
     audioOutput.note_on(soundFx4, velocity)
-    time.sleep(4)
+    pixels.fill((0, 255, 0))
+    time.sleep(0.2)
+    pixels.fill((255, 0, 0))
+    time.sleep(0.2)
+    pixels.fill((0, 0, 255))
+    time.sleep(0.2)
+    pixels.fill((0, 255, 255))
+    time.sleep(0.2)
+    pixels.fill((255, 255, 0))
+    time.sleep(0.2)
+    pixels.fill((255, 0, 255))
+    time.sleep(0.2)
+    pixels.fill((255, 255, 255))
+    time.sleep(0.2)
+    pixels.fill((255, 0, 0))
+    time.sleep(0.2)
+    pixels.fill((0, 255, 0))
+    time.sleep(0.2)
+    pixels.fill((0, 0, 255))
+    time.sleep(0.2)
+    pixels.fill((0, 255, 255))
+    time.sleep(0.2)
+    pixels.fill((255, 255, 0))
+    time.sleep(0.2)
+    pixels.fill((255, 0, 255))
+    time.sleep(0.2)
+    pixels.fill((255, 255, 255))
+    time.sleep(0.2)
     pixels.fill((0, 0, 0))
     audioOutput.note_off(soundFx4, velocity)
 
@@ -245,14 +290,20 @@ def levelOneBeamNotes():
     
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
-           
-    # For loop to add each broken beam to new list and start note play
-    for note, beam in buttonsLevelOne.items():
+                       
+    # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
+    for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelOne:
+        pixels[pixelOne] = (255, 255, 255)
+        pixels[pixelTwo] = (255, 255, 255)
+        pixels[pixelThree] = (255, 255, 255)  
         if beam.is_pressed:
             beamBroken = True
             buttonsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
+            pixels[pixelOne] = ((0, 255, 255))
+            pixels[pixelTwo] = ((0, 255, 255))
+            pixels[pixelThree] = ((0, 255, 255))
             
     # If no beams broken do nothing
     if beamBroken == False:
@@ -260,14 +311,12 @@ def levelOneBeamNotes():
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
     elif beamBroken == True:
-        for beam in buttonsPlayed.values():
+        for note, beam in buttonsPlayed.items():
             while beam.is_pressed:
                 pass
-        
-        # Stop the notes from playing
-        for note in buttonsPlayed.keys():        
+            # Stop the notes from playing
             audioOutput.note_off(note, velocity)
-                	   
+                            	   
     # Reset for next loop through        
     beamBroken = False
     buttonsPlayed.clear() 
@@ -276,7 +325,7 @@ def levelOneBeamNotes():
 def levelOnePuzzle():
 	
     global matchingNotes, running
-	
+    
     # Small delay in loop to let user break one or more
     # beams and play one or more notes together
     time.sleep(noteDelay)
@@ -285,6 +334,12 @@ def levelOnePuzzle():
     levelOneBeamNotes()
     
     if len(userSolution) >= 5:
+        # For loop to turn off the lights over active beams
+        for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelOne:
+            pixels[pixelOne] = (0, 0, 0)
+            pixels[pixelTwo] = (0, 0, 0)
+            pixels[pixelThree] = (0, 0, 0)
+        
         print("Lets check your solution...")
         time.sleep(1)
         
@@ -306,6 +361,7 @@ def levelOnePuzzle():
             print(f"You got {matchingNotes} out of the 5 notes correct.")    
             time.sleep(1)
             print("Try again...")
+            playMelodyLevelOne()
  
         # Empty list to try again
         userSolution.clear()
@@ -319,13 +375,19 @@ def levelTwoBeamNotes():
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
            
-    # For loop to add each broken beam to new list and start note play
-    for note, beam in buttonsLevelTwo.items():
+    # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
+    for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelTwo:
+        pixels[pixelOne] = (255, 255, 255)
+        pixels[pixelTwo] = (255, 255, 255)
+        pixels[pixelThree] = (255, 255, 255) 
         if beam.is_pressed:
             beamBroken = True
             buttonsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
+            pixels[pixelOne] = ((0, 255, 255))
+            pixels[pixelTwo] = ((0, 255, 255))
+            pixels[pixelThree] = ((0, 255, 255))
             
     # If no beams broken do nothing
     if beamBroken == False:
@@ -333,14 +395,12 @@ def levelTwoBeamNotes():
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
     elif beamBroken == True:
-        for beam in buttonsPlayed.values():
+        for note, beam in buttonsPlayed.items():
             while beam.is_pressed:
                 pass
-        
-        # Stop the notes from playing
-        for note in buttonsPlayed.keys():        
+            # Stop the notes from playing 
             audioOutput.note_off(note, velocity)
-                	   
+    	   
     # Reset for next loop through        
     beamBroken = False
     buttonsPlayed.clear() 
@@ -349,7 +409,7 @@ def levelTwoBeamNotes():
 def levelTwoPuzzle():
 	
     global matchingNotes, running
-	
+    
     # Small delay in loop to let user break one or more
     # beams and play one or more notes together
     time.sleep(noteDelay)
@@ -358,6 +418,12 @@ def levelTwoPuzzle():
     levelTwoBeamNotes()
     
     if len(userSolution) >= 12:
+        # For loop to turn off the lights over active beams
+        for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelTwo:
+            pixels[pixelOne] = (0, 0, 0)
+            pixels[pixelTwo] = (0, 0, 0)
+            pixels[pixelThree] = (0, 0, 0)
+            
         print("Lets check your solution...")
         time.sleep(1)
         
@@ -379,6 +445,7 @@ def levelTwoPuzzle():
             print(f"You got {matchingNotes} out of the 12 notes correct.")    
             time.sleep(1)
             print("Try again...")
+            playMelodyLevelTwo()
         
         # Empty list to try again
         userSolution.clear()
@@ -392,13 +459,19 @@ def levelThreeBeamNotes():
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
            
-    # For loop to add each broken beam to new list and start note play
-    for note, beam in buttonsLevelThree.items():
+    # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
+    for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelThree:
+        pixels[pixelOne] = (255, 255, 255)
+        pixels[pixelTwo] = (255, 255, 255)
+        pixels[pixelThree] = (255, 255, 255) 
         if beam.is_pressed:
             beamBroken = True
             buttonsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
+            pixels[pixelOne] = (0, 255, 255)
+            pixels[pixelTwo] = (0, 255, 255)
+            pixels[pixelThree] = (0, 255, 255) 
             
     # If no beams broken do nothing
     if beamBroken == False:
@@ -406,13 +479,11 @@ def levelThreeBeamNotes():
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
     elif beamBroken == True:
-        for beam in buttonsPlayed.values():
+        for note, beam in buttonsPlayed.items():
             while beam.is_pressed:
                 pass
-        
-        # Stop the notes from playing
-        for note in buttonsPlayed.keys():        
-            audioOutput.note_off(note, velocity)
+            # Stop the notes from playing
+            audioOutput.note_off(note, velocity)            
                 	   
     # Reset for next loop through        
     beamBroken = False
@@ -431,6 +502,12 @@ def levelThreePuzzle():
     levelThreeBeamNotes()
     
     if len(userSolution) >= 23:
+        # For loop to turn off the lights over active beams
+        for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelThree:
+            pixels[pixelOne] = (0, 0, 0)
+            pixels[pixelTwo] = (0, 0, 0)
+            pixels[pixelThree] = (0, 0, 0)
+            
         print("Lets check your solution...")
         time.sleep(1)
         
@@ -452,6 +529,7 @@ def levelThreePuzzle():
             print(f"You got {matchingNotes} out of the 23 notes correct.")    
             time.sleep(1)
             print("Try again...")
+            playMelodyLevelThree()
         
         # Empty list to try again
         userSolution.clear()

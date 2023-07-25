@@ -403,7 +403,7 @@ def levelTwoBeamNotes():
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
     elif beamBroken == True:
-        for note, beam in buttonsPlayed.values():
+        for note, beam in buttonsPlayed.items():
             while beam.is_pressed:
                 pass
             # Stop the notes from playing

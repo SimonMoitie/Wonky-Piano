@@ -52,6 +52,7 @@ buttonsPlayed = {}
 userSolution = []
 noteDelay = 0.25
 matchingNotes = 0
+compareIndex = 0
 tempo = 150 # bpm (beats per minute)
 
 # Calculate the length of a whole note (seconds in a minute/tempo)
@@ -296,7 +297,7 @@ def applauseSoundFx():
 # Function to play notes for level one when beams are broken
 def levelOneBeamNotes():
     
-    global beamBroken
+    global beamBroken, compareIndex
     
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
@@ -311,9 +312,16 @@ def levelOneBeamNotes():
             buttonsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
-            pixels[pixelOne] = (0, 255, 255)
-            pixels[pixelTwo] = (0, 255, 255)
-            pixels[pixelThree] = (0, 255, 255) 
+            if userSolution[compareIndex] == solutionLevelOne[compareIndex]:
+                pixels[pixelOne] = (0, 255, 0)
+                pixels[pixelTwo] = (0, 255, 0)
+                pixels[pixelThree] = (0, 255, 0)
+                compareIndex += 1 
+            else:
+                pixels[pixelOne] = (255, 0, 0)
+                pixels[pixelTwo] = (255, 0, 0)
+                pixels[pixelThree] = (255, 0, 0) 
+                compareIndex += 1
             
     # If no beams broken do nothing
     if beamBroken == False:
@@ -334,7 +342,7 @@ def levelOneBeamNotes():
 # Function to play the level one puzzle    
 def levelOnePuzzle():
 	
-    global matchingNotes, running
+    global matchingNotes, running, compareIndex
 
     # Small delay in loop to let user break one or more
     # beams and play one or more notes together
@@ -376,11 +384,12 @@ def levelOnePuzzle():
         # Empty list to try again
         userSolution.clear()
         matchingNotes = 0
+        compareIndex = 0
 
 # Function to play notes for level two when beams are broken
 def levelTwoBeamNotes():
     
-    global beamBroken
+    global beamBroken, compareIndex
     
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
@@ -395,9 +404,16 @@ def levelTwoBeamNotes():
             buttonsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
-            pixels[pixelOne] = (0, 255, 255)
-            pixels[pixelTwo] = (0, 255, 255)
-            pixels[pixelThree] = (0, 255, 255) 
+            if userSolution[compareIndex] == solutionLevelTwo[compareIndex]:
+                pixels[pixelOne] = (0, 255, 0)
+                pixels[pixelTwo] = (0, 255, 0)
+                pixels[pixelThree] = (0, 255, 0)
+                compareIndex += 1 
+            else:
+                pixels[pixelOne] = (255, 0, 0)
+                pixels[pixelTwo] = (255, 0, 0)
+                pixels[pixelThree] = (255, 0, 0) 
+                compareIndex += 1
             
     # If no beams broken do nothing
     if beamBroken == False:
@@ -418,7 +434,7 @@ def levelTwoBeamNotes():
 # Function to play the level two puzzle    
 def levelTwoPuzzle():
 	
-    global matchingNotes, running
+    global matchingNotes, running, compareIndex
     
     # Small delay in loop to let user break one or more
     # beams and play one or more notes together
@@ -460,11 +476,12 @@ def levelTwoPuzzle():
         # Empty list to try again
         userSolution.clear()
         matchingNotes = 0
+        compareIndex = 0
         
 # Function to play notes for level three when beams are broken
 def levelThreeBeamNotes():
     
-    global beamBroken
+    global beamBroken, compareIndex
     
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
@@ -479,9 +496,16 @@ def levelThreeBeamNotes():
             buttonsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
-            pixels[pixelOne] = (0, 255, 255)
-            pixels[pixelTwo] = (0, 255, 255)
-            pixels[pixelThree] = (0, 255, 255) 
+            if userSolution[compareIndex] == solutionLevelThree[compareIndex]:
+                pixels[pixelOne] = (0, 255, 0)
+                pixels[pixelTwo] = (0, 255, 0)
+                pixels[pixelThree] = (0, 255, 0)
+                compareIndex += 1 
+            else:
+                pixels[pixelOne] = (255, 0, 0)
+                pixels[pixelTwo] = (255, 0, 0)
+                pixels[pixelThree] = (255, 0, 0) 
+                compareIndex += 1
                         
     # If no beams broken do nothing
     if beamBroken == False:
@@ -502,7 +526,7 @@ def levelThreeBeamNotes():
 # Function to play the level three puzzle    
 def levelThreePuzzle():
 	
-    global matchingNotes, running
+    global matchingNotes, running, compareIndex
 	
     # Small delay in loop to let user break one or more
     # beams and play one or more notes together
@@ -544,6 +568,7 @@ def levelThreePuzzle():
         # Empty list to try again
         userSolution.clear()
         matchingNotes = 0
+        compareIndex = 0
 
 # Function to print puzzle instructions to screen    
 def instructions():
@@ -556,8 +581,8 @@ def instructions():
 instructions()
 
 # Recall function to play one of the three melodies
-#playMelodyLevelOne()
-playMelodyLevelTwo()
+playMelodyLevelOne()
+#playMelodyLevelTwo()
 #playMelodyLevelThree()
 
 # Begin puzzle
@@ -567,8 +592,8 @@ print("Your turn..")
 while running:
 	
 	# Recall function to play one of the three puzzle levels
-	#levelOnePuzzle()
-	levelTwoPuzzle() 
+	levelOnePuzzle()
+	#levelTwoPuzzle() 
 	#levelThreePuzzle()   
         
 # Clean up

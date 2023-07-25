@@ -48,9 +48,11 @@ ledCount = 28 # Set number of pixels on LED strip
 brightness = 0.2 # Set LED strip brightness level (between 0 and 1)
 beamBroken = False
 running = True
+completed = False
 buttonsPlayed = {}
 userSolution = []
-noteDelay = 0.25
+noteDelay = 0.2
+fixedNoteDelay = 0.1
 matchingNotes = 0
 compareIndex = 0
 tempo = 150 # bpm (beats per minute)
@@ -86,6 +88,15 @@ buttonsLevelTwo = [
     ]
     
 buttonsLevelThree = [
+    (aS4, buttonA, 23, 24, 25),
+	(c5, buttonB, 19, 20, 21),
+    (dS5, buttonC, 14, 15, 16), 
+    (f5, buttonD, 10, 11, 12), 
+    (g5, buttonE, 5, 6, 7), 
+    (aS5, buttonF, 1, 2, 3)
+    ]
+    
+buttonsFixed = [
     (aS4, buttonA, 23, 24, 25),
 	(c5, buttonB, 19, 20, 21),
     (dS5, buttonC, 14, 15, 16), 
@@ -255,7 +266,8 @@ def wrongSoundFx():
     time.sleep(0.5)
     pixels.fill((0, 0, 0))
     audioOutput.note_off(soundFx3, velocity)
-	
+
+# Function to play the applause sound effect	
 def applauseSoundFx():
 	
 	# Set instrument
@@ -293,6 +305,46 @@ def applauseSoundFx():
     time.sleep(0.2)
     pixels.fill((0, 0, 0))
     audioOutput.note_off(soundFx4, velocity)
+    
+# Function to play the piano when puzzle completed    
+def fixedPiano():
+    
+    global beamBroken
+    
+    # Set the instrument
+    audioOutput.set_instrument(instrumentBeams)
+    
+    # Small delay in loop to let user break one or more
+    # beams and play one or more notes together
+    time.sleep(fixedNoteDelay)
+                
+    # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
+    for note, beam, pixelOne, pixelTwo, pixelThree in buttonsFixed:
+        pixels[pixelOne] = (255, 255, 255)
+        pixels[pixelTwo] = (255, 255, 255)
+        pixels[pixelThree] = (255, 255, 255) 
+        if beam.is_pressed:
+            beamBroken = True
+            buttonsPlayed.update({note:beam})
+            audioOutput.note_on(note, velocity)
+            pixels[pixelOne] = (0, 255, 255)
+            pixels[pixelTwo] = (0, 255, 255)
+            pixels[pixelThree] = (0, 255, 255)
+                        
+    # If no beams broken do nothing
+    if beamBroken == False:
+        pass
+    # If beams were broken, check if beam is still broken
+    # and pause program while beam still broken
+    elif beamBroken == True:
+        for note, beam in buttonsPlayed.items():
+            while beam.is_pressed:
+                pass
+            # Stop the notes from playing
+            audioOutput.note_off(note, velocity)
+                	   
+    # Reset for next loop through        
+    beamBroken = False
 
 # Function to play notes for level one when beams are broken
 def levelOneBeamNotes():
@@ -301,7 +353,11 @@ def levelOneBeamNotes():
     
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
-           
+    
+    # Small delay in loop to let user break one or more
+    # beams and play one or more notes together
+    time.sleep(noteDelay)
+                
     # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
     for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelOne:
         pixels[pixelOne] = (255, 255, 255)
@@ -342,11 +398,7 @@ def levelOneBeamNotes():
 # Function to play the level one puzzle    
 def levelOnePuzzle():
 	
-    global matchingNotes, running, compareIndex
-
-    # Small delay in loop to let user break one or more
-    # beams and play one or more notes together
-    time.sleep(noteDelay)
+    global matchingNotes, running, compareIndex, completed
      
     # Recall function to play notes when beams are broken
     levelOneBeamNotes()
@@ -372,8 +424,8 @@ def levelOnePuzzle():
             print(f"Well done! You got all {matchingNotes} correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
-            print("Thanks for playing.")
-            running = False
+            print("Thanks for playing.\nNow relax and play the beams")
+            completed = True
         elif matchingNotes <= 6:
             wrongSoundFx()
             print(f"You got {matchingNotes} out of the 7 notes correct.")    
@@ -393,7 +445,11 @@ def levelTwoBeamNotes():
     
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
-           
+    
+    # Small delay in loop to let user break one or more
+    # beams and play one or more notes together
+    time.sleep(noteDelay)
+                
     # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
     for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelTwo:
         pixels[pixelOne] = (255, 255, 255)
@@ -434,12 +490,8 @@ def levelTwoBeamNotes():
 # Function to play the level two puzzle    
 def levelTwoPuzzle():
 	
-    global matchingNotes, running, compareIndex
-    
-    # Small delay in loop to let user break one or more
-    # beams and play one or more notes together
-    time.sleep(noteDelay)
-     
+    global matchingNotes, running, compareIndex, completed
+         
     # Recall function to play notes when beams are broken
     levelTwoBeamNotes()
     
@@ -464,8 +516,8 @@ def levelTwoPuzzle():
             print(f"Well done! You got all {matchingNotes} correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
-            print("Thanks for playing.")
-            running = False
+            print("Thanks for playing.\nNow relax and play the beams")
+            completed = True
         elif matchingNotes <= 15:
             wrongSoundFx()
             print(f"You got {matchingNotes} out of the 16 notes correct.")    
@@ -485,6 +537,10 @@ def levelThreeBeamNotes():
     
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
+    
+    # Small delay in loop to let user break one or more
+    # beams and play one or more notes together
+    time.sleep(noteDelay)     
            
     # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
     for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelThree:
@@ -526,12 +582,8 @@ def levelThreeBeamNotes():
 # Function to play the level three puzzle    
 def levelThreePuzzle():
 	
-    global matchingNotes, running, compareIndex
+    global matchingNotes, running, compareIndex, completed
 	
-    # Small delay in loop to let user break one or more
-    # beams and play one or more notes together
-    time.sleep(noteDelay)
-     
     # Recall function to play notes when beams are broken
     levelThreeBeamNotes()
     
@@ -556,8 +608,8 @@ def levelThreePuzzle():
             print(f"Well done! You got all {matchingNotes} correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
-            print("Thanks for playing.")
-            running = False
+            print("Thanks for playing.\nNow relax and play the beams")
+            completed = True
         elif matchingNotes <= 25:
             wrongSoundFx()
             print(f"You got {matchingNotes} out of the 26 notes correct.")    
@@ -569,7 +621,7 @@ def levelThreePuzzle():
         userSolution.clear()
         matchingNotes = 0
         compareIndex = 0
-
+        
 # Function to print puzzle instructions to screen    
 def instructions():
 	print("The game has started...")
@@ -581,8 +633,8 @@ def instructions():
 instructions()
 
 # Recall function to play one of the three melodies
-playMelodyLevelOne()
-#playMelodyLevelTwo()
+#playMelodyLevelOne()
+playMelodyLevelTwo()
 #playMelodyLevelThree()
 
 # Begin puzzle
@@ -590,12 +642,16 @@ print("Your turn..")
 
 # Main loop - To keep program running
 while running:
-	
-	# Recall function to play one of the three puzzle levels
-	levelOnePuzzle()
-	#levelTwoPuzzle() 
-	#levelThreePuzzle()   
-        
+    
+    # Recall function to play one of the three puzzle levels
+    while completed == False:
+	    #levelOnePuzzle()
+	    levelTwoPuzzle() 
+	    #levelThreePuzzle()
+   
+    # Recall function to play the fixed piano when puzzle completed
+    fixedPiano()
+            
 # Clean up
 audioOutput.close()
 pygame.midi.quit()

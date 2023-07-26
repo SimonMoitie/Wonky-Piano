@@ -29,7 +29,7 @@ print("LED four on")
 pixels[3] = (255, 255, 0)
 time.sleep(3)
 
-# Light up LED - Light Blue
+# Light up LED - Cyan
 print("LED five on")
 pixels[4] = (0, 255, 255)
 time.sleep(3)

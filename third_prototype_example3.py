@@ -45,6 +45,14 @@ yellow = 255, 255, 0
 blue = 0, 0, 255
 noColour = 0, 0, 0
 
+# Set up LED pixel variables
+pixelsA = 23, 24, 25
+pixelsB = 19, 20, 21
+pixelsC = 14, 15, 16
+pixelsD = 10, 11, 12
+pixelsE = 5, 6, 7
+pixelsF = 1, 2, 3
+
 # Declare variables
 port = 2 # Midi audio port number
 instrumentMelody = 30 # MIDI instrument number for the melody
@@ -75,45 +83,45 @@ pygame.init()
 pygame.midi.init()
 
 # Set up LED strip
-pixels = neopixel.NeoPixel(pinNumber, ledCount, brightness = brightness)
+pixels = neopixel.NeoPixel(pinNumber, ledCount, brightness = brightness, auto_write = True)
 
-# Set up output port
+# Set up LED strip - GPIO pin number, number of LEDs, LED brightness, automatically update colours
 audioOutput = pygame.midi.Output(port)
 
 # List to hold the buttons for each level and map each one with a note and LED pixels
 # (Using list to map multiple values)
 buttonsLevelOne = [
-    (g3, buttonA, 23, 24, 25), 
-    (b3, buttonC, 14, 15, 16), 
-    (c4, buttonD, 10, 11, 12), 
-    (d4, buttonE, 5, 6, 7)
+    (g3, buttonA, *pixelsA), 
+    (b3, buttonC, *pixelsC), 
+    (c4, buttonD, *pixelsD), 
+    (d4, buttonE, *pixelsE)
     ]
    
 buttonsLevelTwo = [
-	(g3, buttonA, 23, 24, 25),
-    (a3, buttonB, 19, 20, 21),
-    (b3, buttonC, 14, 15, 16), 
-    (c4, buttonD, 10, 11, 12), 
-    (d4, buttonE, 5, 6, 7),  
-    (e4, buttonF, 1, 2, 3)
+	(g3, buttonA, *pixelsA),
+    (a3, buttonB, *pixelsB),
+    (b3, buttonC, *pixelsC), 
+    (c4, buttonD, *pixelsD), 
+    (d4, buttonE, *pixelsE),  
+    (e4, buttonF, *pixelsF)
     ]
     
 buttonsLevelThree = [
-	(g3, buttonA, 23, 24, 25),
-    (a3, buttonB, 19, 20, 21),
-    (b3, buttonC, 14, 15, 16), 
-    (c4, buttonD, 10, 11, 12), 
-    (d4, buttonE, 5, 6, 7),  
-    (e4, buttonF, 1, 2, 3)
+	(g3, buttonA, *pixelsA),
+    (a3, buttonB, *pixelsB),
+    (b3, buttonC, *pixelsC), 
+    (c4, buttonD, *pixelsD), 
+    (d4, buttonE, *pixelsE),  
+    (e4, buttonF, *pixelsF)
     ]
     
 buttonsFixed = [
-    (g3, buttonA, 23, 24, 25),
-    (a3, buttonB, 19, 20, 21),
-    (b3, buttonC, 14, 15, 16), 
-    (c4, buttonD, 10, 11, 12), 
-    (d4, buttonE, 5, 6, 7),  
-    (e4, buttonF, 1, 2, 3)
+    (g3, buttonA, *pixelsA),
+    (a3, buttonB, *pixelsB),
+    (b3, buttonC, *pixelsC), 
+    (c4, buttonD, *pixelsD), 
+    (d4, buttonE, *pixelsE),  
+    (e4, buttonF, *pixelsF)
     ]
        
 # Lists to hold the solution for each level
@@ -124,49 +132,49 @@ solutionLevelThree = [g3, g3, d4, g3, b3, a3, c4, g3, b3, g3, g3, a3, a3, e4, c4
 # Lists to hold the melody notes for each level and map each one with a duration in seconds
 # (Using list as melody contains duplicate notes)
 levelOneMelody = [
-    (g3, quarterNote, 23, 24, 25), 
-    (d4, halfNote, 5, 6, 7), 
-    (b3, semiNote, 14, 15, 16), 
-    (c4, quarterNote, 10, 11, 12), 
-    (b3, semiNote, 14, 15, 16),
-    (g3, quarterNote, 23, 24, 25),
-    (g3, wholeNote, 23, 24, 25)
+    (g3, quarterNote, *pixelsA), 
+    (d4, halfNote, *pixelsE), 
+    (b3, semiNote, *pixelsC), 
+    (c4, quarterNote, *pixelsD), 
+    (b3, semiNote, *pixelsC),
+    (g3, quarterNote, *pixelsA),
+    (g3, wholeNote, *pixelsA)
     ]
     
 levelTwoMelody = [
-    (g3, quarterNote, 23, 24, 25), 
-    (d4, halfNote, 5, 6, 7), 
-    (b3, semiNote, 14, 15, 16), 
-    (c4, quarterNote, 10, 11, 12), 
-    (b3, semiNote, 14, 15, 16),
-    (g3, quarterNote, 23, 24, 25),
-    (g3, halfNote, 23, 24, 25),
-    (a3, quarterNote, 19, 20, 21),
-    (e4, halfNote, 1, 2, 3),
-    (c4, semiNote, 10, 11, 12),
-    (d4, quarterNote, 5, 6, 7),
-    (e4, semiNote, 1, 2, 3),
-    (d4, quarterNote, 5, 6, 7),
-    (a3, quarterNote, 19, 20, 21),
-    (d4, wholeNote, 5, 6, 7)
+    (g3, quarterNote, *pixelsA), 
+    (d4, halfNote, *pixelsE), 
+    (b3, semiNote, *pixelsC), 
+    (c4, quarterNote, *pixelsD), 
+    (b3, semiNote, *pixelsC),
+    (g3, quarterNote, *pixelsA),
+    (g3, halfNote, *pixelsA),
+    (a3, quarterNote, *pixelsB),
+    (e4, halfNote, *pixelsF),
+    (c4, semiNote, *pixelsD),
+    (d4, quarterNote, *pixelsE),
+    (e4, semiNote, *pixelsF),
+    (d4, quarterNote, *pixelsE),
+    (a3, quarterNote, *pixelsB),
+    (d4, wholeNote, *pixelsE)
     ]
 
 levelThreeMelody = [
-    (g3, quarterNote, 23, 24, 25), 
-    (g3, d4, halfNote, 23, 24, 25, 5, 6, 7), 
-    (g3, b3, semiNote, 23, 24, 25, 14, 15, 16), 
-    (a3, c4, quarterNote, 19, 20, 21, 10, 11, 12), 
-    (g3, b3, semiNote, 23, 24, 25, 14, 15, 16),
-    (g3, quarterNote, 23, 24, 25),
-    (g3, halfNote, 23, 24, 25),
-    (a3, quarterNote, 19, 20, 21),
-    (a3, e4, halfNote, 19, 20, 21, 1, 2, 3),
-    (c4, semiNote, 10, 11, 12),
-    (a3, d4, quarterNote, 19, 20, 21, 5, 6, 7),
-    (c4, e4, semiNote, 10, 11, 12, 1, 2, 3),
-    (a3, d4, quarterNote, 19, 20, 21, 5, 6, 7),
-    (a3, quarterNote, 19, 20, 21),
-    (a3, d4, wholeNote, 19, 20, 21, 5, 6, 7)
+    (g3, quarterNote, *pixelsA), 
+    (g3, d4, halfNote, *pixelsA, *pixelsE), 
+    (g3, b3, semiNote, *pixelsA, *pixelsC), 
+    (a3, c4, quarterNote, *pixelsB, *pixelsD), 
+    (g3, b3, semiNote, *pixelsA, *pixelsC),
+    (g3, quarterNote, *pixelsA),
+    (g3, halfNote, *pixelsA),
+    (a3, quarterNote, *pixelsB),
+    (a3, e4, halfNote, *pixelsB, *pixelsF),
+    (c4, semiNote, *pixelsD),
+    (a3, d4, quarterNote, *pixelsB, *pixelsE),
+    (c4, e4, semiNote, *pixelsD, *pixelsF),
+    (a3, d4, quarterNote, *pixelsB, *pixelsE),
+    (a3, quarterNote, *pixelsB),
+    (a3, d4, wholeNote, *pixelsB, *pixelsE)
     ]
 
 # Function to play level one Melody

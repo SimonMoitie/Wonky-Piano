@@ -5,6 +5,7 @@ import time
 import os
 import board
 import neopixel
+import random
 from gpiozero import Button
 
 # Set up variables for GPIO pins
@@ -100,41 +101,52 @@ pixels = neopixel.NeoPixel(pinNumber, ledCount, brightness = brightness, auto_wr
 # Set up output port
 audioOutput = pygame.midi.Output(port)
 
+# List to map buttons and LEDs and then randomise order
+buttonsAndPixels = [
+    (buttonA, pixelsA),
+    (buttonB, pixelsB),
+    (buttonC, pixelsC),
+    (buttonD, pixelsD),
+    (buttonE, pixelsE),
+    (buttonF, pixelsF)
+    ]
+random.shuffle(buttonsAndPixels)
+
 # List to hold the buttons for each level and map each one with a note and LED pixels
 # (Using list to map multiple values)
 buttonsLevelOne = [
-    (g1, buttonB, *pixelsB), 
-    (d2, buttonC, *pixelsC), 
-    (g2, buttonD, *pixelsD), 
-    (a2, buttonE, *pixelsE), 
-    (b2, buttonF, *pixelsF)
+    (g1, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]), 
+    (d2, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
+    (g2, buttonsAndPixels[3][0], *buttonsAndPixels[3][1]), 
+    (a2, buttonsAndPixels[4][0], *buttonsAndPixels[4][1]), 
+    (b2, buttonsAndPixels[5][0], *buttonsAndPixels[5][1])
     ]
    
 buttonsLevelTwo = [
-	(e1, buttonA, *pixelsA),
+	(e1, buttonsAndPixels[0][0], *buttonsAndPixels[0][1]),
+    (g1, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]), 
+    (d2, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
+    (g2, buttonsAndPixels[3][0], *buttonsAndPixels[3][1]), 
+    (a2, buttonsAndPixels[4][0], *buttonsAndPixels[4][1]), 
+    (b2, buttonsAndPixels[5][0], *buttonsAndPixels[5][1])
+    ]
+    
+buttonsLevelThree = [
+	(d2, buttonsAndPixels[0][0], *buttonsAndPixels[0][1]),
+    (e2, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]), 
+    (g2, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
+    (a2, buttonsAndPixels[3][0], *buttonsAndPixels[3][1]), 
+    (b2, buttonsAndPixels[4][0], *buttonsAndPixels[4][1]), 
+    (cS3, buttonsAndPixels[5][0], *buttonsAndPixels[5][1])
+    ]
+    
+buttonsFixed = [
+    (e1, buttonA, *pixelsA),
     (g1, buttonB, *pixelsB), 
     (d2, buttonC, *pixelsC), 
     (g2, buttonD, *pixelsD), 
     (a2, buttonE, *pixelsE), 
     (b2, buttonF, *pixelsF)
-    ]
-    
-buttonsLevelThree = [
-	(d2, buttonA, *pixelsA),
-    (e2, buttonB, *pixelsB), 
-    (g2, buttonC, *pixelsC), 
-    (a2, buttonD, *pixelsD), 
-    (b2, buttonE, *pixelsE), 
-    (cS3, buttonF, *pixelsF)
-    ]
-    
-buttonsFixed = [
-    (d2, buttonA, *pixelsA),
-    (e2, buttonB, *pixelsB), 
-    (g2, buttonC, *pixelsC), 
-    (a2, buttonD, *pixelsD), 
-    (b2, buttonE, *pixelsE), 
-    (cS3, buttonF, *pixelsF)
     ]
 
 # Lists to hold the solution for each level
@@ -145,52 +157,52 @@ solutionLevelThree = [e2, b2, e2, b2, e2, b2, cS3, a2, a2, a2, d2, a2, b2, g2, g
 # Lists to hold the melody notes for each level and map each one with a duration in seconds
 # (Using list as melody contains duplicate notes)
 levelOneMelody = [
-    (a5, quarterNote, *pixelsE), 
-    (b5, quarterNote, *pixelsF), 
-    (g5, quarterNote, *pixelsD), 
-    (g4, quarterNote, *pixelsB), 
-    (d5, wholeNote, *pixelsC)
+    (a5, quarterNote, *buttonsAndPixels[4][1]), 
+    (b5, quarterNote, *buttonsAndPixels[5][1]), 
+    (g5, quarterNote, *buttonsAndPixels[3][1]), 
+    (g4, quarterNote, *buttonsAndPixels[1][1]), 
+    (d5, wholeNote, *buttonsAndPixels[2][1])
     ]
     
 levelTwoMelody = [
-    (a5, semiNote, *pixelsE),
-    (b5, semiNote, *pixelsF),
-    (g5, semiNote, *pixelsD),
-    (g4, semiNote, *pixelsB),
-    (d5, semiNote, *pixelsC),
-    (d5, semiNote, *pixelsC),
-    (d5, semiNote, *pixelsC),
-    (g4, semiNote, *pixelsB),
-    (g4, semiNote, *pixelsB),
-    (d5, semiNote, *pixelsC),
-    (d5, semiNote, *pixelsC),
-    (e4, semiNote, *pixelsA)
+    (a5, semiNote, *buttonsAndPixels[4][1]),
+    (b5, semiNote, *buttonsAndPixels[5][1]),
+    (g5, semiNote, *buttonsAndPixels[3][1]),
+    (g4, semiNote, *buttonsAndPixels[1][1]),
+    (d5, semiNote, *buttonsAndPixels[2][1]),
+    (d5, semiNote, *buttonsAndPixels[2][1]),
+    (d5, semiNote, *buttonsAndPixels[2][1]),
+    (g4, semiNote, *buttonsAndPixels[1][1]),
+    (g4, semiNote, *buttonsAndPixels[1][1]),
+    (d5, semiNote, *buttonsAndPixels[2][1]),
+    (d5, semiNote, *buttonsAndPixels[2][1]),
+    (e4, semiNote, *buttonsAndPixels[0][1])
     ]
 
 levelThreeMelody = [
-    (e5, semiNote, *pixelsB),
-    (b5, semiNote, *pixelsE),
-    (e5, semiNote, *pixelsB),
-    (b5, semiNote, *pixelsE),
-    (e5, semiNote, *pixelsB),
-    (b5, semiNote, *pixelsE),
-    (cS6, semiNote, *pixelsF),
-    (a5, semiNote, *pixelsD),
-    (a5, semiNote, *pixelsD),
-    (a5, semiNote, *pixelsD),
-    (d5, semiNote, *pixelsA),
-    (a5, semiNote, *pixelsD),
-    (b5, semiNote, *pixelsE),
-    (g5, semiNote, *pixelsC),
-    (g5, semiNote, *pixelsC),
-    (g5, semiNote, *pixelsC),
-    (d5, semiNote, *pixelsA),
-    (d5, semiNote, *pixelsA),
-    (g5, semiNote, *pixelsC),
-    (g5, semiNote, *pixelsC),
-    (d5, semiNote, *pixelsA),
-    (d5, semiNote, *pixelsA),
-    (e5, semiNote, *pixelsB)
+    (e5, semiNote, *buttonsAndPixels[1][1]),
+    (b5, semiNote, *buttonsAndPixels[4][1]),
+    (e5, semiNote, *buttonsAndPixels[1][1]),
+    (b5, semiNote, *buttonsAndPixels[4][1]),
+    (e5, semiNote, *buttonsAndPixels[1][1]),
+    (b5, semiNote, *buttonsAndPixels[4][1]),
+    (cS6, semiNote, *buttonsAndPixels[5][1]),
+    (a5, semiNote, *buttonsAndPixels[3][1]),
+    (a5, semiNote, *buttonsAndPixels[3][1]),
+    (a5, semiNote, *buttonsAndPixels[3][1]),
+    (d5, semiNote, *buttonsAndPixels[0][1]),
+    (a5, semiNote, *buttonsAndPixels[3][1]),
+    (b5, semiNote, *buttonsAndPixels[4][1]),
+    (g5, semiNote, *buttonsAndPixels[2][1]),
+    (g5, semiNote, *buttonsAndPixels[2][1]),
+    (g5, semiNote, *buttonsAndPixels[2][1]),
+    (d5, semiNote, *buttonsAndPixels[0][1]),
+    (d5, semiNote, *buttonsAndPixels[0][1]),
+    (g5, semiNote, *buttonsAndPixels[2][1]),
+    (g5, semiNote, *buttonsAndPixels[2][1]),
+    (d5, semiNote, *buttonsAndPixels[0][1]),
+    (d5, semiNote, *buttonsAndPixels[0][1]),
+    (e5, semiNote, *buttonsAndPixels[1][1])
     ]
 
 # Function to play level one Melody
@@ -711,9 +723,9 @@ def instructions():
 instructions()
 
 # Recall function to play one of the three melodies
-playMelodyLevelOne()
+#playMelodyLevelOne()
 #playMelodyLevelTwo()
-#playMelodyLevelThree()
+playMelodyLevelThree()
 
 # Begin puzzle
 print("Your turn..")
@@ -723,9 +735,9 @@ while running:
 	
 	# Recall function to play one of the three puzzle levels
     while completed == False:
-	    levelOnePuzzle()
+	    #levelOnePuzzle()
 	    #levelTwoPuzzle() 
-	    #levelThreePuzzle()
+	    levelThreePuzzle()
    
     # Recall function to play the fixed piano when puzzle completed
     fixedPiano()

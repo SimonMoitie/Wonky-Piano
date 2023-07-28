@@ -66,7 +66,7 @@ pixelsD = 10, 11, 12
 pixelsE = 5, 6, 7
 pixelsF = 1, 2, 3
 
-# Declare variables
+# Set up MIDI variables
 port = 2 # Midi audio port number
 instrumentMelody = 68 # MIDI instrument number for the melody
 instrumentBeams = 58 # MIDI instrument number for the beams
@@ -74,12 +74,19 @@ instrumentCorrectFx = 9 # MIDI instrument number for correct sound fx
 instrumentWrongFx = 87 # MIDI instrument number for wrong sound fx 
 instrumentCrowdFx = 126 # MIDI instrument number for crowd sound fx 
 velocity = 127 # Set MIDI volume level (between 0 and 127)
+
+# Set up LED variables
 pinNumber = board.D10 # Set LED strip GPIO pin number
 ledCount = 28 # Set number of pixels on LED strip
-brightness = 0.2 # Set LED strip brightness level (between 0 and 1)
+ledBrightness = 0.2 # Set LED strip brightness level (between 0 and 1)
+updateLed = True # Set if LED colours update manually or automatically
+
+# Set up variables
 beamBroken = False
 running = True
 completed = False
+correctNoteOrder = False
+attemptingPuzzle = False
 buttonsPlayed = {}
 userSolution = []
 noteDelay = 0.2
@@ -96,7 +103,7 @@ pygame.init()
 pygame.midi.init()
 
 # Set up LED strip - GPIO pin number, number of LEDs, LED brightness, automatically update colours
-pixels = neopixel.NeoPixel(pinNumber, ledCount, brightness = brightness, auto_write = True)
+pixels = neopixel.NeoPixel(pinNumber, ledCount, brightness = ledBrightness, auto_write = updateLed)
 
 # Set up output port
 audioOutput = pygame.midi.Output(port)
@@ -209,6 +216,7 @@ levelThreeMelody = [
 def playMelodyLevelOne():
 	# Set the instrument
     audioOutput.set_instrument(instrumentMelody)
+    print("Melody is playing")
     
     # For loop to iterate through list, play melody notes and light up LED beam played   
     for note, noteLength, pixelOne, pixelTwo, pixelThree in levelOneMelody:
@@ -226,6 +234,7 @@ def playMelodyLevelOne():
 def playMelodyLevelTwo():
 	# Set the instrument
     audioOutput.set_instrument(instrumentMelody)
+    print("Melody is playing")
     
     # For loop to iterate through list, play melody notes and light up LED beam played   
     for note, noteLength, pixelOne, pixelTwo, pixelThree in levelTwoMelody:
@@ -243,6 +252,7 @@ def playMelodyLevelTwo():
 def playMelodyLevelThree():
 	# Set the instrument
     audioOutput.set_instrument(instrumentMelody)
+    print("Melody is playing")
     
     # For loop to iterate through list, play melody notes and light up LED beam played   
     for note, noteLength, pixelOne, pixelTwo, pixelThree in levelThreeMelody:
@@ -311,6 +321,8 @@ def applauseSoundFx():
     time.sleep(0.2)
     pixels.fill(yellow)
     time.sleep(0.2)
+    pixels.fill(white)
+    time.sleep(0.2)
     pixels.fill(green)
     time.sleep(0.2)
     pixels.fill(blue)
@@ -333,10 +345,15 @@ def applauseSoundFx():
 # Function to play the piano when puzzle completed    
 def fixedPiano():
     
-    global beamBroken
-    
+    global beamBroken, correctNoteOrder
+        
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
+    
+    # Let user know notes are in correct order
+    if correctNoteOrder == False:
+        print("Notes now in the correct order")
+        correctNoteOrder = True
     
     # Small delay in loop to let user break one or more
     # beams and play one or more notes together
@@ -347,6 +364,7 @@ def fixedPiano():
         pixels[pixelOne] = (white)
         pixels[pixelTwo] = (white)
         pixels[pixelThree] = (white) 
+        
         if beam.is_pressed:
             beamBroken = True
             buttonsPlayed.update({note:beam})
@@ -373,10 +391,14 @@ def fixedPiano():
 # Function to play notes for level one when beams are broken
 def levelOneBeamNotes():
     
-    global beamBroken, compareIndex
+    global beamBroken, compareIndex, attemptingPuzzle
     
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
+    
+    if attemptingPuzzle == False:
+        print("Attempt the puzzle...")
+        attemptingPuzzle = True
     
     # Small delay in loop to let user break one or more
     # beams and play one or more notes together
@@ -386,21 +408,26 @@ def levelOneBeamNotes():
     for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelOne:
         pixels[pixelOne] = (white)
         pixels[pixelTwo] = (white)
-        pixels[pixelThree] = (white)  
+        pixels[pixelThree] = (white)
+        
+        # When beam is pressed play note and add to list to compare solution  
         if beam.is_pressed:
             beamBroken = True
             buttonsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
+            
+            # Turn LEDs red or green depending if note played is correct or incorrect
             if compareIndex <= 4:
                 if userSolution[compareIndex] == solutionLevelOne[compareIndex]:
                     pixels[pixelOne] = (green)
                     pixels[pixelTwo] = (green)
-                    pixels[pixelThree] = (green)
+                    pixels[pixelThree] = (green)                    
                 else:
                     pixels[pixelOne] = (red)
                     pixels[pixelTwo] = (red)
-                    pixels[pixelThree] = (red) 
+                    pixels[pixelThree] = (red)
+                     
             elif compareIndex > 4:
                 pixels[pixelOne] = (red)
                 pixels[pixelTwo] = (red)
@@ -428,7 +455,7 @@ def levelOneBeamNotes():
 # Function to play the level one puzzle    
 def levelOnePuzzle():
 	
-    global matchingNotes, running, compareIndex, completed
+    global matchingNotes, running, compareIndex, completed, attemptingPuzzle
     
     # Recall function to play notes when beams are broken
     levelOneBeamNotes()
@@ -441,7 +468,7 @@ def levelOnePuzzle():
             pixels[pixelTwo] = (noColour)
             pixels[pixelThree] = (noColour)
         
-        print("Lets check your solution...")
+        print("Checking solution...")
         time.sleep(1)
         
         # For loop to check if lists match
@@ -452,32 +479,44 @@ def levelOnePuzzle():
         # Output how well they did - end program if all notes correct 
         if matchingNotes == 5:
             correctSoundFx()
-            print(f"Well done! You got all {matchingNotes} correct!")
+            print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
-            print("Thanks for playing.\nNow relax and play the beams")
             completed = True
+            
         elif matchingNotes <= 4:
             wrongSoundFx()
-            print(f"You got {matchingNotes} out of the 5 notes correct.")    
+            print(f"Player got {matchingNotes} out of the 5 notes correct.")    
             time.sleep(1)
             print("Try again...")
             playMelodyLevelOne()
+            attemptingPuzzle = False
  
         # Empty list to try again
         userSolution.clear()
         matchingNotes = 0
         compareIndex = 0
     
-    # When more than 5 notes have been played, stop bug from happening and reset     
+    # When more than 5 notes have been played, solution is incorrect      
     elif len(userSolution) > 5:
-        print("Lets check your solution...")
+        pixels.fill(noColour)
+        print("Checking solution...")
         time.sleep(1)
+        
+         # For loop to check if lists match
+        for index in range(len(solutionLevelOne)):
+            if solutionLevelOne[index] == userSolution[index]:
+                matchingNotes += 1	
+        
         wrongSoundFx()
-        print(f"You got {matchingNotes} out of the 5 notes correct.")    
+        if matchingNotes < 5:
+            print(f"Player got {matchingNotes} out of the 5 notes correct.")
+        elif matchingNotes == 5:
+            print(f"Player got {matchingNotes} out of the 5 notes correct, but has pressed an extra beam by mistake.")
         time.sleep(1)
         print("Try again...")
         playMelodyLevelOne()
+        attemptingPuzzle = False
         
         # Empty list to try again
         userSolution.clear()
@@ -487,10 +526,14 @@ def levelOnePuzzle():
 # Function to play notes for level two when beams are broken
 def levelTwoBeamNotes():
     
-    global beamBroken, compareIndex
+    global beamBroken, compareIndex, attemptingPuzzle
     
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
+    
+    if attemptingPuzzle == False:
+        print("Attempt the puzzle...")
+        attemptingPuzzle = True
     	
     # Small delay in loop to let user break one or more
     # beams and play one or more notes together
@@ -501,20 +544,25 @@ def levelTwoBeamNotes():
         pixels[pixelOne] = (white)
         pixels[pixelTwo] = (white)
         pixels[pixelThree] = (white) 
+        
+        # When beam is pressed play note and add to list to compare solution
         if beam.is_pressed:
             beamBroken = True
             buttonsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
+            
+            # Turn LEDs red or green depending if note played is correct or incorrect
             if compareIndex <= 11:
                 if userSolution[compareIndex] == solutionLevelTwo[compareIndex]:
                     pixels[pixelOne] = (green)
                     pixels[pixelTwo] = (green)
-                    pixels[pixelThree] = (green)
+                    pixels[pixelThree] = (green)                    
                 else:
                     pixels[pixelOne] = (red)
                     pixels[pixelTwo] = (red)
                     pixels[pixelThree] = (red)
+                    
             elif compareIndex > 11:
                 pixels[pixelOne] = (red)
                 pixels[pixelTwo] = (red)
@@ -542,7 +590,7 @@ def levelTwoBeamNotes():
 # Function to play the level two puzzle    
 def levelTwoPuzzle():
 	
-    global matchingNotes, running, compareIndex, completed
+    global matchingNotes, running, compareIndex, completed, attemptingPuzzle
      
     # Recall function to play notes when beams are broken
     levelTwoBeamNotes()
@@ -555,7 +603,7 @@ def levelTwoPuzzle():
             pixels[pixelTwo] = (noColour)
             pixels[pixelThree] = (noColour)
             
-        print("Lets check your solution...")
+        print("Checking solution...")
         time.sleep(1)
         
         # For loop to check if lists match
@@ -566,32 +614,43 @@ def levelTwoPuzzle():
         # Output how well they did - end program if all notes correct 
         if matchingNotes == 12:
             correctSoundFx()
-            print(f"Well done! You got all {matchingNotes} correct!")
+            print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
-            print("Thanks for playing.\nNow relax and play the beams")
             completed = True
         elif matchingNotes <= 11:
             wrongSoundFx()
-            print(f"You got {matchingNotes} out of the 12 notes correct.")    
+            print(f"Player got {matchingNotes} out of the 12 notes correct.")    
             time.sleep(1)
             print("Try again...")
             playMelodyLevelTwo()
+            attemptingPuzzle = False
         
         # Empty list to try again
         userSolution.clear()
         matchingNotes = 0
         compareIndex = 0
     
-    # When more than 12 notes have been played, stop bug from happening    
+    # When more than 12 notes have been played, solution is incorrect   
     elif len(userSolution) > 12:
-        print("Lets check your solution...")
+        pixels.fill(noColour)
+        print("Checking solution...")
         time.sleep(1)
+        
+         # For loop to check if lists match
+        for index in range(len(solutionLevelTwo)):
+            if solutionLevelTwo[index] == userSolution[index]:
+                matchingNotes += 1	
+        
         wrongSoundFx()
-        print(f"You got {matchingNotes} out of the 5 notes correct.")    
+        if matchingNotes < 12:
+            print(f"Player got {matchingNotes} out of the 12 notes correct.")
+        elif matchingNotes == 12:
+            print(f"Player got {matchingNotes} out of the 12 notes correct, but has pressed an extra beam by mistake.")   
         time.sleep(1)
         print("Try again...")
         playMelodyLevelTwo()
+        attemptingPuzzle = False
         
         # Empty list to try again
         userSolution.clear()
@@ -601,10 +660,14 @@ def levelTwoPuzzle():
 # Function to play notes for level three when beams are broken
 def levelThreeBeamNotes():
     
-    global beamBroken, compareIndex
+    global beamBroken, compareIndex, attemptingPuzzle
     
     # Set the instrument
     audioOutput.set_instrument(instrumentBeams)
+    
+    if attemptingPuzzle == False:
+        print("Attempt the puzzle...")
+        attemptingPuzzle = True
     
     # Small delay in loop to let user break one or more
     # beams and play one or more notes together
@@ -614,12 +677,16 @@ def levelThreeBeamNotes():
     for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelThree:
         pixels[pixelOne] = (white)
         pixels[pixelTwo] = (white)
-        pixels[pixelThree] = (white) 
+        pixels[pixelThree] = (white)
+        
+        # When beam is pressed play note and add to list to compare solution 
         if beam.is_pressed:
             beamBroken = True
             buttonsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
+            
+            # Turn LEDs red or green depending if note played is correct or incorrect
             if compareIndex <= 22:
                 if userSolution[compareIndex] == solutionLevelThree[compareIndex]:
                     pixels[pixelOne] = (green)
@@ -629,6 +696,7 @@ def levelThreeBeamNotes():
                     pixels[pixelOne] = (red)
                     pixels[pixelTwo] = (red)
                     pixels[pixelThree] = (red)
+                    
             elif compareIndex > 22:
                 pixels[pixelOne] = (red)
                 pixels[pixelTwo] = (red)
@@ -656,7 +724,7 @@ def levelThreeBeamNotes():
 # Function to play the level three puzzle    
 def levelThreePuzzle():
 	
-    global matchingNotes, running, compareIndex, completed
+    global matchingNotes, running, compareIndex, completed, attemptingPuzzle
      
     # Recall function to play notes when beams are broken
     levelThreeBeamNotes()
@@ -669,7 +737,7 @@ def levelThreePuzzle():
             pixels[pixelTwo] = (noColour)
             pixels[pixelThree] = (noColour)
             
-        print("Lets check your solution...")
+        print("Checking solution...")
         time.sleep(1)
         
         # For loop to check if lists match
@@ -680,33 +748,43 @@ def levelThreePuzzle():
         # Output how well they did - end program if all notes correct 
         if matchingNotes == 23:
             correctSoundFx()
-            print(f"Well done! You got all {matchingNotes} correct!")
+            print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
-            print("Thanks for playing.\nNow relax and play the beams")
             completed = True
         elif matchingNotes <= 22:
             wrongSoundFx()
-            print(f"You got {matchingNotes} out of the 23 notes correct.")    
+            print(f"Player got {matchingNotes} out of the 23 notes correct.")    
             time.sleep(1)
             print("Try again...")
             playMelodyLevelThree()
+            attemptingPuzzle = False
         
         # Empty list to try again
         userSolution.clear()
         matchingNotes = 0
         compareIndex = 0
     
-    # When more than 23 notes have been played, stop bug from happening and reset 
-    elif len(userSolution) > 23:                    
-        print("Lets check your solution...")
+    # When more than 23 notes have been played, solution is incorrect   
+    elif len(userSolution) > 23:    
+        pixels.fill(noColour)                
+        print("Checking solution...")
         time.sleep(1)
         
+         # For loop to check if lists match
+        for index in range(len(solutionLevelThree)):
+            if solutionLevelThree[index] == userSolution[index]:
+                matchingNotes += 1	
+        
         wrongSoundFx()
-        print(f"You got {matchingNotes} out of the 5 notes correct.")    
+        if matchingNotes < 23:
+            print(f"Player got {matchingNotes} out of the 23 notes correct.")
+        elif matchingNotes == 23:
+            print(f"Player got {matchingNotes} out of the 23 notes correct, but has pressed an extra beam by mistake.")   
         time.sleep(1)
         print("Try again...")
         playMelodyLevelThree()
+        attemptingPuzzle = False
         
         # Empty list to try again
         userSolution.clear()
@@ -715,29 +793,28 @@ def levelThreePuzzle():
 
 # Function to print puzzle instructions to screen    
 def instructions():
-	print("The game has started...")
+	print("Instructions playing")
 	os.system('echo "Can you fix me, by playing the notes, in the correct, order" | festival --tts')
-	print("Listen to the melody and try to play it back!")
+
+# Start the puzzle
+print("The puzzle is running...")
 	
 # Recall function to print instructions
 instructions()
 
 # Recall function to play one of the three melodies
-#playMelodyLevelOne()
+playMelodyLevelOne()
 #playMelodyLevelTwo()
-playMelodyLevelThree()
-
-# Begin puzzle
-print("Your turn..")
+#playMelodyLevelThree()
 
 # Main loop - To keep program running
 while running:
 	
 	# Recall function to play one of the three puzzle levels
     while completed == False:
-	    #levelOnePuzzle()
+	    levelOnePuzzle()
 	    #levelTwoPuzzle() 
-	    levelThreePuzzle()
+	    #levelThreePuzzle()
    
     # Recall function to play the fixed piano when puzzle completed
     fixedPiano()

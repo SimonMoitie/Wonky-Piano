@@ -31,10 +31,10 @@ soundFx3 = 45
 soundFx4 = 50
 
 # Set up note length variables
-wholeNote = 4 # Semi-breve
-halfNote = 2 # Minim
-quarterNote = 1 # Crotchet
-semiNote = 0.5 # Quaver
+wholeNote = 3 # Semi-breve
+halfNote = 1 # Minim
+quarterNote = 0.75 # Crotchet
+semiNote = 0.375 # Quaver
 
 # Set up LED colour variables
 green = 0, 255, 0
@@ -84,7 +84,7 @@ compareIndex = 0
 tempo = 60 # bpm (beats per minute)
 
 # Calculate the length of a whole note (seconds in a minute/tempo)
-noteDuration = (60/tempo)*4/3
+noteDuration = (60/tempo)
 
 # Set up pygame and pygame midi
 pygame.init()
@@ -165,14 +165,14 @@ levelTwoMelody = [
     (fS6, semiNote, *buttonsAndPixels[2][1]), 
     (e6, quarterNote, *buttonsAndPixels[1][1]),
     (b6, semiNote, *buttonsAndPixels[5][1]),
-    (a6, quarterNote, *buttonsAndPixels[4][1]),
-    (fS6, quarterNote, *buttonsAndPixels[2][1]),
+    (a6, halfNote, *buttonsAndPixels[4][1]),
+    (fS6, halfNote, *buttonsAndPixels[2][1]),
     (e6, quarterNote, *buttonsAndPixels[1][1]),
     (g6, semiNote, *buttonsAndPixels[3][1]),
     (fS6, semiNote, *buttonsAndPixels[2][1]),
     (e6, quarterNote, *buttonsAndPixels[1][1]),
     (fS6, semiNote, *buttonsAndPixels[2][1]),
-    (b5, quarterNote, *buttonsAndPixels[0][1])
+    (b5, halfNote, *buttonsAndPixels[0][1])
     ]
     
 levelThreeMelody = [
@@ -182,17 +182,15 @@ levelThreeMelody = [
     (fS6, semiNote, *buttonsAndPixels[2][1]), 
     (b5, e6, quarterNote, *buttonsAndPixels[0][1], *buttonsAndPixels[1][1]),
     (b6, semiNote, *buttonsAndPixels[5][1]),
-    (e6, a6, quarterNote, *buttonsAndPixels[1][1], *buttonsAndPixels[4][1]),
-    (e6, fS6, quarterNote, *buttonsAndPixels[1][1], *buttonsAndPixels[2][1]),
+    (e6, a6, halfNote, *buttonsAndPixels[1][1], *buttonsAndPixels[4][1]),
+    (e6, fS6, halfNote, *buttonsAndPixels[1][1], *buttonsAndPixels[2][1]),
     (b5, e6, quarterNote, *buttonsAndPixels[0][1], *buttonsAndPixels[1][1]),
     (g6, semiNote, *buttonsAndPixels[3][1]),
     (fS6, semiNote, *buttonsAndPixels[2][1]),
     (e6, b6, quarterNote, *buttonsAndPixels[1][1], *buttonsAndPixels[5][1]),
     (fS6, a6, semiNote, *buttonsAndPixels[2][1], *buttonsAndPixels[4][1]),
-    (b5, quarterNote, *buttonsAndPixels[0][1])
+    (b5, halfNote, *buttonsAndPixels[0][1])
     ]
-
-
 
 # Function to play level one Melody
 def playMelodyLevelOne():
@@ -815,8 +813,8 @@ print("The puzzle is running...")
 instructions()
 
 # Recall function to play one of the three melodies
-#playMelodyLevelOne()
-playMelodyLevelTwo()
+playMelodyLevelOne()
+#playMelodyLevelTwo()
 #playMelodyLevelThree()
 
 # Main loop - To keep program running
@@ -824,8 +822,8 @@ while running:
     
     # Recall function to play one of the three puzzle levels
     while completed == False:
-	    #levelOnePuzzle()
-	    levelTwoPuzzle() 
+	    levelOnePuzzle()
+	    #levelTwoPuzzle() 
 	    #levelThreePuzzle()
 
     # Recall function to play the fixed piano when puzzle completed

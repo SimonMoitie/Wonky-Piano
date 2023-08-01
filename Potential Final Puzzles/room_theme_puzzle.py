@@ -17,13 +17,15 @@ buttonE = Button(14)
 buttonF = Button(15)
 
 # Set up variables for MIDI melody notes and beams
+g3 = 55
+c4 = 60
+d4 = 62
+fS4 = 66
 g4 = 67
 a4 = 69
-aS4 = 70
+b4 = 71
 c5 = 72
-cS5 = 73
 d5 = 74
-dS5 = 75
 
 # Set up variables for sound effects
 soundFx1 = 82
@@ -35,7 +37,9 @@ soundFx4 = 50
 wholeNote = 4 # Semi-breve
 halfNote = 2 # Minim
 quarterNote = 1 # Crotchet
+dottedEightNote = 0.75
 eighthNote = 0.5 # Quaver
+sixteenthNote = 0.25 # Semi-Quaver
 
 # Set up LED colour variables
 green = 0, 255, 0
@@ -57,8 +61,8 @@ pixelsF = 1, 2, 3
 
 # Set up MIDI variables
 port = 2 # Midi audio port number
-instrumentMelody = 56 # MIDI instrument number for the melody
-instrumentBeams = 56 # MIDI instrument number for the beams
+instrumentMelody = 80 # MIDI instrument number for the melody
+instrumentBeams = 80 # MIDI instrument number for the beams
 instrumentCorrectFx = 9 # MIDI instrument number for correct sound fx 
 instrumentWrongFx = 87 # MIDI instrument number for wrong sound fx 
 instrumentCrowdFx = 126 # MIDI instrument number for crowd sound fx 
@@ -82,7 +86,7 @@ noteDelay = 0.2
 fixedNoteDelay = 0.1
 matchingNotes = 0
 compareIndex = 0
-tempo = 104 # bpm (beats per minute)
+tempo = 100 # bpm (beats per minute)
 
 # Calculate the length of a whole note (seconds in a minute/tempo)
 noteDuration = 60/tempo
@@ -111,98 +115,84 @@ random.shuffle(buttonsAndPixels)
 # List to hold the buttons for each level and map each one with a note and LED pixels
 # (Using list to map multiple values)
 buttonsLevelOne = [
-    (g4, buttonsAndPixels[0][0], *buttonsAndPixels[0][1]),
-    (aS4, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]), 
-    (c5, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
-    (cS5, buttonsAndPixels[3][0], *buttonsAndPixels[3][1])
+    (g4, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]),
+    (a4, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
+    (b4, buttonsAndPixels[3][0], *buttonsAndPixels[3][1]), 
+    (c5, buttonsAndPixels[4][0], *buttonsAndPixels[4][1])
     ]
    
 buttonsLevelTwo = [
-	(g4, buttonsAndPixels[0][0], *buttonsAndPixels[0][1]),
-    (aS4, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]), 
-    (c5, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
-    (cS5, buttonsAndPixels[3][0], *buttonsAndPixels[3][1]), 
-    (d5, buttonsAndPixels[4][0], *buttonsAndPixels[4][1]),
-    (dS5, buttonsAndPixels[5][0], *buttonsAndPixels[5][1]) 
+	(g3, buttonsAndPixels[0][0], *buttonsAndPixels[0][1]),
+    (d4, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]), 
+    (fS4, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
+    (g4, buttonsAndPixels[3][0], *buttonsAndPixels[3][1]), 
+    (a4, buttonsAndPixels[4][0], *buttonsAndPixels[4][1]),
+    (b4, buttonsAndPixels[5][0], *buttonsAndPixels[5][1])  
     ]
     
 buttonsLevelThree = [
-    (g4, buttonsAndPixels[0][0], *buttonsAndPixels[0][1]),
-    (aS4, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]), 
-    (c5, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
-    (cS5, buttonsAndPixels[3][0], *buttonsAndPixels[3][1]), 
-    (d5, buttonsAndPixels[4][0], *buttonsAndPixels[4][1]),
-    (dS5, buttonsAndPixels[5][0], *buttonsAndPixels[5][1])
+    (g3, buttonsAndPixels[0][0], *buttonsAndPixels[0][1]),
+	(d4, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]),
+    (fS4, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
+    (g4, buttonsAndPixels[3][0], *buttonsAndPixels[3][1]), 
+    (a4, buttonsAndPixels[4][0], *buttonsAndPixels[4][1]),
+    (d5, buttonsAndPixels[5][0], *buttonsAndPixels[5][1])
     ]
     
 buttonsFixed = [
-    (g4, buttonA, *pixelsA),
-	(aS4, buttonB, *pixelsB),
-    (c5, buttonC, *pixelsC), 
-    (cS5, buttonD, *pixelsD), 
-    (d5, buttonE, *pixelsE), 
-    (dS5, buttonF, *pixelsF)
+    (g3, buttonA, *pixelsA),
+	(d4, buttonB, *pixelsB),
+    (fS4, buttonC, *pixelsC), 
+    (g4, buttonD, *pixelsD), 
+    (a4, buttonE, *pixelsE), 
+    (b4, buttonF, *pixelsF)
     ]
     
 # Lists to hold the solution for each level
-solutionLevelOne = [g4, aS4, g4, c5, aS4, g4, cS5, c5, aS4]
-solutionLevelTwo = [g4, aS4, g4, c5, aS4, g4, cS5, c5, aS4, c5, dS5, c5, dS5, c5, aS4, dS5, d5, dS5]
-solutionLevelThree = [g4, aS4, dS5, g4, c5, dS5, aS4, dS5, g4, cS5, c5, dS5, aS4, c5, aS4, dS5, c5, aS4, dS5, c5, aS4, g4, dS5, d5, g4, dS5]
+solutionLevelOne = [c5, b4, a4, g4]
+solutionLevelTwo = [g3, b4, d4, g3, a4, fS4, g4, fS4]
+solutionLevelThree = [g3, d5, d4, g3, g3, a4, g3, fS4, g4, fS4, d4, d5, d4, g4, fS4, d4, d5, d4, d5, d4, g4, fS4, d5]
 
 # Lists to hold the melody notes for each level and map each one with a duration in seconds
 # (Using list as melody contains duplicate notes)
 levelOneMelody = [
-    (g4, eighthNote, *buttonsAndPixels[0][1]), 
-    (aS4, quarterNote, *buttonsAndPixels[1][1]), 
-    (g4, eighthNote, *buttonsAndPixels[0][1]), 
-    (c5, quarterNote, *buttonsAndPixels[2][1]), 
-    (aS4, eighthNote, *buttonsAndPixels[1][1]),
-    (g4, halfNote, *buttonsAndPixels[0][1]),
-    (cS5, eighthNote, *buttonsAndPixels[3][1]),
-    (c5, quarterNote, *buttonsAndPixels[2][1]),
-    (aS4, halfNote, *buttonsAndPixels[1][1])
+    (c5, halfNote, *buttonsAndPixels[4][1]), 
+    (b4, eighthNote, *buttonsAndPixels[3][1]), 
+    (a4, eighthNote, *buttonsAndPixels[2][1]), 
+    (g4, wholeNote, *buttonsAndPixels[1][1])
     ]
     
 levelTwoMelody = [
-    (g4, eighthNote, *buttonsAndPixels[0][1]), 
-    (aS4, quarterNote, *buttonsAndPixels[1][1]), 
-    (g4, eighthNote, *buttonsAndPixels[0][1]), 
-    (c5, quarterNote, *buttonsAndPixels[2][1]), 
-    (aS4, eighthNote, *buttonsAndPixels[1][1]),
-    (g4, halfNote, *buttonsAndPixels[0][1]),
-    (cS5, eighthNote, *buttonsAndPixels[3][1]),
-    (c5, quarterNote, *buttonsAndPixels[2][1]),
-    (aS4, halfNote, *buttonsAndPixels[1][1]),
-    (c5, eighthNote, *buttonsAndPixels[2][1]), 
-    (dS5, eighthNote, *buttonsAndPixels[5][1]), 
-    (c5, eighthNote, *buttonsAndPixels[2][1]), 
-    (dS5, quarterNote, *buttonsAndPixels[5][1]), 
-    (c5, eighthNote, *buttonsAndPixels[2][1]),
-    (aS4, halfNote, *buttonsAndPixels[1][1]),
-    (dS5, quarterNote, *buttonsAndPixels[5][1]),
-    (d5, eighthNote, *buttonsAndPixels[4][1]),
-    (dS5, halfNote, *buttonsAndPixels[5][1])
+    (g3, eighthNote, *buttonsAndPixels[0][1]), 
+    (b4, eighthNote, *buttonsAndPixels[5][1]), 
+    (d4, eighthNote, *buttonsAndPixels[1][1]), 
+    (g3, eighthNote, *buttonsAndPixels[0][1]),
+    (a4, dottedEightNote, *buttonsAndPixels[4][1]), 
+    (fS4, dottedEightNote, *buttonsAndPixels[2][1]), 
+    (g4, sixteenthNote, *buttonsAndPixels[3][1]), 
+    (fS4, eighthNote, *buttonsAndPixels[2][1])
     ]
     
 levelThreeMelody = [
-    (g4, eighthNote, *buttonsAndPixels[0][1]), 
-    (aS4, dS5, quarterNote, *buttonsAndPixels[1][1], *buttonsAndPixels[5][1]), 
-    (g4, eighthNote, *buttonsAndPixels[0][1]), 
-    (c5, dS5, quarterNote, *buttonsAndPixels[2][1], *buttonsAndPixels[5][1]), 
-    (aS4, dS5, eighthNote, *buttonsAndPixels[1][1], *buttonsAndPixels[5][1]),
-    (g4, halfNote, *buttonsAndPixels[0][1]),
-    (cS5, eighthNote, *buttonsAndPixels[3][1]),
-    (c5, dS5, quarterNote, *buttonsAndPixels[1][1], *buttonsAndPixels[5][1]),
-    (aS4, halfNote, *buttonsAndPixels[1][1]),
-    (c5, eighthNote, *buttonsAndPixels[2][1]), 
-    (aS4, dS5, eighthNote, *buttonsAndPixels[1][1], *buttonsAndPixels[5][1]), 
-    (c5, eighthNote, *buttonsAndPixels[2][1]), 
-    (aS4, dS5, quarterNote, *buttonsAndPixels[1][1], *buttonsAndPixels[5][1]), 
-    (c5, eighthNote, *buttonsAndPixels[2][1]),
-    (aS4, halfNote, *buttonsAndPixels[1][1]),
-    (g4, dS5, quarterNote, *buttonsAndPixels[0][1], *buttonsAndPixels[5][1]),
-    (d5, eighthNote, *buttonsAndPixels[4][1]),
-    (g4, dS5, halfNote, *buttonsAndPixels[0][1], *buttonsAndPixels[5][1])
+    (g3, eighthNote, *buttonsAndPixels[0][1]), 
+    (d5, eighthNote, *buttonsAndPixels[5][1]), 
+    (d4, eighthNote, *buttonsAndPixels[1][1]), 
+    (g3, eighthNote, *buttonsAndPixels[0][1]),
+    (g3, a4, dottedEightNote, *buttonsAndPixels[0][1], *buttonsAndPixels[4][1]), 
+    (g3, fS4, dottedEightNote, *buttonsAndPixels[0][1], *buttonsAndPixels[2][1]), 
+    (g4, sixteenthNote, *buttonsAndPixels[3][1]), 
+    (fS4, sixteenthNote, *buttonsAndPixels[2][1]),
+    (d4, eighthNote, *buttonsAndPixels[1][1]), 
+    (d5, eighthNote, *buttonsAndPixels[5][1]), 
+    (d4, g4, sixteenthNote, *buttonsAndPixels[1][1], *buttonsAndPixels[3][1]), 
+    (fS4, eighthNote, *buttonsAndPixels[2][1]),
+    (d4, sixteenthNote, *buttonsAndPixels[1][1]), 
+    (d5, eighthNote, *buttonsAndPixels[5][1]),
+    (d4, sixteenthNote, *buttonsAndPixels[1][1]), 
+    (d5, sixteenthNote, *buttonsAndPixels[5][1]),
+    (d4, g4, sixteenthNote, *buttonsAndPixels[1][1], *buttonsAndPixels[3][1]),
+    (fS4, eighthNote, *buttonsAndPixels[2][1]), 
+    (d5, eighthNote, *buttonsAndPixels[5][1])
     ]
 
 # Function to play level one Melody
@@ -435,7 +425,7 @@ def levelOneBeamNotes():
             audioOutput.note_on(note, velocity)
             
             # Turn LEDs red or green depending if note played is correct or incorrect
-            if compareIndex <= 8:
+            if compareIndex <= 3:
                 if userSolution[compareIndex] == solutionLevelOne[compareIndex]:
                     pixels[pixelOne] = (green)
                     pixels[pixelTwo] = (green)
@@ -445,7 +435,7 @@ def levelOneBeamNotes():
                     pixels[pixelTwo] = (red)
                     pixels[pixelThree] = (red)
                     
-            elif compareIndex > 8:
+            elif compareIndex > 3:
                 pixels[pixelOne] = (red)
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
@@ -477,8 +467,8 @@ def levelOnePuzzle():
     # Recall function to play notes when beams are broken
     levelOneBeamNotes()
     
-    # When 9 notes have been played, stop and check if notes are correct
-    if len(userSolution) == 9:
+    # When 4 notes have been played, stop and check if notes are correct
+    if len(userSolution) == 4:
         # For loop to turn off the lights over active beams
         for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelOne:
             pixels[pixelOne] = (noColour)
@@ -494,16 +484,16 @@ def levelOnePuzzle():
                 matchingNotes += 1				
         
         # Output how well they did - end program if all notes correct 
-        if matchingNotes == 9:
+        if matchingNotes == 4:
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             completed = True
             
-        elif matchingNotes <= 8:
+        elif matchingNotes <= 3:
             wrongSoundFx()
-            print(f"Player got {matchingNotes} out of the 9 notes correct.")    
+            print(f"Player got {matchingNotes} out of the 4 notes correct.")    
             time.sleep(1)
             print("Try again...")
             playMelodyLevelOne()
@@ -514,8 +504,8 @@ def levelOnePuzzle():
         matchingNotes = 0
         compareIndex = 0
     
-    # When more than 9 notes have been played, solution is incorrect       
-    elif len(userSolution) > 9:
+    # When more than 4 notes have been played, solution is incorrect       
+    elif len(userSolution) > 4:
         pixels.fill(noColour)
         print("Checking solution...")
         time.sleep(1)
@@ -527,10 +517,10 @@ def levelOnePuzzle():
         
         # Output how well they did
         wrongSoundFx()
-        if matchingNotes < 9:
-            print(f"Player got {matchingNotes} out of the 9 notes correct.")
-        elif matchingNotes == 9:
-            print(f"Player got {matchingNotes} out of the 9 notes correct, but has pressed an extra beam by mistake.")    
+        if matchingNotes < 4:
+            print(f"Player got {matchingNotes} out of the 4 notes correct.")
+        elif matchingNotes == 4:
+            print(f"Player got {matchingNotes} out of the 4 notes correct, but has pressed an extra beam by mistake.")    
         time.sleep(1)
         print("Try again...")
         playMelodyLevelOne()
@@ -571,7 +561,7 @@ def levelTwoBeamNotes():
             audioOutput.note_on(note, velocity)
             
             # Turn LEDs red or green depending if note played is correct or incorrect
-            if compareIndex <= 17:
+            if compareIndex <= 7:
                 if userSolution[compareIndex] == solutionLevelTwo[compareIndex]:
                     pixels[pixelOne] = (green)
                     pixels[pixelTwo] = (green)
@@ -581,7 +571,7 @@ def levelTwoBeamNotes():
                     pixels[pixelTwo] = (red)
                     pixels[pixelThree] = (red)
                     
-            elif compareIndex > 17:
+            elif compareIndex > 7:
                 pixels[pixelOne] = (red)
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
@@ -613,8 +603,8 @@ def levelTwoPuzzle():
     # Recall function to play notes when beams are broken
     levelTwoBeamNotes()
     
-    # When 18 notes have been played, stop and check if notes are correct
-    if len(userSolution) == 18:
+    # When 8 notes have been played, stop and check if notes are correct
+    if len(userSolution) == 8:
         # For loop to turn off the lights over active beams
         for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelTwo:
             pixels[pixelOne] = (noColour)
@@ -630,16 +620,16 @@ def levelTwoPuzzle():
                 matchingNotes += 1				
         
         # Output how well they did - end program if all notes correct 
-        if matchingNotes == 18:
+        if matchingNotes == 8:
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             completed = True
             
-        elif matchingNotes <= 17:
+        elif matchingNotes <= 7:
             wrongSoundFx()
-            print(f"Player got {matchingNotes} out of the 18 notes correct.")    
+            print(f"Player got {matchingNotes} out of the 8 notes correct.")    
             time.sleep(1)
             print("Try again...")
             playMelodyLevelTwo()
@@ -650,8 +640,8 @@ def levelTwoPuzzle():
         matchingNotes = 0
         compareIndex = 0
     
-    # When more than 18 notes have been played, solution is incorrect       
-    elif len(userSolution) > 18:
+    # When more than 8 notes have been played, solution is incorrect       
+    elif len(userSolution) > 8:
         pixels.fill(noColour)
         print("Checking solution...")
         time.sleep(1)
@@ -663,10 +653,10 @@ def levelTwoPuzzle():
         
         # Output how well they did
         wrongSoundFx()
-        if matchingNotes < 18:
-            print(f"Player got {matchingNotes} out of the 18 notes correct.")
-        elif matchingNotes == 18:
-            print(f"Player got {matchingNotes} out of the 18 notes correct, but has pressed an extra beam by mistake.")   
+        if matchingNotes < 8:
+            print(f"Player got {matchingNotes} out of the 8 notes correct.")
+        elif matchingNotes == 8:
+            print(f"Player got {matchingNotes} out of the 8 notes correct, but has pressed an extra beam by mistake.")   
         time.sleep(1)
         print("Try again...")
         playMelodyLevelTwo()
@@ -707,7 +697,7 @@ def levelThreeBeamNotes():
             audioOutput.note_on(note, velocity)
             
             # Turn LEDs red or green depending if note played is correct or incorrect
-            if compareIndex <= 25:
+            if compareIndex <= 22:
                 if userSolution[compareIndex] == solutionLevelThree[compareIndex]:
                     pixels[pixelOne] = (green)
                     pixels[pixelTwo] = (green)
@@ -717,7 +707,7 @@ def levelThreeBeamNotes():
                     pixels[pixelTwo] = (red)
                     pixels[pixelThree] = (red)
                     
-            elif compareIndex > 25:
+            elif compareIndex > 22:
                 pixels[pixelOne] = (red)
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
@@ -749,8 +739,8 @@ def levelThreePuzzle():
     # Recall function to play notes when beams are broken
     levelThreeBeamNotes()
     
-    # When than 26 notes have been played, stop and check if notes are correct
-    if len(userSolution) == 26:
+    # When than 23 notes have been played, stop and check if notes are correct
+    if len(userSolution) == 23:
         # For loop to turn off the lights over active beams
         for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelThree:
             pixels[pixelOne] = (noColour)
@@ -766,16 +756,16 @@ def levelThreePuzzle():
                 matchingNotes += 1				
         
         # Output how well they did - end program if all notes correct 
-        if matchingNotes == 26:
+        if matchingNotes == 23:
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             completed = True
             
-        elif matchingNotes <= 25:
+        elif matchingNotes <= 22:
             wrongSoundFx()
-            print(f"Player got {matchingNotes} out of the 26 notes correct.")    
+            print(f"Player got {matchingNotes} out of the 23 notes correct.")    
             time.sleep(1)
             print("Try again...")
             playMelodyLevelThree()
@@ -787,7 +777,7 @@ def levelThreePuzzle():
         compareIndex = 0
     
     # When more than 26 notes have been played, solution is incorrect        
-    elif len(userSolution) > 26:
+    elif len(userSolution) > 23:
         pixels.fill(noColour)
         print("Checking solution...")
         time.sleep(1)
@@ -799,10 +789,10 @@ def levelThreePuzzle():
         
         # Output how well they did
         wrongSoundFx()
-        if matchingNotes < 26:
-            print(f"Player got {matchingNotes} out of the 26 notes correct.")
-        elif matchingNotes == 26:
-            print(f"Player got {matchingNotes} out of the 26 notes correct, but has pressed an extra beam by mistake.")   
+        if matchingNotes < 23:
+            print(f"Player got {matchingNotes} out of the 23 notes correct.")
+        elif matchingNotes == 23:
+            print(f"Player got {matchingNotes} out of the 23 notes correct, but has pressed an extra beam by mistake.")   
         time.sleep(1)
         print("Try again...")
         playMelodyLevelThree()

@@ -34,7 +34,7 @@ soundFx4 = 50
 wholeNote = 3 # Semi-breve
 halfNote = 1 # Minim
 quarterNote = 0.75 # Crotchet
-semiNote = 0.375 # Quaver
+eighthNote = 0.375 # Quaver
 
 # Set up LED colour variables
 green = 0, 255, 0
@@ -151,44 +151,44 @@ solutionLevelThree = [b5, b5, e6, g6, fS6, b5, e6, b6, e6, a6, e6, fS6, b5, e6, 
 # Lists to hold the melody notes for each level and map each one with a duration in seconds
 # (Using list as melody contains duplicate notes)
 levelOneMelody = [
-    (b5, semiNote, *buttonsAndPixels[0][1]), 
+    (b5, eighthNote, *buttonsAndPixels[0][1]), 
     (e6, quarterNote, *buttonsAndPixels[1][1]), 
-    (g6, semiNote, *buttonsAndPixels[3][1]), 
-    (fS6, semiNote, *buttonsAndPixels[2][1]), 
+    (g6, eighthNote, *buttonsAndPixels[3][1]), 
+    (fS6, eighthNote, *buttonsAndPixels[2][1]), 
     (e6, quarterNote, *buttonsAndPixels[1][1])
     ]
     
 levelTwoMelody = [
-    (b5, semiNote, *buttonsAndPixels[0][1]), 
+    (b5, eighthNote, *buttonsAndPixels[0][1]), 
     (e6, quarterNote, *buttonsAndPixels[1][1]), 
-    (g6, semiNote, *buttonsAndPixels[3][1]), 
-    (fS6, semiNote, *buttonsAndPixels[2][1]), 
+    (g6, eighthNote, *buttonsAndPixels[3][1]), 
+    (fS6, eighthNote, *buttonsAndPixels[2][1]), 
     (e6, quarterNote, *buttonsAndPixels[1][1]),
-    (b6, semiNote, *buttonsAndPixels[5][1]),
+    (b6, eighthNote, *buttonsAndPixels[5][1]),
     (a6, halfNote, *buttonsAndPixels[4][1]),
     (fS6, halfNote, *buttonsAndPixels[2][1]),
     (e6, quarterNote, *buttonsAndPixels[1][1]),
-    (g6, semiNote, *buttonsAndPixels[3][1]),
-    (fS6, semiNote, *buttonsAndPixels[2][1]),
+    (g6, eighthNote, *buttonsAndPixels[3][1]),
+    (fS6, eighthNote, *buttonsAndPixels[2][1]),
     (e6, quarterNote, *buttonsAndPixels[1][1]),
-    (fS6, semiNote, *buttonsAndPixels[2][1]),
+    (fS6, eighthNote, *buttonsAndPixels[2][1]),
     (b5, halfNote, *buttonsAndPixels[0][1])
     ]
     
 levelThreeMelody = [
-    (b5, semiNote, *buttonsAndPixels[0][1]), 
+    (b5, eighthNote, *buttonsAndPixels[0][1]), 
     (b5, e6, quarterNote, *buttonsAndPixels[0][1], *buttonsAndPixels[1][1]), 
-    (g6, semiNote, *buttonsAndPixels[3][1]), 
-    (fS6, semiNote, *buttonsAndPixels[2][1]), 
+    (g6, eighthNote, *buttonsAndPixels[3][1]), 
+    (fS6, eighthNote, *buttonsAndPixels[2][1]), 
     (b5, e6, quarterNote, *buttonsAndPixels[0][1], *buttonsAndPixels[1][1]),
-    (b6, semiNote, *buttonsAndPixels[5][1]),
+    (b6, eighthNote, *buttonsAndPixels[5][1]),
     (e6, a6, halfNote, *buttonsAndPixels[1][1], *buttonsAndPixels[4][1]),
     (e6, fS6, halfNote, *buttonsAndPixels[1][1], *buttonsAndPixels[2][1]),
     (b5, e6, quarterNote, *buttonsAndPixels[0][1], *buttonsAndPixels[1][1]),
-    (g6, semiNote, *buttonsAndPixels[3][1]),
-    (fS6, semiNote, *buttonsAndPixels[2][1]),
+    (g6, eighthNote, *buttonsAndPixels[3][1]),
+    (fS6, eighthNote, *buttonsAndPixels[2][1]),
     (e6, b6, quarterNote, *buttonsAndPixels[1][1], *buttonsAndPixels[5][1]),
-    (fS6, a6, semiNote, *buttonsAndPixels[2][1], *buttonsAndPixels[4][1]),
+    (fS6, a6, eighthNote, *buttonsAndPixels[2][1], *buttonsAndPixels[4][1]),
     (b5, halfNote, *buttonsAndPixels[0][1])
     ]
 

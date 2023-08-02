@@ -75,6 +75,7 @@ running = True
 completed = False
 correctNoteOrder = False
 attemptingPuzzle = False
+firstAttempt = True
 buttonsPlayed = {}
 userSolution = []
 noteDelay = 0.2
@@ -464,7 +465,12 @@ def levelOneBeamNotes():
 # Function to play the level one puzzle    
 def levelOnePuzzle():
 	
-    global matchingNotes, running, compareIndex, completed, attemptingPuzzle
+    global matchingNotes, running, compareIndex, completed, firstAttempt
+    
+    # Play melody on first run through
+    if firstAttempt == True:
+        playMelodyLevelOne()
+        firstAttempt = False
      
     # Recall function to play notes when beams are broken
     levelOneBeamNotes()
@@ -600,7 +606,12 @@ def levelTwoBeamNotes():
 # Function to play the level two puzzle    
 def levelTwoPuzzle():
 	
-    global matchingNotes, running, compareIndex, completed, attemptingPuzzle
+    global matchingNotes, running, compareIndex, completed, firstAttempt
+    
+    # Play melody on first run through
+    if firstAttempt == True:
+        playMelodyLevelTwo()
+        firstAttempt = False
          
     # Recall function to play notes when beams are broken
     levelTwoBeamNotes()
@@ -736,7 +747,12 @@ def levelThreeBeamNotes():
 # Function to play the level three puzzle    
 def levelThreePuzzle():
 	
-    global matchingNotes, running, compareIndex, completed, attemptingPuzzle
+    global matchingNotes, running, compareIndex, completed, firstAttempt
+    
+    # Play melody on first run through
+    if firstAttempt == True:
+        playMelodyLevelThree()
+        firstAttempt = False
 	
     # Recall function to play notes when beams are broken
     levelThreeBeamNotes()
@@ -816,11 +832,6 @@ print("The puzzle is running...")
 	
 # Recall function to print instructions
 instructions()
-
-# Recall function to play one of the three melodies
-playMelodyLevelOne()
-#playMelodyLevelTwo()
-#playMelodyLevelThree()
 
 # Main loop - To keep program running
 while running:

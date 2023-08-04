@@ -9,12 +9,12 @@ import random
 from gpiozero import Button
 
 # Set up variables for GPIO pins
-buttonA = Button(23)
-buttonB = Button(24)
-buttonC = Button(27)
-buttonD = Button(17)
-buttonE = Button(14)
-buttonF = Button(15)
+buttonA = Button(27)
+buttonB = Button(17)
+buttonC = Button(15)
+buttonD = Button(14)
+buttonE = Button(23)
+buttonF = Button(24)
 
 # Set up variables for MIDI melody notes and beams
 aS3 = 58

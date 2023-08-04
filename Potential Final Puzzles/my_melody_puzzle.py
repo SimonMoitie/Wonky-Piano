@@ -9,12 +9,12 @@ import random
 from gpiozero import Button
 
 # Set up variables for GPIO pins
-buttonA = Button(23)
-buttonB = Button(24)
-buttonC = Button(27)
-buttonD = Button(17)
-buttonE = Button(14)
-buttonF = Button(15)
+buttonA = Button(27)
+buttonB = Button(17)
+buttonC = Button(15)
+buttonD = Button(14)
+buttonE = Button(23)
+buttonF = Button(24)
 
 # Set up variables for MIDI melody notes and beams
 d3 = 62
@@ -57,8 +57,8 @@ pixelsF = 1, 2, 3
 
 # Set up MIDI variables
 port = 2 # Midi audio port number
-instrumentMelody = 48 # MIDI instrument number for the melody
-instrumentBeams = 48 # MIDI instrument number for the beams
+instrumentMelody = 1 # MIDI instrument number for the melody
+instrumentBeams = 1 # MIDI instrument number for the beams
 instrumentCorrectFx = 9 # MIDI instrument number for correct sound fx 
 instrumentWrongFx = 87 # MIDI instrument number for wrong sound fx 
 instrumentCrowdFx = 126 # MIDI instrument number for crowd sound fx 
@@ -148,8 +148,8 @@ buttonsFixed = [
        
 # Lists to hold the solution for each level
 solutionLevelOne = [g3, d4, b3, c4, b3, g3, d3]
-solutionLevelTwo = [g3, d4, b3, c4, b3, g3, g3, g3, e4, c4, d4, e4, d4, a3, d4]
-solutionLevelThree = [g3, g3, d4, g3, b3, g3, c4, g3, b3, g3, g3, g3, a3, e4, c4, g3, d4, g3, e4, g3, d4, a3, a3, d4]
+solutionLevelTwo = [g3, d4, b3, c4, b3, g3, g3, a3, e4, c4, d4, e4, d4, a3, d4]
+solutionLevelThree = [g3, g3, d4, g3, b3, g3, c4, g3, b3, g3, g3, a3, a3, e4, c4, g3, d4, g3, e4, g3, d4, a3, a3, d4]
 
 # Lists to hold the melody notes for each level and map each one with a duration in seconds
 # (Using list as melody contains duplicate notes)
@@ -171,7 +171,7 @@ levelTwoMelody = [
     (b3, eighthNote, *buttonsAndPixels[2][1]),
     (g3, quarterNote, *buttonsAndPixels[0][1]),
     (g3, halfNote, *buttonsAndPixels[0][1]),
-    (g3, quarterNote, *buttonsAndPixels[0][1]),
+    (a3, quarterNote, *buttonsAndPixels[1][1]),
     (e4, halfNote, *buttonsAndPixels[5][1]),
     (c4, eighthNote, *buttonsAndPixels[3][1]),
     (d4, quarterNote, *buttonsAndPixels[4][1]),
@@ -189,7 +189,7 @@ levelThreeMelody = [
     (g3, b3, eighthNote, *buttonsAndPixels[0][1], *buttonsAndPixels[2][1]),
     (g3, quarterNote, *buttonsAndPixels[0][1]),
     (g3, halfNote, *buttonsAndPixels[0][1]),
-    (g3, quarterNote, *buttonsAndPixels[0][1]),
+    (a3, quarterNote, *buttonsAndPixels[1][1]),
     (a3, e4, halfNote, *buttonsAndPixels[1][1], *buttonsAndPixels[5][1]),
     (c4, eighthNote, *buttonsAndPixels[3][1]),
     (g3, d4, quarterNote, *buttonsAndPixels[0][1], *buttonsAndPixels[4][1]),

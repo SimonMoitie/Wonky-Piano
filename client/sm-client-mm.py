@@ -34,7 +34,7 @@ device = { # a dictionary containing our device details
         },
         {
             "actionid": "LEVELONEMELODY", 
-            "name": "Level One Melody Clue", 
+            "name": "Level One Clue", 
             "enabled": False
         },
         {
@@ -44,7 +44,7 @@ device = { # a dictionary containing our device details
         },
         {
             "actionid": "LEVELTWOMELODY", 
-            "name": "Level Two Melody Clue", 
+            "name": "Level Two Clue", 
             "enabled": False
         },
         {
@@ -54,7 +54,7 @@ device = { # a dictionary containing our device details
         },
         {
             "actionid": "LEVELTHREEMELODY", 
-            "name": "Level Three Melody Clue", 
+            "name": "Level Three Clue", 
             "enabled": False
         },
         {
@@ -171,10 +171,10 @@ def stopPuzzleLevel():
     puzzleThread.join() 
     stopThread.clear()  
     
-# Functions to play the melodies   
+# Functions to play the melody clues   
 def levelOneMelody():
     stopPuzzleLevel()
-    print("Playing level one melody...")
+    print("Playing level one clue...")
     my_melody_puzzle.playMelodyLevelOne()
     device['actions'][1]['enabled'] = True
     device['status'] = "Level one running"
@@ -186,7 +186,7 @@ def levelOneMelody():
 
 def levelTwoMelody():
     stopPuzzleLevel()
-    print("Playing level two melody...")
+    print("Playing level two clue...")
     my_melody_puzzle.playMelodyLevelTwo()
     device['actions'][3]['enabled'] = True
     device['status'] = "Level two running"
@@ -198,7 +198,7 @@ def levelTwoMelody():
 
 def levelThreeMelody():
     stopPuzzleLevel()
-    print("Playing level three melody...")
+    print("Playing level three clue...")
     my_melody_puzzle.playMelodyLevelThree()
     device['actions'][5]['enabled'] = True
     device['status'] = "Level three running"
@@ -224,7 +224,7 @@ def ActionHandler(actionid): # handler when we receive an action for us
         startPuzzleLevel(myMelodyLevelOne)
     elif actionid == "LEVELONEMELODY":
         device['actions'][1]['enabled'] = False
-        device['status'] = "Level one melody playing"
+        device['status'] = "Level one clue playing"
         hub.Update(device)
         # Play puzzle one melody clue
         levelOneMelody()
@@ -240,7 +240,7 @@ def ActionHandler(actionid): # handler when we receive an action for us
         startPuzzleLevel(myMelodyLevelTwo)
     elif actionid == "LEVELTWOMELODY":
         device['actions'][3]['enabled'] = False
-        device['status'] = "Level two melody playing"
+        device['status'] = "Level two clue playing"
         hub.Update(device)
         # Play puzzle two melody clue
         levelTwoMelody()
@@ -256,7 +256,7 @@ def ActionHandler(actionid): # handler when we receive an action for us
         startPuzzleLevel(myMelodyLevelThree)
     elif actionid == "LEVELTHREEMELODY":
         device['actions'][5]['enabled'] = False
-        device['status'] = "Level three melody playing"
+        device['status'] = "Level three clue playing"
         hub.Update(device)
         # Play level three melody clue
         levelThreeMelody()

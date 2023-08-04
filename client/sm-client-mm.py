@@ -34,7 +34,7 @@ device = { # a dictionary containing our device details
         },
         {
             "actionid": "LEVELONEMELODY", 
-            "name": "Level One Melody", 
+            "name": "Level One Melody Clue", 
             "enabled": False
         },
         {
@@ -44,7 +44,7 @@ device = { # a dictionary containing our device details
         },
         {
             "actionid": "LEVELTWOMELODY", 
-            "name": "Level Two Melody", 
+            "name": "Level Two Melody Clue", 
             "enabled": False
         },
         {
@@ -54,7 +54,7 @@ device = { # a dictionary containing our device details
         },
         {
             "actionid": "LEVELTHREEMELODY", 
-            "name": "Level Three Melody", 
+            "name": "Level Three Melody Clue", 
             "enabled": False
         },
         {
@@ -125,7 +125,7 @@ def myMelodyLevelTwo():
             if stopThread.is_set():
                 break
                 
-        if stopThread.set_set():
+        if stopThread.is_set():
             break
                     
         # Recall function to play the fixed piano when puzzle completed

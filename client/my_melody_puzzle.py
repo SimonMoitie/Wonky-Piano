@@ -81,10 +81,12 @@ buttonsPlayed = {}
 userSolution = []
 noteDelay = 0.2
 fixedNoteDelay = 0.1
+ledFlash = 0.2
 matchingNotes = 0
 compareIndex = 0
 startTime = 0
 endTime = 0
+resetTime = 20
 tempo = 104 # bpm (beats per minute)
 
 # Calculate the length of a whole note (seconds in a minute/tempo)
@@ -470,13 +472,15 @@ def levelOneBeamNotes():
         # Calculate length of time note was played
         totalTime = endTime - startTime
         # Reset if more than 20 seconds since last button press
-        if totalTime > 20:
+        if totalTime > resetTime:
+            pixels.fill(noColour)
             userSolution.clear()
             matchingNotes = 0
             compareIndex = 0
             startTime = 0
             endTime = 0
             beamPressed = False
+            time.sleep(ledFlash)
             print("Puzzle Reset")
                 	   
     # Reset for next loop through        
@@ -622,18 +626,22 @@ def levelTwoBeamNotes():
             # Stop the notes from playing
             audioOutput.note_off(note, velocity)
     
-     # Check how long since last button press
-    endTime = time.time()
-    # Calculate length of time note was played
-    totalTime = endTime - startTime
-    # Reset if more than 20 seconds since last button press
-    if totalTime > 20:
-        userSolution.clear()
-        matchingNotes = 0
-        compareIndex = 0
-        startTime = 0
-        endTime = 0
-        print("Puzzle Reset") 
+    # Check how long since last button press
+    if beamPressed == True:
+        endTime = time.time()
+        # Calculate length of time note was played
+        totalTime = endTime - startTime
+        # Reset if more than 20 seconds since last button press
+        if totalTime > resetTime:
+            pixels.fill(noColour)
+            userSolution.clear()
+            matchingNotes = 0
+            compareIndex = 0
+            startTime = 0
+            endTime = 0
+            beamPressed = False
+            time.sleep(ledFlash)
+            print("Puzzle Reset")
                 	   
     # Reset for next loop through        
     beamBroken = False
@@ -784,14 +792,16 @@ def levelThreeBeamNotes():
         # Calculate length of time note was played
         totalTime = endTime - startTime
         # Reset if more than 20 seconds since last button press
-        if totalTime > 20:
+        if totalTime > resetTime:
+            pixels.fill(noColour)
             userSolution.clear()
             matchingNotes = 0
             compareIndex = 0
             startTime = 0
             endTime = 0
             beamPressed = False
-            print("Puzzle Reset") 
+            time.sleep(ledFlash)
+            print("Puzzle Reset")
                 	   
     # Reset for next loop through        
     beamBroken = False

@@ -80,10 +80,12 @@ buttonsPlayed = {}
 userSolution = []
 noteDelay = 0.2
 fixedNoteDelay = 0.1
+ledFlash = 0.2
 matchingNotes = 0
 compareIndex = 0
 startTime = 0
 endTime = 0
+resetTime = 20
 tempo = 150 # bpm (beats per minute)
 
 # Calculate the length of a whole note (seconds in a minute/tempo)
@@ -467,13 +469,15 @@ def levelOneBeamNotes():
         # Calculate length of time note was played
         totalTime = endTime - startTime
         # Reset if more than 20 seconds since last button press
-        if totalTime > 20:
+        if totalTime > resetTime:
+            pixels.fill(noColour)
             userSolution.clear()
             matchingNotes = 0
             compareIndex = 0
             startTime = 0
             endTime = 0
             beamPressed = False
+            time.sleep(ledFlash)
             print("Puzzle Reset")
                 	   
     # Reset for next loop through        
@@ -625,14 +629,16 @@ def levelTwoBeamNotes():
         # Calculate length of time note was played
         totalTime = endTime - startTime
         # Reset if more than 20 seconds since last button press
-        if totalTime > 20:
+        if totalTime > resetTime:
+            pixels.fill(noColour)
             userSolution.clear()
             matchingNotes = 0
             compareIndex = 0
             startTime = 0
             endTime = 0
             beamPressed = False
-            print("Puzzle Reset") 
+            time.sleep(ledFlash)
+            print("Puzzle Reset")
                 	   
     # Reset for next loop through        
     beamBroken = False
@@ -784,13 +790,15 @@ def levelThreeBeamNotes():
         # Calculate length of time note was played
         totalTime = endTime - startTime
         # Reset if more than 20 seconds since last button press
-        if totalTime > 20:
+        if totalTime > resetTime:
+            pixels.fill(noColour)
             userSolution.clear()
             matchingNotes = 0
             compareIndex = 0
             startTime = 0
             endTime = 0
             beamPressed = False
+            time.sleep(ledFlash)
             print("Puzzle Reset")
                 	   
     # Reset for next loop through        

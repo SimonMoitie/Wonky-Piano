@@ -144,10 +144,10 @@ buttonsLevelThree = [
 buttonsFixed = [
     (g3, buttonA, *pixelsA),
 	(d4, buttonB, *pixelsB),
-    (fS4, buttonC, *pixelsC), 
-    (g4, buttonD, *pixelsD), 
-    (a4, buttonE, *pixelsE), 
-    (b4, buttonF, *pixelsF)
+    (g4, buttonC, *pixelsC), 
+    (a4, buttonD, *pixelsD), 
+    (b4, buttonE, *pixelsE), 
+    (c5, buttonF, *pixelsF)
     ]
     
 # Lists to hold the solution for each level

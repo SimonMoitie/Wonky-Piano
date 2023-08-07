@@ -85,8 +85,8 @@ matchingNotes = 0
 compareIndex = 0
 startTime = 0
 endTime = 0
-resetTime = 20
-tempo = 150 # bpm (beats per minute)
+resetTime = 15
+tempo = 140 # bpm (beats per minute)
 
 # Calculate the length of a whole note (seconds in a minute/tempo)
 noteDuration = 60/tempo
@@ -148,9 +148,9 @@ buttonsFixed = [
     ]
     
 # Lists to hold the solution for each level
-solutionLevelOne = [f5, f5, dS5, f5, g5, c5, dS5]
-solutionLevelTwo = [f5, f5, dS5, f5, g5, c5, dS5, aS5, g5, f5, dS5, aS5, g5, f5, dS5, f5]
-solutionLevelThree = [c5, f5, c5, f5, dS5, c5, f5, g5, c5, c5, dS5, dS5, aS5, g5, aS4, f5, aS4, dS5, dS5, aS5, g5, aS4, f5, dS5, aS4, f5]
+solutionLevelOne = [f5, f5, dS5, f5, g5, c5]
+solutionLevelTwo = [f5, f5, dS5, f5, g5, c5, dS5, aS5, g5, f5, dS5, f5]
+solutionLevelThree = [c5, f5, c5, f5, dS5, c5, f5, g5, c5, dS5, dS5, aS5, g5, aS4, f5, dS5, aS4, f5]
 
 # Lists to hold the melody notes for each level and map each one with a duration in seconds
 # (Using list as melody contains duplicate notes)
@@ -161,7 +161,6 @@ levelOneMelody = [
     (f5, eighthNote, *buttonsAndPixels[3][1]), 
     (g5, quarterNote, *buttonsAndPixels[4][1]),
     (c5, quarterNote, *buttonsAndPixels[1][1]),
-    (dS5, halfNote, *buttonsAndPixels[2][1])
     ]
     
 levelTwoMelody = [
@@ -171,10 +170,6 @@ levelTwoMelody = [
     (f5, eighthNote, *buttonsAndPixels[3][1]), 
     (g5, quarterNote, *buttonsAndPixels[4][1]),
     (c5, quarterNote, *buttonsAndPixels[1][1]),
-    (dS5, halfNote, *buttonsAndPixels[2][1]),
-    (aS5, eighthNote, *buttonsAndPixels[5][1]),
-    (g5, quarterNote, *buttonsAndPixels[4][1]),
-    (f5, quarterNote, *buttonsAndPixels[3][1]),
     (dS5, halfNote, *buttonsAndPixels[2][1]),
     (aS5, eighthNote, *buttonsAndPixels[5][1]),
     (g5, quarterNote, *buttonsAndPixels[4][1]),
@@ -190,11 +185,7 @@ levelThreeMelody = [
     (c5, f5, eighthNote, *buttonsAndPixels[1][1], *buttonsAndPixels[3][1]), 
     (g5, quarterNote, *buttonsAndPixels[4][1]),
     (c5, quarterNote, *buttonsAndPixels[1][1]),
-    (c5, dS5, halfNote, *buttonsAndPixels[1][1], *buttonsAndPixels[2][1]),
-    (dS5, aS5, eighthNote, *buttonsAndPixels[2][1], *buttonsAndPixels[5][1]),
-    (g5, quarterNote, *buttonsAndPixels[4][1]),
-    (aS4, f5, quarterNote, *buttonsAndPixels[0][1], *buttonsAndPixels[3][1]),
-    (aS4, dS5, halfNote, *buttonsAndPixels[0][1], *buttonsAndPixels[2][1]),
+    (dS5, halfNote, *buttonsAndPixels[2][1]),
     (dS5, aS5, eighthNote, *pixelsC, *buttonsAndPixels[5][1]),
     (g5, quarterNote, *buttonsAndPixels[4][1]),
     (aS4, f5, quarterNote, *buttonsAndPixels[0][1], *buttonsAndPixels[3][1]),
@@ -433,7 +424,7 @@ def levelOneBeamNotes():
             audioOutput.note_on(note, velocity)
             
             # Turn LEDs red or green depending if note played is correct or incorrect
-            if compareIndex <= 6:
+            if compareIndex <= 5:
                 if userSolution[compareIndex] == solutionLevelOne[compareIndex]:
                     pixels[pixelOne] = (green)
                     pixels[pixelTwo] = (green)
@@ -443,7 +434,7 @@ def levelOneBeamNotes():
                     pixels[pixelTwo] = (red)
                     pixels[pixelThree] = (red)
                     
-            elif compareIndex > 6:
+            elif compareIndex > 5:
                 pixels[pixelOne] = (red)
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
@@ -468,7 +459,7 @@ def levelOneBeamNotes():
         endTime = time.time()
         # Calculate length of time note was played
         totalTime = endTime - startTime
-        # Reset if more than 20 seconds since last button press
+        # Reset if more than 15 seconds since last button press
         if totalTime > resetTime:
             pixels.fill(noColour)
             userSolution.clear()
@@ -498,8 +489,8 @@ def levelOnePuzzle():
     # Recall function to play notes when beams are broken
     levelOneBeamNotes()
     
-    # When 7 notes have been played, stop and check if notes are correct
-    if len(userSolution) == 7:
+    # When 6 notes have been played, stop and check if notes are correct
+    if len(userSolution) == 6:
         # For loop to turn off the lights over active beams
         for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelOne:
             pixels[pixelOne] = (noColour)
@@ -515,16 +506,16 @@ def levelOnePuzzle():
                 matchingNotes += 1				
         
         # Output how well they did - end program if all notes correct 
-        if matchingNotes == 7:
+        if matchingNotes == 6:
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             completed = True
             
-        elif matchingNotes <= 6:
+        elif matchingNotes <= 5:
             wrongSoundFx()
-            print(f"Player got {matchingNotes} out of the 7 notes correct.")    
+            print(f"Player got {matchingNotes} out of the 6 notes correct.")    
             time.sleep(1)
             print("Try again...")
             attemptingPuzzle = False
@@ -535,8 +526,8 @@ def levelOnePuzzle():
         compareIndex = 0
         beamPressed = False  
     
-    # When more than 7 notes have been played, solution is incorrect       
-    elif len(userSolution) > 7:
+    # When more than 6 notes have been played, solution is incorrect       
+    elif len(userSolution) > 6:
         pixels.fill(noColour)
         print("Checking solution...")
         time.sleep(1)
@@ -548,10 +539,10 @@ def levelOnePuzzle():
         
         # Output how well they did
         wrongSoundFx()
-        if matchingNotes < 7:
-            print(f"Player got {matchingNotes} out of the 7 notes correct.")
-        elif matchingNotes == 7:
-            print(f"Player got {matchingNotes} out of the 7 notes correct, but has pressed an extra beam by mistake.")    
+        if matchingNotes < 6:
+            print(f"Player got {matchingNotes} out of the 6 notes correct.")
+        elif matchingNotes == 6:
+            print(f"Player got {matchingNotes} out of the 6 notes correct, but has pressed an extra beam by mistake.")    
         time.sleep(1)
         print("Try again...")
         attemptingPuzzle = False
@@ -593,7 +584,7 @@ def levelTwoBeamNotes():
             audioOutput.note_on(note, velocity)
             
             # Turn LEDs red or green depending if note played is correct or incorrect
-            if compareIndex <= 15:
+            if compareIndex <= 11:
                 if userSolution[compareIndex] == solutionLevelTwo[compareIndex]:
                     pixels[pixelOne] = (green)
                     pixels[pixelTwo] = (green)
@@ -603,7 +594,7 @@ def levelTwoBeamNotes():
                     pixels[pixelTwo] = (red)
                     pixels[pixelThree] = (red)
                     
-            elif compareIndex > 15:
+            elif compareIndex > 11:
                 pixels[pixelOne] = (red)
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
@@ -628,7 +619,7 @@ def levelTwoBeamNotes():
         endTime = time.time()
         # Calculate length of time note was played
         totalTime = endTime - startTime
-        # Reset if more than 20 seconds since last button press
+        # Reset if more than 15 seconds since last button press
         if totalTime > resetTime:
             pixels.fill(noColour)
             userSolution.clear()
@@ -658,8 +649,8 @@ def levelTwoPuzzle():
     # Recall function to play notes when beams are broken
     levelTwoBeamNotes()
     
-    # When 16 notes have been played, stop and check if notes are correct
-    if len(userSolution) == 16:
+    # When 12 notes have been played, stop and check if notes are correct
+    if len(userSolution) == 12:
         # For loop to turn off the lights over active beams
         for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelTwo:
             pixels[pixelOne] = (noColour)
@@ -675,16 +666,16 @@ def levelTwoPuzzle():
                 matchingNotes += 1				
         
         # Output how well they did - end program if all notes correct 
-        if matchingNotes == 16:
+        if matchingNotes == 12:
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             completed = True
             
-        elif matchingNotes <= 15:
+        elif matchingNotes <= 11:
             wrongSoundFx()
-            print(f"Player got {matchingNotes} out of the 16 notes correct.")    
+            print(f"Player got {matchingNotes} out of the 12 notes correct.")    
             time.sleep(1)
             print("Try again...")
             attemptingPuzzle = False
@@ -695,8 +686,8 @@ def levelTwoPuzzle():
         compareIndex = 0
         beamPressed = False  
     
-    # When more than 16 notes have been played, solution is incorrect       
-    elif len(userSolution) > 16:
+    # When more than 12 notes have been played, solution is incorrect       
+    elif len(userSolution) > 12:
         pixels.fill(noColour)
         print("Checking solution...")
         time.sleep(1)
@@ -708,10 +699,10 @@ def levelTwoPuzzle():
         
         # Output how well they did
         wrongSoundFx()
-        if matchingNotes < 16:
-            print(f"Player got {matchingNotes} out of the 16 notes correct.")
-        elif matchingNotes == 16:
-            print(f"Player got {matchingNotes} out of the 16 notes correct, but has pressed an extra beam by mistake.")   
+        if matchingNotes < 12:
+            print(f"Player got {matchingNotes} out of the 12 notes correct.")
+        elif matchingNotes == 12:
+            print(f"Player got {matchingNotes} out of the 12 notes correct, but has pressed an extra beam by mistake.")   
         time.sleep(1)
         print("Try again...")
         attemptingPuzzle = False
@@ -754,7 +745,7 @@ def levelThreeBeamNotes():
             audioOutput.note_on(note, velocity)
             
             # Turn LEDs red or green depending if note played is correct or incorrect
-            if compareIndex <= 25:
+            if compareIndex <= 17:
                 if userSolution[compareIndex] == solutionLevelThree[compareIndex]:
                     pixels[pixelOne] = (green)
                     pixels[pixelTwo] = (green)
@@ -764,7 +755,7 @@ def levelThreeBeamNotes():
                     pixels[pixelTwo] = (red)
                     pixels[pixelThree] = (red)
                     
-            elif compareIndex > 25:
+            elif compareIndex > 17:
                 pixels[pixelOne] = (red)
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
@@ -789,7 +780,7 @@ def levelThreeBeamNotes():
         endTime = time.time()
         # Calculate length of time note was played
         totalTime = endTime - startTime
-        # Reset if more than 20 seconds since last button press
+        # Reset if more than 15 seconds since last button press
         if totalTime > resetTime:
             pixels.fill(noColour)
             userSolution.clear()
@@ -819,8 +810,8 @@ def levelThreePuzzle():
     # Recall function to play notes when beams are broken
     levelThreeBeamNotes()
     
-    # When than 26 notes have been played, stop and check if notes are correct
-    if len(userSolution) == 26:
+    # When than 18 notes have been played, stop and check if notes are correct
+    if len(userSolution) == 18:
         # For loop to turn off the lights over active beams
         for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelThree:
             pixels[pixelOne] = (noColour)
@@ -836,16 +827,16 @@ def levelThreePuzzle():
                 matchingNotes += 1				
         
         # Output how well they did - end program if all notes correct 
-        if matchingNotes == 26:
+        if matchingNotes == 18:
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
             os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
             completed = True
             
-        elif matchingNotes <= 25:
+        elif matchingNotes <= 17:
             wrongSoundFx()
-            print(f"Player got {matchingNotes} out of the 26 notes correct.")    
+            print(f"Player got {matchingNotes} out of the 18 notes correct.")    
             time.sleep(1)
             print("Try again...")
             attemptingPuzzle = False
@@ -856,8 +847,8 @@ def levelThreePuzzle():
         compareIndex = 0
         beamPressed = False  
     
-    # When more than 26 notes have been played, solution is incorrect        
-    elif len(userSolution) > 26:
+    # When more than 18 notes have been played, solution is incorrect        
+    elif len(userSolution) > 18:
         pixels.fill(noColour)
         print("Checking solution...")
         time.sleep(1)
@@ -869,10 +860,10 @@ def levelThreePuzzle():
         
         # Output how well they did
         wrongSoundFx()
-        if matchingNotes < 26:
-            print(f"Player got {matchingNotes} out of the 26 notes correct.")
-        elif matchingNotes == 26:
-            print(f"Player got {matchingNotes} out of the 26 notes correct, but has pressed an extra beam by mistake.")   
+        if matchingNotes < 18:
+            print(f"Player got {matchingNotes} out of the 18 notes correct.")
+        elif matchingNotes == 18:
+            print(f"Player got {matchingNotes} out of the 18 notes correct, but has pressed an extra beam by mistake.")   
         time.sleep(1)
         print("Try again...")
         attemptingPuzzle = False

@@ -52,12 +52,12 @@ blue = 0, 0, 255
 noColour = 0, 0, 0
 
 # Set up LED pixel variables
-pixelsA = 23, 24, 25
-pixelsB = 19, 20, 21
-pixelsC = 14, 15, 16
-pixelsD = 10, 11, 12
-pixelsE = 5, 6, 7
-pixelsF = 1, 2, 3
+pixelsA = 7, 8, 9
+pixelsB = 12, 13, 14
+pixelsC = 17, 18, 19
+pixelsD = 22, 23, 24
+pixelsE = 26, 27, 28
+pixelsF = 31, 32, 33
 
 # Set up MIDI variables
 port = 2 # Midi audio port number
@@ -70,7 +70,7 @@ velocity = 127 # Set MIDI volume level (between 0 and 127)
 
 # Set up LED variables
 pinNumber = board.D10 # Set LED strip GPIO pin number
-ledCount = 28 # Set number of pixels on LED strip
+ledCount = 39 # Set number of pixels on LED strip
 ledBrightness = 0.2 # Set LED strip brightness level (between 0 and 1)
 updateLed = True # Set if LED colours update manually or automatically
 
@@ -513,7 +513,7 @@ def levelOnePuzzle():
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
-            os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
+            congratulations()
             completed = True
             
         elif matchingNotes <= 3:
@@ -674,7 +674,7 @@ def levelTwoPuzzle():
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
-            os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
+            congratulations()
             completed = True
             
         elif matchingNotes <= 7:
@@ -835,7 +835,7 @@ def levelThreePuzzle():
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
-            os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
+            congratulations()
             completed = True
             
         elif matchingNotes <= 17:
@@ -878,11 +878,18 @@ def levelThreePuzzle():
         compareIndex = 0
         beamPressed = False  
         
-# Function to print puzzle instructions to screen    
+# Function to speak the puzzle instructions message  
 def instructions():
 	print("Instructions playing")
 	os.system('echo "Can you fix me, by playing the notes, in the correct, order" | festival --tts')
 	time.sleep(1)
+
+# Function to speak the puzzle congratulations message
+def congratulations():
+    global matchingNotes
+    print("Congratulations playing")
+    os.system(f'echo "Well done. You have fixed me, by getting all {matchingNotes} notes, in the correct order." | festival --tts')
+    time.sleep(1)
 
 # Function to turn off the LEDs when the puzzle is stoppped    
 def stopPuzzle():

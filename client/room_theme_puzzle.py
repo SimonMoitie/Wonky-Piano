@@ -52,17 +52,17 @@ blue = 0, 0, 255
 noColour = 0, 0, 0
 
 # Set up LED pixel variables
-pixelsA = 7, 8, 9
-pixelsB = 12, 13, 14
-pixelsC = 17, 18, 19
-pixelsD = 22, 23, 24
-pixelsE = 26, 27, 28
-pixelsF = 31, 32, 33
+pixelsA = 6, 7, 8
+pixelsB = 11, 12, 13
+pixelsC = 16, 17, 18
+pixelsD = 21, 22, 23
+pixelsE = 25, 26, 27
+pixelsF = 30, 31, 32
 
 # Set up MIDI variables
 port = 2 # Midi audio port number
-instrumentMelody = 80 # MIDI instrument number for the melody
-instrumentBeams = 80 # MIDI instrument number for the beams
+instrumentMelody = 1 # MIDI instrument number for the melody
+instrumentBeams = 1 # MIDI instrument number for the beams
 instrumentCorrectFx = 9 # MIDI instrument number for correct sound fx 
 instrumentWrongFx = 87 # MIDI instrument number for wrong sound fx 
 instrumentCrowdFx = 126 # MIDI instrument number for crowd sound fx 
@@ -485,7 +485,7 @@ def levelOnePuzzle():
     
     # Play melody and instructions on first run through
     if firstAttempt == True:
-        instructions()
+        #instructions()
         playMelodyLevelOne()
         firstAttempt = False
      
@@ -513,7 +513,7 @@ def levelOnePuzzle():
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
-            congratulations()
+            #congratulations()
             completed = True
             
         elif matchingNotes <= 3:
@@ -646,7 +646,7 @@ def levelTwoPuzzle():
     
     # Play melody and instructions on first run through
     if firstAttempt == True:
-        instructions()
+        #instructions()
         playMelodyLevelTwo()
         firstAttempt = False
          
@@ -674,7 +674,7 @@ def levelTwoPuzzle():
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
-            congratulations()
+            #congratulations()
             completed = True
             
         elif matchingNotes <= 7:
@@ -807,7 +807,7 @@ def levelThreePuzzle():
     
     # Play melody and instructions on first run through
     if firstAttempt == True:
-        instructions()
+        #instructions()
         playMelodyLevelThree()
         firstAttempt = False
 	
@@ -835,7 +835,7 @@ def levelThreePuzzle():
             correctSoundFx()
             print(f"Player got all {matchingNotes} notes correct!")
             applauseSoundFx()
-            congratulations()
+            #congratulations()
             completed = True
             
         elif matchingNotes <= 17:

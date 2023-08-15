@@ -21,7 +21,7 @@ import websocket
 from hubclient import hubclient
 import blinding_lights_puzzle
 
-huburi = "ws://192.168.0.24:8000/connect" # URI of the EscapeHub WS service
+huburi = "ws://192.168.0.2:8000/connect" # URI of the EscapeHub WS service
 device = { # a dictionary containing our device details
     "room": "1", # ID of the room we are to register to
     "name": "Wonky Piano", # display name of the device

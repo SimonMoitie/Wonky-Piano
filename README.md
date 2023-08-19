@@ -38,7 +38,7 @@ sudo apt-get install -y libasound2-plugins festival
 
 The Wonky Piano should now have all of the necessary requirements to run on the Raspberry Pi.
 
-## Running from the EscapeHub
+## Connecting To The EscapeHub
 
 To run the Wonky Piano from the EscapeHub server using Docker, the necessary requirements need to be installed.  
 To install the requirements, type into the terminal window:

@@ -45,7 +45,12 @@ To install the requirements, type into the terminal window:
 ```bash
 sudo pip install -r /home/pi/Code/client/requirements.txt
 ```
-This should now enable the Wonky Piano to visible on the EscapeHub when the sm-client-mm.py is run.
+This should now enable the Wonky Piano to visible on the EscapeHub when the sm-client-mm.py is run.  
+In the sm-client-mm.py file, the address used to connect to the EscapeHub is set on line 24: 
+```python
+huburi = "ws://192.168.0.2:8000/connect" # URI of the EscapeHub WS service
+```
+The 192.168.0.2 can be changed to the IP address of any machine hosting the Docker EscapeHub container.
 
 ## Running At Boot
 The Wonky Piano software will need to be run at boot to ensure it starts automatically when the Raspberry Pi is turned on.
@@ -62,7 +67,8 @@ timidity -iA B16,8 -Os &
 ```
 -iA specifies the use of the ASLA interface.  
 B16,8 sets the buffer size, where 16 is the number of fragments, and 8 is bit size.  
--Os optimises the settings to run on hardware with lower resources.
+-Os optimises the settings to run on hardware with lower resources.  
+& runs Timidity in the background.
 
 ### bashrc
 To run the Wonky Paino after Timidity has started, access the bashrc file by typing into the terminal window:
@@ -75,3 +81,4 @@ echo Running the Wonky Piano at boot
 sudo python3 /home/pi/Code/client/sm-client-mm.py
 ```
 This will now run the Wonky Piano software after the bootup process has finished.
+

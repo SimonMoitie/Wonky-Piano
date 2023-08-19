@@ -1,4 +1,4 @@
-# CSC7057 The Wonky Piano
+# CSC7057 - The Wonky Piano
 This is a guide on how to set up the Wonky Piano escape room puzzle for the Raspberry Pi.  
 For this guide, the Raspberry Pi will need to be using the latest Raspberry Pi OS 6.1 operating system. 
 

@@ -1,4 +1,4 @@
-# CSC7057 Wonky Piano
+# CSC7057 The Wonky Piano
 This is a guide on how to set up the Wonky Piano escape room puzzle for the Raspberry Pi.
 For this guide, the Raspberry Pi will need to be using the latest Raspberry Pi OS 6.1 operating system. 
 
@@ -38,7 +38,8 @@ sudo apt-get install -y libasound2-plugins festival
 
 The Wonky Piano should now have all of the necessary requirements to run on the Raspberry Pi.
 
-### Docker
+## Running from the EscapeHub
+
 To run the Wonky Piano from the EscapeHub server using Docker, the necessary requirements need to be installed.
 To install the requirements, type into the terminal window:
 ```bash
@@ -59,7 +60,9 @@ At the end of the scrpit, just above the line exit 0, type:
 ```python
 timidity -iA B16,8 -Os &
 ```
-This will run Timidity with a sample rate of 16*8 = 128.
+-iA specifies the use of the ASLA interface.
+B16,8 sets the buffer size, where 16 is the number of fragments, and 8 is bit size.
+-Os optimises the settings to run on hardware with lower resources.
 
 ### bashrc
 To run the Wonky Paino after Timidity has started, access the bashrc file by typing into the terminal window:
@@ -71,4 +74,4 @@ Go to the last line of the script and type:
 echo Running the Wonky Piano at boot
 sudo python3 /home/pi/Code/client/sm-client-mm.py
 ```
-This will now run the Wonky Piano software after the bootup process has finished. 
+This will now run the Wonky Piano software after the bootup process has finished.

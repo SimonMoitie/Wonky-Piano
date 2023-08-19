@@ -13,7 +13,7 @@ It is important to make sure the necessary requirements are installed before run
 ### Timidity
 To get MIDI sound from the Wonky Piano, Timidity will need to be installed.  
 To install Timidity type into the terminal window:
- ```bash
+```bash
 sudo apt install timidity
 ```
 
@@ -65,9 +65,9 @@ At the end of the scrpit, just above the line exit 0, type:
 ```python
 timidity -iA B16,8 -Os &
 ```
--iA specifies the use of the ASLA interface.  
+-iA specifies the use of the ALSA interface.  
 B16,8 sets the buffer size, where 16 is the number of fragments, and 8 is bit size.  
--Os optimises the settings to run on hardware with lower resources.  
+-Os specifies MIDI audio output to the ALSA interface.  
 & runs Timidity in the background.
 
 ### bashrc

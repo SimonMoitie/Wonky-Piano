@@ -9,12 +9,12 @@ import random
 from gpiozero import Button
 
 # Set up variables for GPIO pins
-buttonA = Button(27)
-buttonB = Button(17)
-buttonC = Button(15)
-buttonD = Button(14)
-buttonE = Button(23)
-buttonF = Button(24)
+beamA = Button(27)
+beamB = Button(17)
+beamC = Button(15)
+beamD = Button(14)
+beamE = Button(23)
+beamF = Button(24)
 
 # Set up variables for MIDI melody notes and beams
 aS4 = 70
@@ -103,12 +103,12 @@ audioOutput = pygame.midi.Output(port)
 
 # List to map buttons and LEDs and then randomise order
 buttonsAndPixels = [
-    (buttonA, pixelsA),
-    (buttonB, pixelsB),
-    (buttonC, pixelsC),
-    (buttonD, pixelsD),
-    (buttonE, pixelsE),
-    (buttonF, pixelsF)
+    (beamA, pixelsA),
+    (beamB, pixelsB),
+    (beamC, pixelsC),
+    (beamD, pixelsD),
+    (beamE, pixelsE),
+    (beamF, pixelsF)
     ]
 random.shuffle(buttonsAndPixels)
 
@@ -139,12 +139,12 @@ buttonsLevelThree = [
     ]
     
 buttonsFixed = [
-    (aS4, buttonA, *pixelsA),
-	(c5, buttonB, *pixelsB),
-    (dS5, buttonC, *pixelsC), 
-    (f5, buttonD, *pixelsD), 
-    (g5, buttonE, *pixelsE), 
-    (aS5, buttonF, *pixelsF)
+    (aS4, beamA, *pixelsA),
+	(c5, beamB, *pixelsB),
+    (dS5, beamC, *pixelsC), 
+    (f5, beamD, *pixelsD), 
+    (g5, beamE, *pixelsE), 
+    (aS5, beamF, *pixelsF)
     ]
     
 # Lists to hold the solution for each level
@@ -360,8 +360,8 @@ def fixedPiano():
         print("Notes now in the correct order")
         correctNoteOrder = True
         
-    # Small delay in loop to let user break one or more
-    # beams and play one or more notes together
+    # Small delay in loop to let user break one or more beams
+    # and play one or more notes together
     time.sleep(fixedNoteDelay)
                 
     # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
@@ -405,8 +405,8 @@ def levelOneBeamNotes():
         print("Attempt the puzzle...")
         attemptingPuzzle = True
     
-    # Small delay in loop to let user break one or more
-    # beams and play one or more notes together
+    # Small delay in loop to let user break one or more beams
+    # and play one or more notes together
     time.sleep(noteDelay)
            
     # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
@@ -564,8 +564,8 @@ def levelTwoBeamNotes():
         print("Attempt the puzzle...")
         attemptingPuzzle = True
     
-    # Small delay in loop to let user break one or more
-    # beams and play one or more notes together
+    # Small delay in loop to let user break one or more beams
+    # and play one or more notes together
     time.sleep(noteDelay)
                 
     # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
@@ -725,8 +725,8 @@ def levelThreeBeamNotes():
         print("Attempt the puzzle...")
         attemptingPuzzle = True
     
-    # Small delay in loop to let user break one or more
-    # beams and play one or more notes together
+    # Small delay in loop to let user break one or more beams
+    # and play one or more notes together
     time.sleep(noteDelay)     
            
     # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play

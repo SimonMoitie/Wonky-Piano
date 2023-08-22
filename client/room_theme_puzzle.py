@@ -260,8 +260,7 @@ def playMelodyLevelThree():
             pixels[pixelSix] = (noColour)
             audioOutput.note_off(note1, velocity)
             audioOutput.note_off(note2, velocity)
-	    
-        if len(notes) == 5:
+        elif len(notes) == 5:
             note1, noteLength, pixelOne, pixelTwo, pixelThree = notes
             pixels[pixelOne] = (cyan)
             pixels[pixelTwo] = (cyan)

@@ -258,6 +258,7 @@ def playMelodyLevelThree():
             pixels[pixelSix] = (noColour)
             audioOutput.note_off(note1, velocity)
             audioOutput.note_off(note2, velocity)
+
         elif len(notes) == 5:
             note1, noteLength, pixelOne, pixelTwo, pixelThree = notes
             pixels[pixelOne] = (cyan)
@@ -377,12 +378,9 @@ def fixedPiano():
             pixels[pixelTwo] = (cyan)
             pixels[pixelThree] = (cyan)
                         
-    # If no beams broken do nothing
-    if beamBroken == False:
-        pass
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
-    elif beamBroken == True:
+    if beamBroken == True:
         for note, beam in buttonsPlayed.items():
             while beam.is_pressed:
                 pass
@@ -441,12 +439,9 @@ def levelOneBeamNotes():
             # Increase the index each time button pressed
             compareIndex += 1
             
-    # If no beams broken do nothing
-    if beamBroken == False:
-        pass
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
-    elif beamBroken == True:
+    if beamBroken == True:
         for note, beam in buttonsPlayed.items():
             while beam.is_pressed:
                 pass
@@ -601,12 +596,9 @@ def levelTwoBeamNotes():
             # Increase the index each time button pressed
             compareIndex += 1
             
-    # If no beams broken do nothing
-    if beamBroken == False:
-        pass
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
-    elif beamBroken == True:
+    if beamBroken == True:
         for note, beam in buttonsPlayed.items():
             while beam.is_pressed:
                 pass
@@ -762,12 +754,9 @@ def levelThreeBeamNotes():
             # Increase the index each time button pressed
             compareIndex += 1
                         
-    # If no beams broken do nothing
-    if beamBroken == False:
-        pass
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
-    elif beamBroken == True:
+    if beamBroken == True:
         for note, beam in buttonsPlayed.items():
             while beam.is_pressed:
                 pass

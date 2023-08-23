@@ -9,12 +9,12 @@ import random
 from gpiozero import Button
 
 # Set up variables for GPIO pins
-buttonA = Button(27)
-buttonB = Button(17)
-buttonC = Button(15)
-buttonD = Button(14)
-buttonE = Button(23)
-buttonF = Button(24)
+beamA = Button(27)
+beamB = Button(17)
+beamC = Button(15)
+beamD = Button(14)
+beamE = Button(23)
+beamF = Button(24)
 
 # Set up variables for MIDI melody notes and beams
 g3 = 55
@@ -106,51 +106,51 @@ pixels = neopixel.NeoPixel(pinNumber, ledCount, brightness = ledBrightness, auto
 # Set up output port
 audioOutput = pygame.midi.Output(port)
 
-# List to map buttons and LEDs and then randomise order
-buttonsAndPixels = [
-    (buttonA, pixelsA),
-    (buttonB, pixelsB),
-    (buttonC, pixelsC),
-    (buttonD, pixelsD),
-    (buttonE, pixelsE),
-    (buttonF, pixelsF)
+# List to map beams and LEDs and then randomise order
+beamsAndPixels = [
+    (beamA, pixelsA),
+    (beamB, pixelsB),
+    (beamC, pixelsC),
+    (beamD, pixelsD),
+    (beamE, pixelsE),
+    (beamF, pixelsF)
     ]
-random.shuffle(buttonsAndPixels)
+random.shuffle(beamsAndPixels)
 
 # List to hold the beams for each level and map each one with a note and LED pixels
 # (Using list to map multiple values)
-buttonsLevelOne = [
-    (g4, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]),
-    (a4, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
-    (b4, buttonsAndPixels[3][0], *buttonsAndPixels[3][1]), 
-    (c5, buttonsAndPixels[4][0], *buttonsAndPixels[4][1])
+beamsLevelOne = [
+    (g4, beamsAndPixels[1][0], *beamsAndPixels[1][1]),
+    (a4, beamsAndPixels[2][0], *beamsAndPixels[2][1]), 
+    (b4, beamsAndPixels[3][0], *beamsAndPixels[3][1]), 
+    (c5, beamsAndPixels[4][0], *beamsAndPixels[4][1])
     ]
    
-buttonsLevelTwo = [
-	(g3, buttonsAndPixels[0][0], *buttonsAndPixels[0][1]),
-    (d4, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]), 
-    (fS4, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
-    (g4, buttonsAndPixels[3][0], *buttonsAndPixels[3][1]), 
-    (a4, buttonsAndPixels[4][0], *buttonsAndPixels[4][1]),
-    (b4, buttonsAndPixels[5][0], *buttonsAndPixels[5][1])  
+beamsLevelTwo = [
+	(g3, beamsAndPixels[0][0], *beamsAndPixels[0][1]),
+    (d4, beamsAndPixels[1][0], *beamsAndPixels[1][1]), 
+    (fS4, beamsAndPixels[2][0], *beamsAndPixels[2][1]), 
+    (g4, beamsAndPixels[3][0], *beamsAndPixels[3][1]), 
+    (a4, beamsAndPixels[4][0], *beamsAndPixels[4][1]),
+    (b4, beamsAndPixels[5][0], *beamsAndPixels[5][1])  
     ]
     
-buttonsLevelThree = [
-    (g3, buttonsAndPixels[0][0], *buttonsAndPixels[0][1]),
-	(d4, buttonsAndPixels[1][0], *buttonsAndPixels[1][1]),
-    (fS4, buttonsAndPixels[2][0], *buttonsAndPixels[2][1]), 
-    (g4, buttonsAndPixels[3][0], *buttonsAndPixels[3][1]), 
-    (a4, buttonsAndPixels[4][0], *buttonsAndPixels[4][1]),
-    (d5, buttonsAndPixels[5][0], *buttonsAndPixels[5][1])
+beamsLevelThree = [
+    (g3, beamsAndPixels[0][0], *beamsAndPixels[0][1]),
+	(d4, beamsAndPixels[1][0], *beamsAndPixels[1][1]),
+    (fS4, beamsAndPixels[2][0], *beamsAndPixels[2][1]), 
+    (g4, beamsAndPixels[3][0], *beamsAndPixels[3][1]), 
+    (a4, beamsAndPixels[4][0], *beamsAndPixels[4][1]),
+    (d5, beamsAndPixels[5][0], *beamsAndPixels[5][1])
     ]
     
-buttonsFixed = [
-    (g3, buttonA, *pixelsA),
-	(d4, buttonB, *pixelsB),
-    (g4, buttonC, *pixelsC), 
-    (a4, buttonD, *pixelsD), 
-    (b4, buttonE, *pixelsE), 
-    (c5, buttonF, *pixelsF),
+beamsFixed = [
+    (g3, beamA, *pixelsA),
+	(d4, beamB, *pixelsB),
+    (g4, beamC, *pixelsC), 
+    (a4, beamD, *pixelsD), 
+    (b4, beamE, *pixelsE), 
+    (c5, beamF, *pixelsF),
     ]
     
 # Lists to hold the solution for each level
@@ -158,41 +158,41 @@ solutionLevelOne = [c5, b4, a4, g4]
 solutionLevelTwo = [g3, b4, d4, g3, a4, fS4, g4, fS4]
 solutionLevelThree = [g3, d4, d5, d4, g3, d4, a4, fS4, g4, fS4, d4, g4, d5, g4, fS4, d4, g4, d5]
 
-# Lists to hold the melody notes for each level and map each one with a duration in seconds
+# Lists to hold the melody notes for each level and map each one with a duration in seconds and LED pixels
 # (Using list as melody contains duplicate notes)
 levelOneMelody = [
-    (c5, halfNote, *buttonsAndPixels[4][1]), 
-    (b4, eighthNote, *buttonsAndPixels[3][1]),
-    (a4, eighthNote, *buttonsAndPixels[2][1]),
-    (g4, halfNote, *buttonsAndPixels[1][1])
+    (c5, halfNote, *beamsAndPixels[4][1]), 
+    (b4, eighthNote, *beamsAndPixels[3][1]),
+    (a4, eighthNote, *beamsAndPixels[2][1]),
+    (g4, halfNote, *beamsAndPixels[1][1])
     ]
     
 levelTwoMelody = [
-    (g3, eighthNote, *buttonsAndPixels[0][1]), 
-    (b4, eighthNote, *buttonsAndPixels[5][1]), 
-    (d4, eighthNote, *buttonsAndPixels[1][1]), 
-    (g3, eighthNote, *buttonsAndPixels[0][1]),
-    (a4, dottedEightNote, *buttonsAndPixels[4][1]), 
-    (fS4, dottedEightNote, *buttonsAndPixels[2][1]),
-    (g4, sixteenthNote, *buttonsAndPixels[3][1]),
-    (fS4, sixteenthNote, *buttonsAndPixels[2][1])
+    (g3, eighthNote, *beamsAndPixels[0][1]), 
+    (b4, eighthNote, *beamsAndPixels[5][1]), 
+    (d4, eighthNote, *beamsAndPixels[1][1]), 
+    (g3, eighthNote, *beamsAndPixels[0][1]),
+    (a4, dottedEightNote, *beamsAndPixels[4][1]), 
+    (fS4, dottedEightNote, *beamsAndPixels[2][1]),
+    (g4, sixteenthNote, *beamsAndPixels[3][1]),
+    (fS4, sixteenthNote, *beamsAndPixels[2][1])
     ]
     
 levelThreeMelody = [
-    (g3, d4, eighthNote, *buttonsAndPixels[0][1], *buttonsAndPixels[1][1]), 
-    (d5, eighthNote, *buttonsAndPixels[5][1]), 
-    (d4, eighthNote, *buttonsAndPixels[1][1]), 
-    (g3, eighthNote, *buttonsAndPixels[0][1]),
-    (d4, a4, dottedEightNote, *buttonsAndPixels[1][1], *buttonsAndPixels[4][1]), 
-    (fS4, dottedEightNote, *buttonsAndPixels[2][1]),
-    (g4, sixteenthNote, *buttonsAndPixels[3][1]), 
-    (fS4, sixteenthNote, *buttonsAndPixels[2][1]),
-    (d4, g4, eighthNote, *buttonsAndPixels[1][1], *buttonsAndPixels[3][1]), 
-    (d5, eighthNote, *buttonsAndPixels[5][1]), 
-    (g4, sixteenthNote, *buttonsAndPixels[3][1]), 
-    (fS4, eighthNote, *buttonsAndPixels[2][1]),
-    (d4, sixteenthNote, *buttonsAndPixels[1][1]), 
-    (g4, d5, dottedEightNote, *buttonsAndPixels[3][1], *buttonsAndPixels[5][1]),
+    (g3, d4, eighthNote, *beamsAndPixels[0][1], *beamsAndPixels[1][1]), 
+    (d5, eighthNote, *beamsAndPixels[5][1]), 
+    (d4, eighthNote, *beamsAndPixels[1][1]), 
+    (g3, eighthNote, *beamsAndPixels[0][1]),
+    (d4, a4, dottedEightNote, *beamsAndPixels[1][1], *beamsAndPixels[4][1]), 
+    (fS4, dottedEightNote, *beamsAndPixels[2][1]),
+    (g4, sixteenthNote, *beamsAndPixels[3][1]), 
+    (fS4, sixteenthNote, *beamsAndPixels[2][1]),
+    (d4, g4, eighthNote, *beamsAndPixels[1][1], *beamsAndPixels[3][1]), 
+    (d5, eighthNote, *beamsAndPixels[5][1]), 
+    (g4, sixteenthNote, *beamsAndPixels[3][1]), 
+    (fS4, eighthNote, *beamsAndPixels[2][1]),
+    (d4, sixteenthNote, *beamsAndPixels[1][1]), 
+    (g4, d5, dottedEightNote, *beamsAndPixels[3][1], *beamsAndPixels[5][1]),
     ]
 
 # Function to play level one Melody
@@ -367,7 +367,7 @@ def fixedPiano():
     time.sleep(fixedNoteDelay)
                 
     # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
-    for note, beam, pixelOne, pixelTwo, pixelThree in buttonsFixed:
+    for note, beam, pixelOne, pixelTwo, pixelThree in beamsFixed:
         pixels[pixelOne] = (white)
         pixels[pixelTwo] = (white)
         pixels[pixelThree] = (white) 
@@ -409,7 +409,7 @@ def levelOneBeamNotes():
     time.sleep(noteDelay)
                 
     # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
-    for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelOne:
+    for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelOne:
         pixels[pixelOne] = (white)
         pixels[pixelTwo] = (white)
         pixels[pixelThree] = (white)  
@@ -439,7 +439,7 @@ def levelOneBeamNotes():
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
             
-            # Increase the index each time button pressed
+            # Increase the index each time beam pressed
             compareIndex += 1
             
     # If beams were broken, check if beam is still broken
@@ -451,12 +451,12 @@ def levelOneBeamNotes():
             # Stop the notes from playing
             audioOutput.note_off(note, velocity)
     
-    # Check how long since last button press
+    # Check how long since last beam press
     if beamPressed == True:
         endTime = time.time()
         # Calculate length of time note was played
         totalTime = endTime - startTime
-        # Reset if more than 15 seconds since last button press
+        # Reset if more than 15 seconds since last beam press
         if totalTime > resetTime:
             pixels.fill(noColour)
             userSolution.clear()
@@ -489,7 +489,7 @@ def levelOnePuzzle():
     # When 4 notes have been played, stop and check if notes are correct
     if len(userSolution) == 4:
         # For loop to turn off the lights over active beams
-        for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelOne:
+        for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelOne:
             pixels[pixelOne] = (noColour)
             pixels[pixelTwo] = (noColour)
             pixels[pixelThree] = (noColour)
@@ -567,7 +567,7 @@ def levelTwoBeamNotes():
     time.sleep(noteDelay)
                 
     # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
-    for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelTwo:
+    for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelTwo:
         pixels[pixelOne] = (white)
         pixels[pixelTwo] = (white)
         pixels[pixelThree] = (white) 
@@ -597,7 +597,7 @@ def levelTwoBeamNotes():
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
             
-            # Increase the index each time button pressed
+            # Increase the index each time beam pressed
             compareIndex += 1
             
     # If beams were broken, check if beam is still broken
@@ -609,12 +609,12 @@ def levelTwoBeamNotes():
             # Stop the notes from playing
             audioOutput.note_off(note, velocity)
     
-    # Check how long since last button press
+    # Check how long since last beam press
     if beamPressed == True:
         endTime = time.time()
         # Calculate length of time note was played
         totalTime = endTime - startTime
-        # Reset if more than 15 seconds since last button press
+        # Reset if more than 15 seconds since last beam press
         if totalTime > resetTime:
             pixels.fill(noColour)
             userSolution.clear()
@@ -647,7 +647,7 @@ def levelTwoPuzzle():
     # When 8 notes have been played, stop and check if notes are correct
     if len(userSolution) == 8:
         # For loop to turn off the lights over active beams
-        for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelTwo:
+        for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelTwo:
             pixels[pixelOne] = (noColour)
             pixels[pixelTwo] = (noColour)
             pixels[pixelThree] = (noColour)
@@ -725,7 +725,7 @@ def levelThreeBeamNotes():
     time.sleep(noteDelay)     
            
     # For loop to turn on LEDs over active beams, add each broken beam to new list and start note play
-    for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelThree:
+    for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelThree:
         pixels[pixelOne] = (white)
         pixels[pixelTwo] = (white)
         pixels[pixelThree] = (white) 
@@ -755,7 +755,7 @@ def levelThreeBeamNotes():
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
             
-            # Increase the index each time button pressed
+            # Increase the index each time beam pressed
             compareIndex += 1
                         
     # If beams were broken, check if beam is still broken
@@ -767,12 +767,12 @@ def levelThreeBeamNotes():
             # Stop the notes from playing
             audioOutput.note_off(note, velocity)
     
-    # Check how long since last button press
+    # Check how long since last beam press
     if beamPressed == True:
         endTime = time.time()
         # Calculate length of time note was played
         totalTime = endTime - startTime
-        # Reset if more than 15 seconds since last button press
+        # Reset if more than 15 seconds since last beam press
         if totalTime > resetTime:
             pixels.fill(noColour)
             userSolution.clear()
@@ -805,7 +805,7 @@ def levelThreePuzzle():
     # When than 18 notes have been played, stop and check if notes are correct
     if len(userSolution) == 18:
         # For loop to turn off the lights over active beams
-        for note, beam, pixelOne, pixelTwo, pixelThree in buttonsLevelThree:
+        for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelThree:
             pixels[pixelOne] = (noColour)
             pixels[pixelTwo] = (noColour)
             pixels[pixelThree] = (noColour)

@@ -436,7 +436,7 @@ def levelOneBeamNotes():
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
             
-            # Increase the index each time button pressed
+            # Increase the index each time beam pressed
             compareIndex += 1
             
     # If beams were broken, check if beam is still broken
@@ -448,12 +448,12 @@ def levelOneBeamNotes():
             # Stop the notes from playing
             audioOutput.note_off(note, velocity)
     
-    # Check how long since last button press
+    # Check how long since last beam press
     if beamPressed == True:
         endTime = time.time()
         # Calculate length of time note was played
         totalTime = endTime - startTime
-        # Reset if more than 15 seconds since last button press
+        # Reset if more than 15 seconds since last beam press
         if totalTime > resetTime:
             pixels.fill(noColour)
             userSolution.clear()
@@ -593,7 +593,7 @@ def levelTwoBeamNotes():
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
             
-            # Increase the index each time button pressed
+            # Increase the index each time beam pressed
             compareIndex += 1
             
     # If beams were broken, check if beam is still broken
@@ -605,12 +605,12 @@ def levelTwoBeamNotes():
             # Stop the notes from playing
             audioOutput.note_off(note, velocity)
     
-    # Check how long since last button press
+    # Check how long since last beam press
     if beamPressed == True:
         endTime = time.time()
         # Calculate length of time note was played
         totalTime = endTime - startTime
-        # Reset if more than 15 seconds since last button press
+        # Reset if more than 15 seconds since last beam press
         if totalTime > resetTime:
             pixels.fill(noColour)
             userSolution.clear()
@@ -751,7 +751,7 @@ def levelThreeBeamNotes():
                 pixels[pixelTwo] = (red)
                 pixels[pixelThree] = (red) 
             
-            # Increase the index each time button pressed
+            # Increase the index each time beam pressed
             compareIndex += 1
                         
     # If beams were broken, check if beam is still broken
@@ -763,12 +763,12 @@ def levelThreeBeamNotes():
             # Stop the notes from playing
             audioOutput.note_off(note, velocity)
     
-    # Check how long since last button press
+    # Check how long since last beam press
     if beamPressed == True:
         endTime = time.time()
         # Calculate length of time note was played
         totalTime = endTime - startTime
-        # Reset if more than 15 seconds since last button press
+        # Reset if more than 15 seconds since last beam press
         if totalTime > resetTime:
             pixels.fill(noColour)
             userSolution.clear()

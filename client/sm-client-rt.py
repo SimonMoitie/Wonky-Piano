@@ -76,7 +76,7 @@ def resetVariables():
     room_theme_puzzle.correctNoteOrder = False
     room_theme_puzzle.attemptingPuzzle = False
     room_theme_puzzle.firstAttempt = True
-    room_theme_puzzle.buttonsPlayed = {}
+    room_theme_puzzle.beamsPlayed = {}
     room_theme_puzzle.userSolution = []
     room_theme_puzzle.matchingNotes = 0
     room_theme_puzzle.compareIndex = 0

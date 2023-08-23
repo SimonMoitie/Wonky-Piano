@@ -9,12 +9,12 @@ import random
 from gpiozero import Button
 
 # Set up variables for GPIO pins
-beamA = Button(27)
-beamB = Button(17)
-beamC = Button(15)
-beamD = Button(14)
-beamE = Button(23)
-beamF = Button(24)
+buttonA = Button(27)
+buttonB = Button(17)
+buttonC = Button(15)
+buttonD = Button(14)
+buttonE = Button(23)
+buttonF = Button(24)
 
 # Set up variables for MIDI melody notes and beams
 aS4 = 70
@@ -76,7 +76,7 @@ correctNoteOrder = False
 attemptingPuzzle = False
 firstAttempt = True
 beamPressed = False
-buttonsPlayed = {}
+beamsPlayed = {}
 userSolution = []
 noteDelay = 0.2
 fixedNoteDelay = 0.1
@@ -103,12 +103,12 @@ audioOutput = pygame.midi.Output(port)
 
 # List to map buttons and LEDs and then randomise order
 buttonsAndPixels = [
-    (beamA, pixelsA),
-    (beamB, pixelsB),
-    (beamC, pixelsC),
-    (beamD, pixelsD),
-    (beamE, pixelsE),
-    (beamF, pixelsF)
+    (buttonA, pixelsA),
+    (buttonB, pixelsB),
+    (buttonC, pixelsC),
+    (buttonD, pixelsD),
+    (buttonE, pixelsE),
+    (buttonF, pixelsF)
     ]
 random.shuffle(buttonsAndPixels)
 
@@ -139,12 +139,12 @@ buttonsLevelThree = [
     ]
     
 buttonsFixed = [
-    (aS4, beamA, *pixelsA),
-	(c5, beamB, *pixelsB),
-    (dS5, beamC, *pixelsC), 
-    (f5, beamD, *pixelsD), 
-    (g5, beamE, *pixelsE), 
-    (aS5, beamF, *pixelsF)
+    (aS4, buttonA, *pixelsA),
+	(c5, buttonB, *pixelsB),
+    (dS5, buttonC, *pixelsC), 
+    (f5, buttonD, *pixelsD), 
+    (g5, buttonE, *pixelsE), 
+    (aS5, buttonF, *pixelsF)
     ]
     
 # Lists to hold the solution for each level
@@ -372,7 +372,7 @@ def fixedPiano():
         
         if beam.is_pressed:
             beamBroken = True
-            buttonsPlayed.update({note:beam})
+            beamsPlayed.update({note:beam})
             audioOutput.note_on(note, velocity)
             pixels[pixelOne] = (cyan)
             pixels[pixelTwo] = (cyan)
@@ -381,7 +381,7 @@ def fixedPiano():
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
     if beamBroken == True:
-        for note, beam in buttonsPlayed.items():
+        for note, beam in beamsPlayed.items():
             while beam.is_pressed:
                 pass
             # Stop the notes from playing
@@ -416,7 +416,7 @@ def levelOneBeamNotes():
             startTime = time.time()
             beamPressed = True
             beamBroken = True
-            buttonsPlayed.update({note:beam})
+            beamsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
             
@@ -442,7 +442,7 @@ def levelOneBeamNotes():
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
     if beamBroken == True:
-        for note, beam in buttonsPlayed.items():
+        for note, beam in beamsPlayed.items():
             while beam.is_pressed:
                 pass
             # Stop the notes from playing
@@ -467,7 +467,7 @@ def levelOneBeamNotes():
                 	   
     # Reset for next loop through        
     beamBroken = False
-    buttonsPlayed.clear() 
+    beamsPlayed.clear() 
 
 # Function to play the level one puzzle    
 def levelOnePuzzle():
@@ -573,7 +573,7 @@ def levelTwoBeamNotes():
             startTime = time.time()
             beamPressed = True
             beamBroken = True
-            buttonsPlayed.update({note:beam})
+            beamsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
             
@@ -599,7 +599,7 @@ def levelTwoBeamNotes():
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
     if beamBroken == True:
-        for note, beam in buttonsPlayed.items():
+        for note, beam in beamsPlayed.items():
             while beam.is_pressed:
                 pass
             # Stop the notes from playing
@@ -624,7 +624,7 @@ def levelTwoBeamNotes():
                 	   
     # Reset for next loop through        
     beamBroken = False
-    buttonsPlayed.clear() 
+    beamsPlayed.clear() 
 
 # Function to play the level two puzzle    
 def levelTwoPuzzle():
@@ -731,7 +731,7 @@ def levelThreeBeamNotes():
             startTime = time.time()
             beamPressed = True
             beamBroken = True
-            buttonsPlayed.update({note:beam})
+            beamsPlayed.update({note:beam})
             userSolution.append(note)
             audioOutput.note_on(note, velocity)
             
@@ -757,7 +757,7 @@ def levelThreeBeamNotes():
     # If beams were broken, check if beam is still broken
     # and pause program while beam still broken
     if beamBroken == True:
-        for note, beam in buttonsPlayed.items():
+        for note, beam in beamsPlayed.items():
             while beam.is_pressed:
                 pass
             # Stop the notes from playing
@@ -782,7 +782,7 @@ def levelThreeBeamNotes():
                 	   
     # Reset for next loop through        
     beamBroken = False
-    buttonsPlayed.clear() 
+    beamsPlayed.clear() 
 
 # Function to play the level three puzzle    
 def levelThreePuzzle():

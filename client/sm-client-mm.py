@@ -11,7 +11,7 @@ Escape-hub is Copyright (C) 2023 David Cutting (dcutting@purplepixie.org; http:/
 """
 
 """
-Escape-hub demo client
+Escape-hub SM client
 """
 
 import time
@@ -76,7 +76,7 @@ def resetVariables():
     my_melody_puzzle.correctNoteOrder = False
     my_melody_puzzle.attemptingPuzzle = False
     my_melody_puzzle.firstAttempt = True
-    my_melody_puzzle.buttonsPlayed = {}
+    my_melody_puzzle.beamsPlayed = {}
     my_melody_puzzle.userSolution = []
     my_melody_puzzle.matchingNotes = 0
     my_melody_puzzle.compareIndex = 0

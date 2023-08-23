@@ -11,7 +11,7 @@ Escape-hub is Copyright (C) 2023 David Cutting (dcutting@purplepixie.org; http:/
 """
 
 """
-Escape-hub demo client
+Escape-hub SM client
 """
 
 import time

@@ -11,7 +11,7 @@ Escape-hub is Copyright (C) 2023 David Cutting (dcutting@purplepixie.org; http:/
 """
 
 """
-Escape-hub demo client
+Escape-hub SM client
 """
 
 import time
@@ -76,7 +76,7 @@ def resetVariables():
     blinding_lights_puzzle.correctNoteOrder = False
     blinding_lights_puzzle.attemptingPuzzle = False
     blinding_lights_puzzle.firstAttempt = True
-    blinding_lights_puzzle.buttonsPlayed = {}
+    blinding_lights_puzzle.beamsPlayed = {}
     blinding_lights_puzzle.userSolution = []
     blinding_lights_puzzle.matchingNotes = 0
     blinding_lights_puzzle.compareIndex = 0

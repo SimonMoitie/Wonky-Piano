@@ -391,6 +391,7 @@ def fixedPiano():
                 	   
     # Reset for next loop through        
     beamBroken = False
+    beamsPlayed.clear()
 
 # Function to play notes for level one when beams are broken
 def levelOneBeamNotes():
@@ -487,7 +488,7 @@ def levelOnePuzzle():
     levelOneBeamNotes()
     
     # When 4 notes have been played, stop and check if notes are correct
-    if len(userSolution) == 4:
+    if len(userSolution) == len(solutionLevelOne):
         # For loop to turn off the lights over active beams
         for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelOne:
             pixels[pixelOne] = (noColour)
@@ -524,7 +525,7 @@ def levelOnePuzzle():
         beamPressed = False  
     
     # When more than 4 notes have been played, solution is incorrect       
-    elif len(userSolution) > 4:
+    elif len(userSolution) > len(solutionLevelOne):
         pixels.fill(noColour)
         print("Checking solution...")
         time.sleep(1)
@@ -645,7 +646,7 @@ def levelTwoPuzzle():
     levelTwoBeamNotes()
     
     # When 8 notes have been played, stop and check if notes are correct
-    if len(userSolution) == 8:
+    if len(userSolution) == len(solutionLevelTwo):
         # For loop to turn off the lights over active beams
         for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelTwo:
             pixels[pixelOne] = (noColour)
@@ -682,7 +683,7 @@ def levelTwoPuzzle():
         beamPressed = False  
     
     # When more than 8 notes have been played, solution is incorrect       
-    elif len(userSolution) > 8:
+    elif len(userSolution) > len(solutionLevelTwo):
         pixels.fill(noColour)
         print("Checking solution...")
         time.sleep(1)
@@ -803,7 +804,7 @@ def levelThreePuzzle():
     levelThreeBeamNotes()
     
     # When than 18 notes have been played, stop and check if notes are correct
-    if len(userSolution) == 18:
+    if len(userSolution) == len(solutionLevelThree):
         # For loop to turn off the lights over active beams
         for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelThree:
             pixels[pixelOne] = (noColour)
@@ -840,7 +841,7 @@ def levelThreePuzzle():
         beamPressed = False
     
     # When more than 18 notes have been played, solution is incorrect        
-    elif len(userSolution) > 18:
+    elif len(userSolution) > len(solutionLevelThree):
         pixels.fill(noColour)
         print("Checking solution...")
         time.sleep(1)

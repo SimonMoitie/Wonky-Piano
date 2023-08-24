@@ -2,11 +2,12 @@
 from gpiozero import Button
 
 # Set up variabels for GPIO pins
-buttonA = Button(27)
-buttonB = Button(18)
-buttonC = Button(17)
-buttonD = Button(15)
-buttonE = Button(14)
+buttonA = Button(24)
+buttonB = Button(23)
+buttonC = Button(27)
+buttonD = Button(17)
+buttonE = Button(15)
+buttonF = Button(14)
 
 # Declare variables
 beamBroken = False
@@ -19,7 +20,8 @@ buttons = {
     "Beam B": buttonB, 
     "Beam C": buttonC, 
     "Beam D": buttonD, 
-    "Beam E": buttonE
+    "Beam E": buttonE,
+    "Beam F": buttonF
     }
   
 # Function to output messages when beams are broken
@@ -48,7 +50,9 @@ def beamMessages():
         elif len(buttonList) == 4:
             print(buttonList[0] +", " +buttonList[1] +", " +buttonList[2] + " and " +buttonList[3] + " are broken")
         elif len(buttonList) == 5:
-            print(buttonList[0] +", " +buttonList[1] +", " +buttonList[2] +"," +buttonList[3] + " and " +buttonList[4] + " are broken")
+            print(buttonList[0] +", " +buttonList[1] +", " +buttonList[2] +", " +buttonList[3] + " and " +buttonList[4] + " are broken")
+        elif len(buttonList) == 6:
+            print(buttonList[0] +", " +buttonList[1] +", " +buttonList[2] +", " +buttonList[3] + ", " +buttonList[4] + " and " +buttonList[5] +" are broken")
             
     # Reset for next loop through        
     beamBroken = False

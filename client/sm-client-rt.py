@@ -293,7 +293,7 @@ hub.Connect(huburi)
 print("Registering Device")
 myid = hub.Register(device)
 
-# Run program and ensure everything is closed down properly on CTRL + C
+# Infinite loop for our device logic and ensure everything is closed down properly on CTRL + C
 try:
     while True: # infinite loop for our device logic
         time.sleep(0.05)

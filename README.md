@@ -27,6 +27,13 @@ and
 ```bash
 sudo python3 -m pip install --force-reinstall adafruit-blinka
 ```
+To use NeoPixles with audio, only GPIO 10 pin is compatable as it uses SPI.  
+SPI needs to be enabled on the Rasperry Pi before it is used.  
+To open the configuration settings type into the terminal window:
+'''bash
+sudo raspi-config
+'''
+Next select option `3 Interace Options`, followed by `I4 SPI` and select `Enable SPI`.
 
 ### Festival
 The Wonky Piano also has text-to-speech capabilities if required.  

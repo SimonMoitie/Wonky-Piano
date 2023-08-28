@@ -41,6 +41,21 @@ dottedEightNote = 0.75
 eighthNote = 0.5 # Quaver
 sixteenthNote = 0.25 # Semi-Quaver
 
+# Set the tempo for the puzzle melodies
+tempo = 90 # bpm (beats per minute)
+
+# Calculate the length of a quarter note
+noteDuration = 60/tempo # (seconds in a minute/tempo)
+
+# Set up MIDI variables
+instrumentMelody = 1 # MIDI instrument number for the melody
+instrumentBeams = 1 # MIDI instrument number for the beams
+instrumentCorrectFx = 9 # MIDI instrument number for correct sound fx 
+instrumentWrongFx = 87 # MIDI instrument number for wrong sound fx 
+instrumentCrowdFx = 126 # MIDI instrument number for crowd sound fx
+port = 2 # Midi audio port number 
+velocity = 127 # Set MIDI volume level (between 0 and 127)
+
 # Set up LED colour variables
 green = 0, 255, 0
 red = 255, 0 ,0
@@ -59,20 +74,14 @@ pixelsD = 21, 22, 23
 pixelsE = 25, 26, 27
 pixelsF = 30, 31, 32
 
-# Set up MIDI variables
-port = 2 # Midi audio port number
-instrumentMelody = 1 # MIDI instrument number for the melody
-instrumentBeams = 1 # MIDI instrument number for the beams
-instrumentCorrectFx = 9 # MIDI instrument number for correct sound fx 
-instrumentWrongFx = 87 # MIDI instrument number for wrong sound fx 
-instrumentCrowdFx = 126 # MIDI instrument number for crowd sound fx 
-velocity = 127 # Set MIDI volume level (between 0 and 127)
-
 # Set up LED variables
 pinNumber = board.D10 # Set LED strip GPIO pin number
 ledCount = 39 # Set number of pixels on LED strip
 ledBrightness = 0.2 # Set LED strip brightness level (between 0 and 1)
 updateLed = True # Set if LED colours update manually or automatically
+
+# Set up LED strip - GPIO pin number, number of LEDs, LED brightness, automatically update colours
+pixels = neopixel.NeoPixel(pinNumber, ledCount, brightness = ledBrightness, auto_write = updateLed)
 
 # Set up variables
 beamBroken = False
@@ -91,17 +100,10 @@ compareIndex = 0
 startTime = 0
 endTime = 0
 resetTime = 15
-tempo = 90 # bpm (beats per minute)
-
-# Calculate the length of a whole note (seconds in a minute/tempo)
-noteDuration = 60/tempo
 
 # Set up pygame and pygame midi
 pygame.init()
 pygame.midi.init()
-
-# Set up LED strip - GPIO pin number, number of LEDs, LED brightness, automatically update colours
-pixels = neopixel.NeoPixel(pinNumber, ledCount, brightness = ledBrightness, auto_write = updateLed)
 
 # Set up output port
 audioOutput = pygame.midi.Output(port)
@@ -478,7 +480,7 @@ def levelOnePuzzle():
 	
     global matchingNotes, running, compareIndex, completed, firstAttempt, beamPressed
     
-    # Play melody and instructions on first run through
+    # Play instructions (if required) and melody on first run through
     if firstAttempt == True:
         #instructions()
         playMelodyLevelOne()
@@ -636,7 +638,7 @@ def levelTwoPuzzle():
 	
     global matchingNotes, running, compareIndex, completed, firstAttempt, beamPressed
     
-    # Play melody and instructions on first run through
+    # Play instructions (if required) and melody on first run through
     if firstAttempt == True:
         #instructions()
         playMelodyLevelTwo()
@@ -794,7 +796,7 @@ def levelThreePuzzle():
 	
     global matchingNotes, running, compareIndex, completed, firstAttempt, beamPressed
     
-    # Play melody and instructions on first run through
+    # Play instructions (if required) and melody on first run through
     if firstAttempt == True:
         #instructions()
         playMelodyLevelThree()

@@ -79,10 +79,10 @@ At the end of the script, just above the line exit 0, type:
 timidity -iA B16,8 -Os &
 ```
 A breakdown of the command:
-- -iA specifies the use of the ALSA interface.  
-- B16,8 sets the buffer size, where 16 is the number of fragments, and 8 is bit size.  
-- -Os specifies MIDI audio output to the ALSA interface.  
-- & runs Timidity in the background.
+- -iA - Specifies the use of the ALSA interface.  
+- B16,8 - Sets the buffer size, where 16 is the number of fragments, and 8 is bit size.  
+- -Os - Specifies MIDI audio output to the ALSA interface.  
+- & - Runs Timidity in the background.
 
 ### bashrc
 To run the Wonky Paino after Timidity has started, access the bashrc file by typing into the terminal window:
@@ -186,7 +186,8 @@ def stopPuzzleLevel():
     puzzleThread.join() 
     stopThread.clear() 
 ```
-To play the melody clue at any point, there is a functions for each puzzle level that calls the ```stopPuzzleLevel()``` function, plays the melody clue and calls the ```startPuzzleLevel()``` function: ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.  
+To play the melody clue at any point, there is a functions for each puzzle level: : ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.  
+Each function works by calling the ```stopPuzzleLevel()``` function to stop the thread, plays the melody clue and then calls the ```startPuzzleLevel()``` function to start the thread again.
 
 The order for the each level is organised using three functions: ```roomThemeLevelOne()```, ```roomThemeLevelTwo()``` and ```roomThemeLevelThree()```.  
 They contain a while loop to keep the puzzle active whilst it is being played, and they can be stopped at any time by setting an event flag: ```stopThread.set()``` to break out of the loop: 
@@ -194,7 +195,7 @@ They contain a while loop to keep the puzzle active whilst it is being played, a
 if stopThread.is_set(): 
     break
 ```
-If the puzzle level is successfully completed the ```completed``` variable from the ```room_theme_puzzle.py``` file will change to true and end the inner while loop to progress to the ```fixedPiano``` function:
+If the puzzle level has been successfully completed the ```completed``` variable from the ```room_theme_puzzle.py``` file will change to true and end the inner while loop to progress to the ```fixedPiano``` function:
 ```python
 while room_theme_puzzle.completed == False:                 
             room_theme_puzzle.levelOnePuzzle()

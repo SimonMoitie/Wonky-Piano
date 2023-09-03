@@ -74,14 +74,15 @@ To access the rc.local file type into the terminal window:
 ```bash
 sudo nano /etc/rc.local
 ```
-At the end of the scrpit, just above the line exit 0, type:
+At the end of the script, just above the line exit 0, type:
 ```python
 timidity -iA B16,8 -Os &
 ```
--iA specifies the use of the ALSA interface.  
-B16,8 sets the buffer size, where 16 is the number of fragments, and 8 is bit size.  
--Os specifies MIDI audio output to the ALSA interface.  
-& runs Timidity in the background.
+A breakdown of the command:
+- -iA specifies the use of the ALSA interface.  
+- B16,8 sets the buffer size, where 16 is the number of fragments, and 8 is bit size.  
+- -Os specifies MIDI audio output to the ALSA interface.  
+- & runs Timidity in the background.
 
 ### bashrc
 To run the Wonky Paino after Timidity has started, access the bashrc file by typing into the terminal window:
@@ -166,13 +167,16 @@ if len(userSolution) == len(solutionLevelOne):
 
 ### sm-client-rt.py
 The ```sm-client-rt.py``` file is based on the ```demo-client.py``` file from the Escape Hub. A summary the ```demo-client.py``` code can be seen here: [https://github.com/purplepixie/escape-hub].  
-The puzzle levels are run in threads using two functions that start and stop the threads:
+
+The puzzle levels are run in threads using a functions that starts the thread: 
 ```python
 def startPuzzleLevel(puzzleLevel):
     global stopThread, puzzleThread
     puzzleThread = threading.Thread(target=puzzleLevel)
     puzzleThread.start()
-    
+```
+and a function that stops the thread:
+```python    
 def stopPuzzleLevel():
     global stopThread, puzzleThread
     device['status'] = "Waiting"
@@ -182,15 +186,15 @@ def stopPuzzleLevel():
     puzzleThread.join() 
     stopThread.clear() 
 ```
-There are three functions to stop the current puzzle level thread, play the melody clue and restart the puzzle level thread: ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.  
+To play the melody clue at any point, there is a functions for each puzzle level that calls the ```stopPuzzleLevel()``` function, plays the melody clue and calls the ```startPuzzleLevel()``` function: ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.  
 
-The puzzle levels are organised using three functions: ```roomThemeLevelOne()```, ```roomThemeLevelTwo()``` and ```roomThemeLevelThree()```.  
-They contain a ```while running:``` loop to keep the puzzle active whilst it is being played, and they can be stopped at any time by setting an event flag: ```stopThread.set()``` to break out of the loop: 
+The order for the each level is organised using three functions: ```roomThemeLevelOne()```, ```roomThemeLevelTwo()``` and ```roomThemeLevelThree()```.  
+They contain a while loop to keep the puzzle active whilst it is being played, and they can be stopped at any time by setting an event flag: ```stopThread.set()``` to break out of the loop: 
 ```python 
 if stopThread.is_set(): 
     break
 ```
-If the puzzle level is successfully completed the ```completed``` variable from the ```room_theme_puzzle.py``` file will change to true end the inner for loop to progress to play the fixed piano:
+If the puzzle level is successfully completed the ```completed``` variable from the ```room_theme_puzzle.py``` file will change to true and end the inner while loop to progress to the ```fixedPiano``` function:
 ```python
 while room_theme_puzzle.completed == False:                 
             room_theme_puzzle.levelOnePuzzle()

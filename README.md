@@ -98,9 +98,9 @@ This will now run the Wonky Piano software after the bootup process has finished
 ## Code Maintenance
 The Wonky Piano runs using two files:
 - room_puzzle_theme.py - Contains the variables and functions that form the basis of the Wonky Piano puzzle. 
-- sm-client-rt.py - Connects the Wonky Piano puzzle to the Escape Hub server and provides the main hub to run the puzzle levels.  
+- sm-client-rt.py - Connects the Wonky Piano puzzle to the Escape Hub server and provides the main code to run the puzzle levels.  
 ### room_theme_puzzle.py
-Firstly the beams are assigned to the LED pixel numbers using a list containing tuples before being randomised:
+The beams are assigned to the LED pixel numbers using a list containing tuples before they are randomised:
 ```python
 beamsAndPixels = [
     (beamA, pixelsA),
@@ -112,9 +112,9 @@ beamsAndPixels = [
     ]
 random.shuffle(beamsAndPixels)
 ```
-This ensures the LED pixel numbers always match with correct beam after the beam order has been randomised.  
+This ensures that the LED pixel numbers always match with the correct beam after the list order has been randomised.  
 
-To assign notes to the beams on the Wonky Piano, lists are used containing tuples to store the note name, the beam name and the LED pixel numbers using the index numbers from the beamsAndPixels list, for example:
+To assign notes to the beams of the Wonky Piano, lists are used containing tuples to store the note name, the beam name and the LED pixel numbers. The index numbers from the ```beamsAndPixels``` list are used for the beam name and pixel numbers:
 
 ```python
 beamsLevelOne = [
@@ -125,9 +125,20 @@ beamsLevelOne = [
     ]
 ```
 There are four functions that are used to play notes when the beams have been broken: ```fixedPiano()```, ```levelOneBeamNotes```, ```levelTwoBeamNotes()``` and ```levelThreeBeamNotes()```.  
-As the user is playing the notes, the appropriate pixels light up over the beam using ```pixels[pixel_number] = (pixel_colour)``` and the note is added to a new list: ```userSolution.append(note_name)```
 
-The melodies are set up using using more lists containing tuples to store the note name, note length and LED pixel numbers, for example:
+As the user is playing the notes, a for loop is used to light up the appropriate pixels over the beam using: 
+```python
+for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelOne:
+    pixels[pixelOne] = (white)
+    pixels[pixelTwo] = (white)
+    pixels[pixelThree] = (white) 
+```
+and add the note to a new list with: 
+```python
+    userSolution.append(note)
+```
+
+The melodies are set up using more lists containing tuples to store the note name, note length and LED pixel numbers from the ```beamsAndPixels``` list:
 
 ```python
 levelOneMelody = [
@@ -137,11 +148,21 @@ levelOneMelody = [
     (g4, halfNote, *beamsAndPixels[1][1])
     ]
 ```
-The melodies will play in the order they are sorted in the list.  
+The melodies will play in the order they are sorted in the list using a for loop to play the MIDI sound:
+```python
+for note, noteLength, pixelOne, pixelTwo, pixelThree in levelOneMelody:
+    audioOutput.note_on(note, velocity)
+```
 There are three functions to play the melody for each puzzle level: ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.
 
 There are three functions to organise the puzzle levels and check the attempts: ```levelOnePuzzle()```, ```levelTwoPuzzle``` and ```levelThreePuzzle```.  
-The puzzle attempts are checked by comparing the userSolution list with the solutionLevel list: ```if len(userSolution) == len(solutionLevelOne)```.
+The puzzle attempts are checked by comparing the userSolution list with the solutionLevel list and comparing how many of the indexes match and incrementing the variable ```matchingNotes```: 
+```python 
+if len(userSolution) == len(solutionLevelOne):
+    for index in range(len(solutionLevelOne)):
+            if solutionLevelOne[index] == userSolution[index]:
+                matchingNotes += 1	
+```
 
 ### sm-client-rt.py
 The ```sm-client-rt.py``` file is based on the ```demo-client.py``` file from the Escape Hub. A summary the ```demo-client.py``` code can be seen here: [https://github.com/purplepixie/escape-hub].  
@@ -161,6 +182,16 @@ def stopPuzzleLevel():
     puzzleThread.join() 
     stopThread.clear() 
 ```
-There are three functions to stop the current puzzle level, play the melody clue and restart the puzzle level: ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.  
+There are three functions to stop the current puzzle level thread, play the melody clue and restart the puzzle level thread: ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.  
+
 The puzzle levels are organised using three functions: ```roomThemeLevelOne()```, ```roomThemeLevelTwo()``` and ```roomThemeLevelThree()```.  
-They contain a while loop to keep the puzzle active whilst it is being played, and they can be stopped at any time by setting an event flag: ```stopThread.set()``` to break out of the loop: ```if stopThread.is_set(): break```. 
+They contain a ```while running:``` loop to keep the puzzle active whilst it is being played, and they can be stopped at any time by setting an event flag: ```stopThread.set()``` to break out of the loop: 
+```python 
+if stopThread.is_set(): 
+    break
+```
+If the puzzle level is successfully completed the ```completed``` variable from the ```room_theme_puzzle.py``` file will change to true end the inner for loop to progress to play the fixed piano:
+```python
+while room_theme_puzzle.completed == False:                 
+            room_theme_puzzle.levelOnePuzzle()
+```

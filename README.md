@@ -96,8 +96,8 @@ sudo python3 /home/pi/Code/client/sm-client-rt.py
 ```
 This will now run the Wonky Piano software after the bootup process has finished.
 
-## Code Maintenance
-The Wonky Piano runs using two files:
+## Code Overview
+The Wonky Piano operates using two files:
 - room_puzzle_theme.py - Contains the variables and functions that form the basis of the Wonky Piano puzzle. 
 - sm-client-rt.py - Connects the Wonky Piano puzzle to the Escape Hub server and provides the main code to run the puzzle levels.  
 ### room_theme_puzzle.py

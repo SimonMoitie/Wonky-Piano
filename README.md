@@ -133,6 +133,7 @@ for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelOne:
     pixels[pixelOne] = (white)
     pixels[pixelTwo] = (white)
     pixels[pixelThree] = (white) 
+    ...
 ```
 and add the note to a new list with: 
 ```python
@@ -152,7 +153,10 @@ levelOneMelody = [
 The melodies will play in the order they are sorted in the list using a for loop to play the MIDI sound:
 ```python
 for note, noteLength, pixelOne, pixelTwo, pixelThree in levelOneMelody:
+    ...
     audioOutput.note_on(note, velocity)
+    ...
+    audioOutput.note_off(note, velocity)
 ```
 There are three functions to play the melody for each puzzle level: ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.
 
@@ -160,6 +164,7 @@ There are three functions to organise the puzzle levels and check the attempts: 
 The puzzle attempts are checked by comparing the userSolution list with the solutionLevel list and comparing how many of the indexes match and incrementing the variable ```matchingNotes```: 
 ```python 
 if len(userSolution) == len(solutionLevelOne):
+    ...
     for index in range(len(solutionLevelOne)):
             if solutionLevelOne[index] == userSolution[index]:
                 matchingNotes += 1	
@@ -171,24 +176,29 @@ The ```sm-client-rt.py``` file is based on the ```demo-client.py``` file from th
 The puzzle levels are run in threads using a functions that starts the thread: 
 ```python
 def startPuzzleLevel(puzzleLevel):
-    global stopThread, puzzleThread
+    ...
     puzzleThread = threading.Thread(target=puzzleLevel)
     puzzleThread.start()
 ```
 and a function that stops the thread:
 ```python    
 def stopPuzzleLevel():
-    global stopThread, puzzleThread
-    device['status'] = "Waiting"
+    ...
     stopThread.set()
-    time.sleep(0.5)
-    room_theme_puzzle.stopPuzzle()
+    ...
     puzzleThread.join() 
     stopThread.clear() 
 ```
 To play the melody clue at any point, there is a functions for each puzzle level: ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.  
-Each function works by calling the ```stopPuzzleLevel()``` function to stop the thread, plays the melody clue and then calls the ```startPuzzleLevel()``` function to start the thread again.
-
+Each function works by calling the ```stopPuzzleLevel()``` function to stop the thread, plays the melody clue and then calls the ```startPuzzleLevel()``` function to start the thread again:
+```python
+def levelOneMelody():
+    stopPuzzleLevel()
+    ...
+    room_theme_puzzle.playMelodyLevelTwo()
+    ...
+    startPuzzleLevel(roomThemeLevelTwo)
+```
 The order for the each level is organised using three functions: ```roomThemeLevelOne()```, ```roomThemeLevelTwo()``` and ```roomThemeLevelThree()```.  
 They contain a while loop to keep the puzzle active whilst it is being played, and they can be stopped at any time by setting an event flag: ```stopThread.set()``` to break out of the loop: 
 ```python 
@@ -199,4 +209,6 @@ If the puzzle level has been successfully completed the ```completed``` variable
 ```python
 while room_theme_puzzle.completed == False:                 
             room_theme_puzzle.levelOnePuzzle()
+...
+room_theme_puzzle.fixedPiano()
 ```

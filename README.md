@@ -186,7 +186,7 @@ def stopPuzzleLevel():
     puzzleThread.join() 
     stopThread.clear() 
 ```
-To play the melody clue at any point, there is a functions for each puzzle level: : ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.  
+To play the melody clue at any point, there is a functions for each puzzle level: ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.  
 Each function works by calling the ```stopPuzzleLevel()``` function to stop the thread, plays the melody clue and then calls the ```startPuzzleLevel()``` function to start the thread again.
 
 The order for the each level is organised using three functions: ```roomThemeLevelOne()```, ```roomThemeLevelTwo()``` and ```roomThemeLevelThree()```.  

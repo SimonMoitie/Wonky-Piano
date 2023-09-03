@@ -2,10 +2,10 @@
 This is a guide on how to set up the Wonky Piano escape room puzzle for the Raspberry Pi.  
 For this guide, the Raspberry Pi will need to be using the latest Raspberry Pi OS 6.1 operating system. 
 The Wonky Piano source code contains four folders:  
-- Development Code: The early code used to design and test different functions of the Wonky Piano.  
-- Protoypes: Early developement stages of the working puzzle, also used for early end user testing.  
-- Potential Final Fuzzles: The last development stage of the working puzzle, used for final end user testing.  
-- client: The main code for the working Wonky Piano escape room puzzle.  
+- Development Code - The early code used to design and test different functions of the Wonky Piano.  
+- Protoypes - Early developement stages of the working puzzle, also used for early end user testing.  
+- Potential Final Fuzzles - The last development stage of the working puzzle, used for final end user testing.  
+- client - The main code for the working Wonky Piano escape room puzzle.  
 
 
 ## Installation

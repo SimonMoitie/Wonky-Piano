@@ -1,45 +1,45 @@
 # CSC7057 - The Wonky Piano
-This is a guide on how to set up the Wonky Piano escape room puzzle for the Raspberry Pi.  
-For this guide, the Raspberry Pi will need to be using the latest Raspberry Pi OS 6.1 operating system.  
+This is a guide on how to set up the Wonky Piano escape room puzzle using a Raspberry Pi.  
+For this guide, you will need a Raspberry Pi running the latest Raspberry Pi OS 6.1 operating system.  
+
 The Wonky Piano source code contains four folders:  
 - Development Code - The early code used to design and test different functions of the Wonky Piano.  
-- Protoypes - Early developement stages of the working puzzle, also used for early end user testing.  
+- Prototypes - The early developement stages of the working puzzle, also used for first end user testing.  
 - Potential Final Fuzzles - The last development stage of the working puzzle, used for final end user testing.  
 - client - The main code for the working Wonky Piano escape room puzzle.  
 
 
 ## Installation
-To set up the Wonky piano, download the client folder.  
-To follow this guide, place the client folder in a folder called Code as shown here:
+To set up the Wonky Piano, download the ```Code``` folder from the Wonky Piano source code place it in the following directory:
 ```bash
-/home/pi/Code/client
+/home/pi/Code
 ```
 It is important to make sure the necessary requirements are installed before running the Wonky Piano.
 
-### Timidity
-To get MIDI sound from the Wonky Piano, Timidity will need to be installed.  
-To install Timidity type into the terminal window:
+### Timidity++
+To get MIDI sound from the Wonky Piano, Timidity++ will need to be installed.  
+To install Timidity++ type into the terminal window:
 ```bash
 sudo apt install timidity
 ```
 
 ### Adafruit CircuitPython Neopixel
-For the Wonky Piano to use the LED strip, it will need to have the Adafruit CircuitPython Neopixel library installed.  
-To install Adafruit CircuitPython Neopixel type into the terminal window:
+For the Wonky Piano to use a WS2812 NeoPixel LED strip, it will need to have the Adafruit CircuitPython Neopixel library installed.  
+To install Adafruit CircuitPython Neopixel, type into the terminal window:
 ``` bash
 sudo pip3 install rpi_ws281x adafruit-circuitpyhton-neopixel
 ```
-and
+and make sure Adafruit Blinka is installed:
 ```bash
 sudo python3 -m pip install --force-reinstall adafruit-blinka
 ```
-To use NeoPixles with audio, only GPIO 10 pin is compatable as it uses SPI.  
+To use NeoPixles with audio, only GPIO pin 10 is compatible as it uses SPI.  
 SPI needs to be enabled on the Rasperry Pi before it is used.  
 To open the configuration settings type into the terminal window:
 ``` bash
 sudo raspi-config
 ```
-Next select option `3 Interace Options`, followed by `I4 SPI` and select `Enable SPI`.
+Next, select option `3 Interace Options`, followed by `I4 SPI` and finally select `Enable SPI`.
 
 ### Festival
 The Wonky Piano also has text-to-speech capabilities if required.  
@@ -51,25 +51,25 @@ sudo apt-get install -y libasound2-plugins festival
 
 The Wonky Piano should now have all of the necessary requirements to run on the Raspberry Pi.
 
-## Connecting To The EscapeHub
+## Connecting To The Escape Hub
 
-To run the Wonky Piano from the EscapeHub server using Docker, the necessary requirements need to be installed.  
+To run the Wonky Piano from the Escape Hub server using Docker, the necessary requirements need to be installed first.  
 To install the requirements, type into the terminal window:
 ```bash
 sudo pip install -r /home/pi/Code/client/requirements.txt
 ```
-This should now enable the Wonky Piano to visible on the EscapeHub when the sm-client-rt.py is run.  
-In the sm-client-rt.py file, the address used to connect to the EscapeHub is set on line 24: 
+This should now enable the Wonky Piano to be visible on the Escape Hub when the sm-client-rt.py is run.  
+In the sm-client-rt.py file, the address used to connect to the Escape Hub is set on line 24: 
 ```python
 huburi = "ws://192.168.0.2:8000/connect" # URI of the EscapeHub WS service
 ```
-The 192.168.0.2 can be changed to the IP address of any machine hosting the Docker EscapeHub container.
+The 192.168.0.2 can be changed to the IP address of any machine hosting the Docker Escape Hub container.
 
 ## Running At Boot
 The Wonky Piano software will need to be run at boot to ensure it starts automatically when the Raspberry Pi is turned on.
 
 ### rc.local
-Before starting the sm-client-rt.py file, Timidity needs to be running in the background already.  
+Before starting the sm-client-rt.py file, Timidity++ needs to be running in the background already.  
 To access the rc.local file type into the terminal window:
 ```bash
 sudo nano /etc/rc.local
@@ -78,14 +78,14 @@ At the end of the script, just above the line exit 0, type:
 ```python
 timidity -iA B16,8 -Os &
 ```
-A breakdown of the command:
+The following is a breakdown of the command:
 - -iA - Specifies the use of the ALSA interface.  
 - B16,8 - Sets the buffer size, where 16 is the number of fragments, and 8 is bit size.  
 - -Os - Specifies MIDI audio output to the ALSA interface.  
 - & - Runs Timidity in the background.
 
 ### bashrc
-To run the Wonky Paino after Timidity has started, access the bashrc file by typing into the terminal window:
+To run the Wonky Piano after Timidity++ has started, access the bashrc file by typing into the terminal window:
 ```bash
 sudo nano /home/pi/.bashrc
 ```
@@ -94,13 +94,14 @@ Go to the last line of the script and type:
 echo Running the Wonky Piano at boot
 sudo python3 /home/pi/Code/client/sm-client-rt.py
 ```
-This will now run the Wonky Piano software after the bootup process has finished.
+This will now start the Wonky Piano software automatically after the boot up process has finished and Timidity++ is running.
 
 ## Code Overview
 The Wonky Piano operates using two files:
 - room_puzzle_theme.py - Contains the variables and functions that form the basis of the Wonky Piano puzzle. 
 - sm-client-rt.py - Connects the Wonky Piano puzzle to the Escape Hub server and provides the main code to run the puzzle levels.  
 ### room_theme_puzzle.py
+#### Setting Up The Beams
 The beams are assigned to the LED pixel numbers using a list containing tuples before they are randomised:
 ```python
 beamsAndPixels = [
@@ -115,7 +116,7 @@ random.shuffle(beamsAndPixels)
 ```
 This ensures that the LED pixel numbers always match with the correct beam after the list order has been randomised.  
 
-To assign notes to the beams of the Wonky Piano, lists are used containing tuples to store the note name, the beam name and the LED pixel numbers. The index numbers from the ```beamsAndPixels``` list are used for the beam name and pixel numbers:
+To assign notes to the beams of the Wonky Piano, lists are used containing tuples to store the note name, the beam name and the LED pixel numbers. The index numbers from the ```beamsAndPixels``` list are used to access the beam name and pixel numbers:
 
 ```python
 beamsLevelOne = [
@@ -139,9 +140,9 @@ and add the note to a new list with:
 ```python
     userSolution.append(note)
 ```
-
-The melodies are set up using more lists containing tuples to store the note name, note length and LED pixel numbers from the ```beamsAndPixels``` list:
-
+#### Creating Melodies
+The melodies are set up using more lists containing tuples to store the note name, note length and LED pixel numbers.  
+Again, the index numbers are used from ```beamsAndPixels``` list to access the LED pixel numbers.
 ```python
 levelOneMelody = [
     (c5, halfNote, *beamsAndPixels[4][1]), 
@@ -150,7 +151,26 @@ levelOneMelody = [
     (g4, halfNote, *beamsAndPixels[1][1])
     ]
 ```
-The melodies will play in the order they are sorted in the list using a for loop to play the MIDI sound:
+
+The tempo of the melody can be set using the tempo variable:
+```python
+tempo = 90 # bpm (beats per minute)
+```
+The melody notes are set up using the MIDI numbers that correspond to the desired notes:
+
+```python
+g3 = 55
+c4 = 60
+d4 = 62
+fS4 = 66
+g4 = 67
+a4 = 69
+b4 = 71
+c5 = 72
+d5 = 74
+```
+
+The notes of the melodies will play in the order they are sorted in the lists as a for loop is used to start and stop the MIDI sound:
 ```python
 for note, noteLength, pixelOne, pixelTwo, pixelThree in levelOneMelody:
     ...
@@ -160,6 +180,7 @@ for note, noteLength, pixelOne, pixelTwo, pixelThree in levelOneMelody:
 ```
 There are three functions to play the melody for each puzzle level: ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.
 
+#### Puzzle Levels
 There are three functions to organise the puzzle levels and check the attempts: ```levelOnePuzzle()```, ```levelTwoPuzzle``` and ```levelThreePuzzle```.  
 The puzzle attempts are checked by comparing the userSolution list with the solutionLevel list and comparing how many of the indexes match and incrementing the variable ```matchingNotes```: 
 ```python 
@@ -173,14 +194,15 @@ if len(userSolution) == len(solutionLevelOne):
 ### sm-client-rt.py
 The ```sm-client-rt.py``` file is based on the ```demo-client.py``` file from the Escape Hub. A summary the ```demo-client.py``` code can be seen here: [https://github.com/purplepixie/escape-hub].  
 
-The puzzle levels are run in threads using a functions that starts the thread: 
+#### Using Threads To Start The Puzzles
+The puzzle levels are run in threads. There is a function that starts the threads: 
 ```python
 def startPuzzleLevel(puzzleLevel):
     ...
     puzzleThread = threading.Thread(target=puzzleLevel)
     puzzleThread.start()
 ```
-and a function that stops the thread:
+and a function that stops the threads:
 ```python    
 def stopPuzzleLevel():
     ...
@@ -189,6 +211,7 @@ def stopPuzzleLevel():
     puzzleThread.join() 
     stopThread.clear() 
 ```
+#### Playing the Melody Clues
 To play the melody clue at any point, there is a functions for each puzzle level: ```levelOneMelody()```, ```levelTwoMelody()``` and ```levelThreeMelody()```.  
 Each function works by calling the ```stopPuzzleLevel()``` function to stop the thread, plays the melody clue and then calls the ```startPuzzleLevel()``` function to start the thread again:
 ```python
@@ -199,8 +222,9 @@ def levelOneMelody():
     ...
     startPuzzleLevel(roomThemeLevelTwo)
 ```
-The order for the each level is organised using three functions: ```roomThemeLevelOne()```, ```roomThemeLevelTwo()``` and ```roomThemeLevelThree()```.  
-They contain a while loop to keep the puzzle active whilst it is being played, and they can be stopped at any time by setting an event flag: ```stopThread.set()``` to break out of the loop: 
+#### Running The Puzzle Levels
+The order for each puzzle level is organised using three functions: ```roomThemeLevelOne()```, ```roomThemeLevelTwo()``` and ```roomThemeLevelThree()```.  
+They contain a while loop to keep the puzzle active whilst it is being played, and they can be stopped at any time from the Escape Hub interface by setting an event flag: ```stopThread.set()``` to break out of the loop: 
 ```python 
 if stopThread.is_set(): 
     break

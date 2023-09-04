@@ -10,9 +10,10 @@ The Wonky Piano source code contains four folders:
 
 
 ## Installation
-To set up the Wonky Piano, download the ```Code``` folder from the Wonky Piano source code place it in the following directory:
+To set up the Wonky Piano, download the ```client``` folder from the Wonky Piano source code.  
+To follow this guide, make sure the ```client``` folder is placed within a folder called ```Code ``` in the following directory:
 ```bash
-/home/pi/Code
+/home/pi/Code/client
 ```
 It is important to make sure the necessary requirements are installed before running the Wonky Piano.
 

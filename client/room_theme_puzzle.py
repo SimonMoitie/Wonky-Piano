@@ -108,7 +108,8 @@ pygame.midi.init()
 # Set up output port
 audioOutput = pygame.midi.Output(port)
 
-# List to map beams and LEDs and then randomise order
+# List containing tuples to map beams and LEDs, and then randomise order
+# (Using list to map multiple values)
 beamsAndPixels = [
     (beamA, pixelsA),
     (beamB, pixelsB),
@@ -119,8 +120,7 @@ beamsAndPixels = [
     ]
 random.shuffle(beamsAndPixels)
 
-# List to hold the beams for each level and map each one with a note and LED pixels
-# (Using list to map multiple values)
+# Lists containing tuples to hold the beams for each level and assign each one with a note and LED pixels
 beamsLevelOne = [
     (g4, beamsAndPixels[1][0], *beamsAndPixels[1][1]),
     (a4, beamsAndPixels[2][0], *beamsAndPixels[2][1]), 
@@ -160,7 +160,7 @@ solutionLevelOne = [c5, b4, a4, g4]
 solutionLevelTwo = [g3, b4, d4, g3, a4, fS4, g4, fS4]
 solutionLevelThree = [g3, d4, d5, d4, g3, d4, a4, fS4, g4, fS4, d4, g4, d5, g4, fS4, d4, g4, d5]
 
-# Lists to hold the melody notes for each level and map each one with a duration in seconds and LED pixels
+# Lists containg tuples to hold the melody notes for each level and assign each one with a duration in seconds and LED pixels
 # (Using list as melody contains duplicate notes)
 levelOneMelody = [
     (c5, halfNote, *beamsAndPixels[4][1]), 

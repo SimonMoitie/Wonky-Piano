@@ -102,8 +102,8 @@ The Wonky Piano operates using two files:
 - room_puzzle_theme.py - Contains the variables and functions that form the basis of the Wonky Piano puzzle. 
 - sm-client-rt.py - Connects the Wonky Piano puzzle to the Escape Hub server and provides the main code to run the puzzle levels.  
 ### room_theme_puzzle.py
-#### Setting Up The Beams
-The beams are assigned to the LED pixel numbers using a list containing tuples before they are randomised:
+#### Setting Up The Infrared Beams
+The infrared beams are assigned to the LED pixel numbers using a list containing tuples before they are randomised:
 ```python
 beamsAndPixels = [
     (beamA, pixelsA),
@@ -117,7 +117,7 @@ random.shuffle(beamsAndPixels)
 ```
 This ensures that the LED pixel numbers always match with the correct beam after the list order has been randomised.  
 
-To assign notes to the beams of the Wonky Piano, lists are used containing tuples to store the note name, the beam name and the LED pixel numbers. The index numbers from the ```beamsAndPixels``` list are used to access the beam name and pixel numbers:
+To assign notes to the infrared beams of the Wonky Piano, lists are used containing tuples to store the note name, the beam name and the LED pixel numbers. The index numbers from the ```beamsAndPixels``` list are used to access the beam name and pixel numbers:
 
 ```python
 beamsLevelOne = [
@@ -127,9 +127,9 @@ beamsLevelOne = [
     (c5, beamsAndPixels[4][0], *beamsAndPixels[4][1])
     ]
 ```
-There are four functions that are used to play notes when the beams have been broken: ```fixedPiano()```, ```levelOneBeamNotes```, ```levelTwoBeamNotes()``` and ```levelThreeBeamNotes()```.  
+There are four functions that are used to play notes when the infrared beams have been broken: ```fixedPiano()```, ```levelOneBeamNotes```, ```levelTwoBeamNotes()``` and ```levelThreeBeamNotes()```.  
 
-As the user is playing the notes, a for loop is used to light up the appropriate pixels over the beam using: 
+As the user is playing the notes, a for loop is used to light up the appropriate pixels over the infrared beam using: 
 ```python
 for note, beam, pixelOne, pixelTwo, pixelThree in beamsLevelOne:
     pixels[pixelOne] = (white)
